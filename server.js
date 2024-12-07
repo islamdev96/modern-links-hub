@@ -10,8 +10,9 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-const PORT = 3000;
-app.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}`);
+// Use dynamic port for cloud deployment
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server running on port ${PORT}`);
     console.log('Press Ctrl+C to stop the server');
 });
