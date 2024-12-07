@@ -13,3 +13,16 @@
 
 [context.production]
   command = "npm start"
+
+[context.deploy-preview]
+  command = "npm install"
+
+[context.branch-deploy]
+  command = "npm install"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com;"
