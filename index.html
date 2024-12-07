@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A collection of useful websites and tools">
+    <title>Modern Links Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --hover-color: #357abd;
+            --background-color: #f0f2f5;
+            --card-background: #ffffff;
+            --text-color: #333333;
+            --gradient-start: #6e48aa;
+            --gradient-end: #9d50bb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--background-color) 0%, #ffffff 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeDown 1s ease-out;
+        }
+
+        h1 {
+            color: var(--text-color);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientText 3s ease infinite;
+        }
+
+        @keyframes fadeDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes gradientText {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            padding: 1rem;
+            animation: fadeUp 1s ease-out;
+        }
+
+        .card {
+            background: var(--card-background);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Brand-specific colors */
+        .google-translate .icon { color: #4285f4; }
+        .google .icon { color: #4285f4; }
+        .youtube .icon { color: #ff0000; }
+        .facebook .icon { color: #1877f2; }
+        .twitter .icon { color: #1da1f2; }
+        .flutter .icon { color: #027DFD; }
+        .dart .icon { color: #00B4AB; }
+        .stack-overflow .icon { color: #f48024; }
+        .behance .icon { color: #1769ff; }
+        .islamweb .icon { color: #009247; }
+
+        .card:hover .icon {
+            transform: scale(1.1);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, 
+                rgba(110, 72, 170, 0.15), 
+                rgba(157, 80, 187, 0.15));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card a {
+            text-decoration: none;
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .icon {
+            font-size: 2rem;
+            color: var(--primary-color);
+            transition: transform 0.3s ease;
+        }
+
+        .title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+                padding: 0.5rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Modern Links Hub</h1>
+            <p>Your gateway to popular websites and tools</p>
+        </header>
+
+        <div class="grid">
+            <div class="card google-translate">
+                <a href="https://translate.google.com" target="_blank">
+                    <i class="icon fas fa-language"></i>
+                    <span class="title">Google Translate</span>
+                </a>
+            </div>
+
+            <div class="card google">
+                <a href="https://www.google.com" target="_blank">
+                    <i class="icon fab fa-google"></i>
+                    <span class="title">Google</span>
+                </a>
+            </div>
+
+            <div class="card youtube">
+                <a href="https://www.youtube.com" target="_blank">
+                    <i class="icon fab fa-youtube"></i>
+                    <span class="title">YouTube</span>
+                </a>
+            </div>
+
+            <div class="card facebook">
+                <a href="https://www.facebook.com" target="_blank">
+                    <i class="icon fab fa-facebook"></i>
+                    <span class="title">Facebook</span>
+                </a>
+            </div>
+
+            <div class="card twitter">
+                <a href="https://twitter.com" target="_blank">
+                    <i class="icon fab fa-twitter"></i>
+                    <span class="title">Twitter</span>
+                </a>
+            </div>
+
+            <div class="card flutter">
+                <a href="https://flutter.dev" target="_blank">
+                    <i class="icon fab fa-flutter"></i>
+                    <span class="title">Flutter</span>
+                </a>
+            </div>
+
+            <div class="card dart">
+                <a href="https://dart.dev" target="_blank">
+                    <i class="icon fas fa-code"></i>
+                    <span class="title">Dart</span>
+                </a>
+            </div>
+
+            <div class="card stack-overflow">
+                <a href="https://stackoverflow.com" target="_blank">
+                    <i class="icon fab fa-stack-overflow"></i>
+                    <span class="title">Stack Overflow</span>
+                </a>
+            </div>
+
+            <div class="card behance">
+                <a href="https://www.behance.net" target="_blank">
+                    <i class="icon fab fa-behance"></i>
+                    <span class="title">Behance</span>
+                </a>
+            </div>
+
+            <div class="card islamweb">
+                <a href="https://www.islamweb.net" target="_blank">
+                    <i class="icon fas fa-mosque"></i>
+                    <span class="title">Islamweb</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.card');
+            
+            cards.forEach(card => {
+                card.addEventListener('click', (event) => {
+                    const link = card.querySelector('a');
+                    if (link) {
+                        const url = link.getAttribute('href');
+                        try {
+                            window.open(url, '_blank');
+                        } catch (error) {
+                            console.error('Error opening link:', error);
+                            alert('Unable to open the website. Please check your internet connection.');
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
