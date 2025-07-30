@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://your-domain.netlify.app/sitemap.xml
+
+# Disallow crawling of admin areas (if any)
+Disallow: /admin/
+Disallow: /private/
+
+# Allow crawling of all other content
+Allow: /public/
+Allow: /index.html 

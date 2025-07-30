@@ -57,7 +57,43 @@
             animation: fadeDown 1s ease-out;
         }
 
+        .profile-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
 
+        .profile-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--primary-color);
+            box-shadow: 0 8px 25px rgba(74, 144, 226, 0.3);
+            transition: all 0.3s ease;
+            animation: profileFadeIn 1.2s ease-out;
+        }
+
+        .profile-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 35px rgba(74, 144, 226, 0.4);
+        }
+
+        .profile-info {
+            text-align: center;
+        }
+
+        @keyframes profileFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
 
         h1 {
             color: var(--text-color);
@@ -139,6 +175,7 @@
         .dart .icon { color: #00B4AB; }
         .stack-overflow .icon { color: #f48024; }
         .behance .icon { color: #1769ff; }
+        .islamweb .icon { color: #009247; }
 
         .claude {
             background-color: white;
@@ -185,22 +222,25 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
-        /* Unified icon filter for all remaining sites */
-        .z-ai .icon-image, 
-        .perplexity-ai .icon-image,
-        .deepseek .icon-image, 
-        .kimi .icon-image,
-        .google-ai-studio .icon-image, 
-        .gemini .icon-image,
-        .copilot .icon-image,
-        .linkedin .icon-image,
-        .github .icon-image,
-        .gitlab .icon-image,
-        .vscode .icon-image,
-        .dribbble .icon-image,
-        .notion .icon-image {
-            filter: brightness(1);
-        }
+        .z-ai .icon-image { filter: brightness(1); } 
+        .perplexity-ai .icon-image { filter: brightness(1); }
+        .deepseek .icon-image { filter: brightness(1); } 
+        .kimi .icon-image { filter: brightness(1); }
+        .google-ai-studio .icon-image { filter: brightness(1); } 
+        .gemini .icon-image { filter: brightness(1); }
+        .copilot .icon-image { filter: brightness(1); }
+        .linkedin .icon-image { filter: brightness(1); }
+        .instagram .icon-image { filter: brightness(1); }
+        .github .icon-image { filter: brightness(1); }
+        .gitlab .icon-image { filter: brightness(1); }
+        .vscode .icon-image { filter: brightness(1); }
+        .dribbble .icon-image { filter: brightness(1); }
+        .figma .icon-image { filter: brightness(1); }
+        .notion .icon-image { filter: brightness(1); }
+        .trello .icon-image { filter: brightness(1); }
+        .islamway .icon-image { filter: brightness(1); }
+        .quran .icon-image { filter: brightness(1); }
+        .prayer-times .icon-image { filter: brightness(1); }
 
         .card:hover .icon,
         .card:hover .icon-image {
@@ -211,22 +251,21 @@
         .search-container {
             margin-bottom: 2rem;
             display: flex;
-            justify-content: flex-end;
-            padding-right: 2rem;
+            justify-content: center;
         }
 
         .search-box {
             position: relative;
-            max-width: 300px;
+            max-width: 500px;
             width: 100%;
         }
 
         .search-input {
             width: 100%;
-            padding: 0.75rem 2.5rem 0.75rem 1rem;
+            padding: 1rem 3rem 1rem 1rem;
             border: 2px solid #e0e0e0;
-            border-radius: 20px;
-            font-size: 0.9rem;
+            border-radius: 25px;
+            font-size: 1rem;
             background: white;
             transition: all 0.3s ease;
             direction: rtl;
@@ -245,11 +284,11 @@
 
         .search-icon {
             position: absolute;
-            left: 0.75rem;
+            left: 1rem;
             top: 50%;
             transform: translateY(-50%);
             color: #999;
-            font-size: 0.9rem;
+            font-size: 1.1rem;
         }
 
         .clear-btn {
@@ -452,6 +491,16 @@
                 font-size: 2rem;
             }
 
+            .profile-image {
+                width: 100px;
+                height: 100px;
+                border-width: 3px;
+            }
+
+            .profile-section {
+                gap: 1rem;
+            }
+
             .search-container {
                 margin-bottom: 1.5rem;
             }
@@ -534,8 +583,13 @@
 
     <div class="container">
         <header>
-            <h1>Islam Glab | Personal Link Hub</h1>
-            <p>Your gateway to essential websites and digital tools</p>
+            <div class="profile-section">
+                <img src="public/profile.jpg" alt="Islam Glab" class="profile-image">
+                <div class="profile-info">
+                    <h1>Islam Glab | Personal Link Hub</h1>
+                    <p>Your gateway to essential websites and digital tools</p>
+                </div>
+            </div>
         </header>
 
         <!-- Search Bar -->
@@ -556,6 +610,7 @@
             <button class="filter-btn" data-category="social" role="tab" aria-selected="false" aria-label="عرض روابط التواصل الاجتماعي">التواصل الاجتماعي</button>
             <button class="filter-btn" data-category="development" role="tab" aria-selected="false" aria-label="عرض روابط التطوير">التطوير</button>
             <button class="filter-btn" data-category="tools" role="tab" aria-selected="false" aria-label="عرض روابط الأدوات">الأدوات</button>
+            <button class="filter-btn" data-category="islamic" role="tab" aria-selected="false" aria-label="عرض الروابط الإسلامية">إسلامية</button>
         </div>
 
         <div class="grid" id="linksGrid">
@@ -665,7 +720,13 @@
                 </a>
             </div>
 
-
+            <div class="card instagram" data-category="social">
+                <a href="https://www.instagram.com/" target="_blank">
+                    <img src="public/icons/instagram.svg" alt="Instagram" class="icon-image">
+                    <span class="title">Instagram</span>
+                    <span class="description">الصور والفيديوهات</span>
+                </a>
+            </div>
 
             <!-- Development Tools -->
             <div class="card flutter" data-category="development">
@@ -749,7 +810,13 @@
                 </a>
             </div>
 
-
+            <div class="card figma" data-category="tools">
+                <a href="https://www.figma.com/" target="_blank">
+                    <img src="public/icons/figma.svg" alt="Figma" class="icon-image">
+                    <span class="title">Figma</span>
+                    <span class="description">تصميم واجهات المستخدم</span>
+                </a>
+            </div>
 
             <div class="card notion" data-category="tools">
                 <a href="https://www.notion.so/" target="_blank">
@@ -759,8 +826,46 @@
                 </a>
             </div>
 
+            <div class="card trello" data-category="tools">
+                <a href="https://trello.com/" target="_blank">
+                    <img src="public/icons/trello.svg" alt="Trello" class="icon-image">
+                    <span class="title">Trello</span>
+                    <span class="description">إدارة المشاريع</span>
+                </a>
+            </div>
 
+            <!-- Islamic -->
+            <div class="card islamweb" data-category="islamic">
+                <a href="https://www.islamweb.net" target="_blank">
+                    <img src="public/icons/islamweb.svg" alt="Islamweb" class="icon-image">
+                    <span class="title">Islamweb</span>
+                    <span class="description">موقع إسلامي شامل</span>
+                </a>
+            </div>
 
+            <div class="card islamway" data-category="islamic">
+                <a href="https://ar.islamway.net/" target="_blank">
+                    <img src="public/icons/islamway.svg" alt="Islamway" class="icon-image">
+                    <span class="title">Islamway</span>
+                    <span class="description">المكتبة الإسلامية</span>
+                </a>
+            </div>
+
+            <div class="card quran" data-category="islamic">
+                <a href="https://quran.com/" target="_blank">
+                    <img src="public/icons/quran.svg" alt="القرآن الكريم" class="icon-image">
+                    <span class="title">القرآن الكريم</span>
+                    <span class="description">القرآن مع التفسير</span>
+                </a>
+            </div>
+
+            <div class="card prayer-times" data-category="islamic">
+                <a href="https://www.islamicfinder.org/world/" target="_blank">
+                    <img src="public/icons/prayer-times.svg" alt="أوقات الصلاة" class="icon-image">
+                    <span class="title">أوقات الصلاة</span>
+                    <span class="description">مواقيت الصلاة العالمية</span>
+                </a>
+            </div>
         </div>
     </div>
 

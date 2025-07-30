@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <defs>
+    <linearGradient id="geminiGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4285f4"/>
+      <stop offset="25%" style="stop-color:#34a853"/>
+      <stop offset="50%" style="stop-color:#fbbc05"/>
+      <stop offset="75%" style="stop-color:#ea4335"/>
+      <stop offset="100%" style="stop-color:#4285f4"/>
+    </linearGradient>
+  </defs>
+  <path fill="url(#geminiGradient)" d="M12 2l1.5 4.5L18 5l-1.5 4.5L21 12l-4.5 1.5L18 19l-4.5-1.5L12 22l-1.5-4.5L6 19l1.5-4.5L3 12l4.5-1.5L6 5l4.5 1.5L12 2z"/>
+</svg>
