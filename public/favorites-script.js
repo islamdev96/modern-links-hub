@@ -12,6 +12,16 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentFilter = 'all';
     let currentSearch = '';
     let favorites = JSON.parse(localStorage.getItem('linkHubFavorites')) || [];
+    
+    // Theme management
+    const themeToggle = document.getElementById('themeToggle');
+    const currentTheme = localStorage.getItem('theme') || 'light';
+
+    // Initialize theme
+    initializeTheme();
+
+    // Theme toggle functionality
+    themeToggle.addEventListener('click', toggleTheme);
 
     // Initialize favorites system
     initializeFavorites();
@@ -73,6 +83,33 @@ document.addEventListener('DOMContentLoaded', () => {
             filterCards();
         });
     });
+
+    // Theme functions
+    function initializeTheme() {
+        // Set initial theme
+        document.documentElement.setAttribute('data-theme', currentTheme);
+        updateThemeIcon(currentTheme);
+    }
+
+    function toggleTheme() {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        updateThemeIcon(newTheme);
+    }
+
+    function updateThemeIcon(theme) {
+        const icon = themeToggle.querySelector('i');
+        if (theme === 'dark') {
+            icon.className = 'fas fa-sun';
+            themeToggle.title = 'تبديل للوضع المضيء';
+        } else {
+            icon.className = 'fas fa-moon';
+            themeToggle.title = 'تبديل للوضع المظلم';
+        }
+    }
 
     // Initialize favorites system
     function initializeFavorites() {
@@ -205,8 +242,15 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        favoritesGrid.innerHTML = favorites.map(favorite => `
-            <div class="card favorite ${favorite.category}" data-category="${favorite.category}" data-url="${favorite.url}" data-title="${favorite.title}" data-description="${favorite.description}" data-icon="${favorite.icon}">
+        favoritesGrid.innerHTML = favorites.map((favorite, index) => `
+            <div class="card favorite ${favorite.category}" 
+                 data-category="${favorite.category}" 
+                 data-url="${favorite.url}" 
+                 data-title="${favorite.title}" 
+                 data-description="${favorite.description}" 
+                 data-icon="${favorite.icon}"
+                 data-index="${index}"
+                 draggable="true">
                 <button class="favorite-btn favorited" title="إزالة من المفضلة">
                     <i class="fas fa-star"></i>
                 </button>
@@ -245,6 +289,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 e.stopPropagation();
                 toggleFavorite(card);
             });
+
+            // Add drag and drop functionality
+            addDragAndDropListeners(card);
         });
     }
 
@@ -359,6 +406,178 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 500);
         }, 1000);
     });
+
+    // Drag and Drop functionality
+    let draggedElement = null;
+    let draggedIndex = null;
+
+    function addDragAndDropListeners(card) {
+        // Mouse drag events
+        card.addEventListener('dragstart', handleDragStart);
+        card.addEventListener('dragover', handleDragOver);
+        card.addEventListener('dragenter', handleDragEnter);
+        card.addEventListener('dragleave', handleDragLeave);
+        card.addEventListener('drop', handleDrop);
+        card.addEventListener('dragend', handleDragEnd);
+
+        // Touch events for mobile
+        card.addEventListener('touchstart', handleTouchStart, { passive: false });
+        card.addEventListener('touchmove', handleTouchMove, { passive: false });
+        card.addEventListener('touchend', handleTouchEnd, { passive: false });
+    }
+
+    function handleDragStart(e) {
+        draggedElement = this;
+        draggedIndex = parseInt(this.getAttribute('data-index'));
+        this.classList.add('dragging');
+        
+        // Set drag data
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/html', this.outerHTML);
+    }
+
+    function handleDragOver(e) {
+        if (e.preventDefault) {
+            e.preventDefault();
+        }
+        e.dataTransfer.dropEffect = 'move';
+        return false;
+    }
+
+    function handleDragEnter(e) {
+        if (this !== draggedElement) {
+            this.classList.add('drag-over');
+        }
+    }
+
+    function handleDragLeave(e) {
+        this.classList.remove('drag-over');
+    }
+
+    function handleDrop(e) {
+        if (e.stopPropagation) {
+            e.stopPropagation();
+        }
+
+        if (draggedElement !== this) {
+            const targetIndex = parseInt(this.getAttribute('data-index'));
+            
+            // Swap the two items instead of reordering
+            const draggedItem = favorites[draggedIndex];
+            const targetItem = favorites[targetIndex];
+            
+            // Swap positions
+            favorites[draggedIndex] = targetItem;
+            favorites[targetIndex] = draggedItem;
+            
+            // Save to localStorage
+            localStorage.setItem('linkHubFavorites', JSON.stringify(favorites));
+            
+            // Refresh display
+            displayFavoritesGrid();
+        }
+
+        return false;
+    }
+
+    function handleDragEnd(e) {
+        // Clean up
+        const cards = favoritesGrid.querySelectorAll('.card');
+        cards.forEach(card => {
+            card.classList.remove('dragging', 'drag-over');
+        });
+        
+        draggedElement = null;
+        draggedIndex = null;
+    }
+
+    // Touch events for mobile drag and drop
+    let touchStartPos = null;
+    let touchCurrentPos = null;
+    let touchDraggedElement = null;
+
+    function handleTouchStart(e) {
+        const touch = e.touches[0];
+        touchStartPos = { x: touch.clientX, y: touch.clientY };
+        touchDraggedElement = this;
+        
+        // Add visual feedback after a delay
+        setTimeout(() => {
+            if (touchDraggedElement) {
+                touchDraggedElement.classList.add('dragging');
+            }
+        }, 200);
+    }
+
+    function handleTouchMove(e) {
+        if (!touchDraggedElement) return;
+        
+        e.preventDefault();
+        const touch = e.touches[0];
+        touchCurrentPos = { x: touch.clientX, y: touch.clientY };
+        
+        // Calculate distance moved
+        const deltaX = touchCurrentPos.x - touchStartPos.x;
+        const deltaY = touchCurrentPos.y - touchStartPos.y;
+        const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+        
+        // Start dragging if moved enough
+        if (distance > 10) {
+            touchDraggedElement.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+            
+            // Find element under touch
+            const elementBelow = document.elementFromPoint(touchCurrentPos.x, touchCurrentPos.y);
+            const targetCard = elementBelow?.closest('.favorites-grid .card');
+            
+            // Remove previous drag-over classes
+            const cards = favoritesGrid.querySelectorAll('.card');
+            cards.forEach(card => card.classList.remove('drag-over'));
+            
+            // Add drag-over to target
+            if (targetCard && targetCard !== touchDraggedElement) {
+                targetCard.classList.add('drag-over');
+            }
+        }
+    }
+
+    function handleTouchEnd(e) {
+        if (!touchDraggedElement) return;
+        
+        // Find the target element
+        const touch = e.changedTouches[0];
+        const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
+        const targetCard = elementBelow?.closest('.favorites-grid .card');
+        
+        if (targetCard && targetCard !== touchDraggedElement) {
+            const draggedIndex = parseInt(touchDraggedElement.getAttribute('data-index'));
+            const targetIndex = parseInt(targetCard.getAttribute('data-index'));
+            
+            // Swap the two items instead of reordering
+            const draggedItem = favorites[draggedIndex];
+            const targetItem = favorites[targetIndex];
+            
+            // Swap positions
+            favorites[draggedIndex] = targetItem;
+            favorites[targetIndex] = draggedItem;
+            
+            // Save to localStorage
+            localStorage.setItem('linkHubFavorites', JSON.stringify(favorites));
+            
+            // Refresh display
+            displayFavoritesGrid();
+        }
+        
+        // Clean up
+        touchDraggedElement.style.transform = '';
+        touchDraggedElement.classList.remove('dragging');
+        
+        const cards = favoritesGrid.querySelectorAll('.card');
+        cards.forEach(card => card.classList.remove('drag-over'));
+        
+        touchDraggedElement = null;
+        touchStartPos = null;
+        touchCurrentPos = null;
+    }
 
     // Register Service Worker
     if ('serviceWorker' in navigator) {
