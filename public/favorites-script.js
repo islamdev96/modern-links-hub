@@ -17,6 +17,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const themeToggle = document.getElementById('themeToggle');
     const currentTheme = localStorage.getItem('theme') || 'light';
 
+    // Secure external links opened in new tabs
+    document.querySelectorAll('a[target="_blank"]').forEach(a => {
+        const existingRel = (a.getAttribute('rel') || '').split(/\s+/);
+        if (!existingRel.includes('noopener')) existingRel.push('noopener');
+        if (!existingRel.includes('noreferrer')) existingRel.push('noreferrer');
+        a.setAttribute('rel', existingRel.filter(Boolean).join(' '));
+    });
+
     // Initialize theme
     initializeTheme();
 
@@ -44,7 +52,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (link) {
                 const url = link.getAttribute('href');
                 try {
-                    window.open(url, '_blank');
+                    const win = window.open(url, '_blank', 'noopener,noreferrer');
+                    if (win) win.opener = null;
                 } catch (error) {
                     console.error('Error opening link:', error);
                     alert('Unable to open the website. Please check your internet connection.');
@@ -254,7 +263,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <button class="favorite-btn favorited" title="إزالة من المفضلة">
                     <i class="fas fa-star"></i>
                 </button>
-                <a href="${favorite.url}" target="_blank">
+                <a href="${favorite.url}" target="_blank" rel="noopener noreferrer">
                     <img src="${favorite.icon}" alt="${favorite.title}" class="icon-image">
                     <span class="title">${favorite.title}</span>
                     <span class="description">${favorite.description}</span>
@@ -275,7 +284,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (link) {
                     const url = link.getAttribute('href');
                     try {
-                        window.open(url, '_blank');
+                        const win = window.open(url, '_blank', 'noopener,noreferrer');
+                        if (win) win.opener = null;
                     } catch (error) {
                         console.error('Error opening link:', error);
                         alert('Unable to open the website. Please check your internet connection.');

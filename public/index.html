@@ -5,19 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Islam Glab's personal gateway to essential websites and digital tools"
+      content="بوابة شخصية من إسلام جلاب للوصول السريع إلى أهم المواقع والأدوات الرقمية مع بحث، تصفية، ومفضلة، ودعم PWA."
     />
     <meta name="theme-color" content="#4a90e2" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="Link Hub" />
+    <link rel="canonical" href="https://your-domain.netlify.app/" />
+    <link rel="apple-touch-icon" href="/profile.jpg" />
+    <!-- Open Graph -->
+    <meta property="og:title" content="Islam Glab | Personal Link Hub" />
+    <meta property="og:description" content="بوابة شخصية من إسلام جلاب للوصول السريع إلى أهم المواقع والأدوات الرقمية." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://your-domain.netlify.app/" />
+    <meta property="og:image" content="/profile.jpg" />
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Islam Glab | Personal Link Hub" />
+    <meta name="twitter:description" content="بوابة شخصية من إسلام جلاب للوصول السريع إلى أهم المواقع والأدوات الرقمية." />
+    <meta name="twitter:image" content="/profile.jpg" />
     <title>Islam Glab | Personal Link Hub</title>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
     />
     <link rel="manifest" href="/manifest.json" />
-    <link rel="apple-touch-icon" href="/manifest.json" />
     <link
       rel="sitemap"
       type="application/xml"
@@ -76,9 +88,9 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: flex-start;
+        justify-content: center;
         padding: 2rem;
-        margin: 0 auto;
+        margin: 0;
         opacity: 0;
         transition: all 0.5s ease;
         color: var(--text-color);
@@ -95,6 +107,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: center;
       }
 
       header {
@@ -168,10 +181,13 @@
 
       .grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
         gap: 1.5rem;
         padding: 1rem;
         animation: fadeUp 1s ease-out;
+        justify-content: center;
+        max-width: 1200px;
+        margin: 0 auto;
       }
 
       .card {

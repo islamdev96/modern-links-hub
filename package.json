@@ -3,12 +3,14 @@
   "version": "1.0.0",
   "description": "Islam Glab's personal gateway to essential websites and digital tools",
   "scripts": {
+    "start": "node server.js",
     "build": "echo 'No build step required'",
-    "deploy": "netlify deploy"
+    "deploy": "netlify deploy",
+    "preview": "netlify deploy --build --draft"
   },
   "keywords": ["islam glab", "personal links", "digital tools"],
   "author": "Islam Glab",
-  "license": "ISC",
+  "license": "MIT",
   "engines": {
     "node": "22.x"
   }
