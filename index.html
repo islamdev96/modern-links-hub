@@ -1,0 +1,1356 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Islam Glab's personal gateway to essential websites and digital tools"
+    />
+    <meta name="theme-color" content="#4a90e2" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Link Hub" />
+    <title>Islam Glab | Personal Link Hub</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="apple-touch-icon" href="/manifest.json" />
+    <link
+      rel="sitemap"
+      type="application/xml"
+      title="Sitemap"
+      href="/sitemap.xml"
+    />
+    <style>
+      :root {
+        --primary-color: #4a90e2;
+        --hover-color: #357abd;
+        --background-color: #f0f2f5;
+        --background-gradient: #ffffff;
+        --card-background: #ffffff;
+        --text-color: #333333;
+        --secondary-text: #666666;
+        --border-color: #e0e0e0;
+        --shadow-color: rgba(0, 0, 0, 0.1);
+        --shadow-hover: rgba(0, 0, 0, 0.2);
+        --gradient-start: #6e48aa;
+        --gradient-end: #9d50bb;
+        --search-bg: #ffffff;
+        --loading-bg: #f0f2f5;
+      }
+
+      [data-theme="dark"] {
+        --primary-color: #5ba3f5;
+        --hover-color: #4a90e2;
+        --background-color: #0f1419;
+        --background-gradient: #1a1f2e;
+        --card-background: #1e2328;
+        --text-color: #e6e6e6;
+        --secondary-text: #a0a0a0;
+        --border-color: #2d3748;
+        --shadow-color: rgba(0, 0, 0, 0.3);
+        --shadow-hover: rgba(0, 0, 0, 0.5);
+        --gradient-start: #667eea;
+        --gradient-end: #764ba2;
+        --search-bg: #2d3748;
+        --loading-bg: #0f1419;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+      \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ body {
+        background: linear-gradient(
+          135deg,
+          var(--background-color) 0%,
+          var(--background-gradient) 100%
+        );
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 2rem;
+        opacity: 0;
+        transition: all 0.5s ease;
+        color: var(--text-color);
+      }
+
+      body.loaded {
+        opacity: 1;
+      }
+
+      .container {
+        max-width: 1200px;
+        width: 100%;
+      }
+
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 3rem;
+        animation: fadeDown 1s ease-out;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      .header-title {
+        flex: 1;
+        text-align: center;
+      }
+
+      h1 {
+        color: var(--text-color);
+        font-size: 2.5rem;
+        margin: 0;
+        background: linear-gradient(
+          45deg,
+          var(--gradient-start),
+          var(--gradient-end)
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: gradientText 3s ease infinite;
+      }
+
+      @keyframes fadeDown {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes gradientText {
+        0% {
+          background-position: 0% 50%;
+        }
+
+        50% {
+          background-position: 100% 50%;
+        }
+
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        padding: 1rem;
+        animation: fadeUp 1s ease-out;
+      }
+
+      .card {
+        background: var(--card-background);
+        border-radius: 12px;
+        padding: 1.5rem;
+        text-align: center;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .card:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Brand-specific colors */
+      .google-translate .icon {
+        color: #4285f4;
+      }
+
+      .google .icon {
+        color: #4285f4;
+      }
+
+      .youtube .icon {
+        color: #ff0000;
+      }
+
+      .facebook .icon {
+        color: #1877f2;
+      }
+
+      .twitter .icon {
+        color: #1da1f2;
+      }
+
+      .flutter .icon {
+        color: #027dfd;
+      }
+
+      .dart .icon {
+        color: #00b4ab;
+      }
+
+      .stack-overflow .icon {
+        color: #f48024;
+      }
+
+      .behance .icon {
+        color: #1769ff;
+      }
+
+      .claude {
+        background-color: white;
+        border: 1px solid #e0e0e0;
+      }
+
+      .claude:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .claude .icon {
+        color: #7c3aed;
+      }
+
+      .claude-ai {
+        background-color: white;
+        border: 1px solid #e0e0e0;
+      }
+
+      .claude-ai:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .claude-ai .icon-image {
+        filter: brightness(1);
+      }
+
+      .chatgpt {
+        background-color: white;
+        border: 1px solid #e0e0e0;
+      }
+
+      .chatgpt:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .chatgpt .icon-image {
+        filter: brightness(1);
+      }
+
+      .z-ai,
+      .perplexity-ai,
+      .deepseek,
+      .kimi {
+        background-color: white;
+        border: 1px solid #e0e0e0;
+      }
+
+      .z-ai:hover,
+      .perplexity-ai:hover,
+      .deepseek:hover,
+      .kimi:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Unified icon filter for all remaining sites */
+      .z-ai .icon-image,
+      .perplexity-ai .icon-image,
+      .deepseek .icon-image,
+      .kimi .icon-image,
+      .google-ai-studio .icon-image,
+      .gemini .icon-image,
+      .copilot .icon-image,
+      .linkedin .icon-image,
+      .github .icon-image,
+      .gitlab .icon-image,
+      .vscode .icon-image,
+      .dribbble .icon-image,
+      .notion .icon-image {
+        filter: brightness(1);
+      }
+
+      .card:hover .icon,
+      .card:hover .icon-image {
+        transform: scale(1.1);
+      }
+
+      /* Search and Filter Styles */
+      .header-search {
+        position: relative;
+        max-width: 200px;
+        width: 200px;
+        flex-shrink: 0;
+      }
+
+      .search-box {
+        position: relative;
+        width: 100%;
+      }
+
+      .search-input {
+        width: 100%;
+        padding: 0.5rem 2rem 0.5rem 0.75rem;
+        border: 2px solid #e0e0e0;
+        border-radius: 15px;
+        font-size: 0.8rem;
+        background: white;
+        transition: all 0.3s ease;
+        direction: rtl;
+      }
+
+      .search-input:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+      }
+
+      .search-input:focus-visible {
+        outline: 2px solid var(--primary-color);
+        outline-offset: 2px;
+      }
+
+      .search-icon {
+        position: absolute;
+        left: 0.75rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #999;
+        font-size: 0.9rem;
+      }
+
+      .clear-btn {
+        position: absolute;
+        right: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: #999;
+        cursor: pointer;
+        font-size: 1.1rem;
+        transition: color 0.3s ease;
+      }
+
+      .clear-btn:hover {
+        color: #666;
+      }
+
+      .category-filter {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+      }
+
+      .filter-btn {
+        padding: 0.5rem 1.5rem;
+        border: 2px solid var(--primary-color);
+        background: transparent;
+        color: var(--primary-color);
+        border-radius: 25px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: 500;
+      }
+
+      .filter-btn:hover,
+      .filter-btn.active {
+        background: var(--primary-color);
+        color: white;
+      }
+
+      .filter-btn:focus-visible {
+        outline: 2px solid var(--primary-color);
+        outline-offset: 2px;
+      }
+
+      .description {
+        font-size: 0.9rem;
+        color: #666;
+        margin-top: 0.5rem;
+        opacity: 0.8;
+      }
+
+      .card.hidden {
+        display: none;
+      }
+
+      .card.fade-out {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+
+      .card.fade-in {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      /* Loading animation */
+      .loading {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          135deg,
+          var(--background-color) 0%,
+          #ffffff 100%
+        );
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        transition: opacity 0.5s ease;
+      }
+
+      .loading.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .spinner {
+        width: 50px;
+        height: 50px;
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid var(--primary-color);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Scroll to top button */
+      .scroll-top {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        width: 50px;
+        height: 50px;
+        background: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        transition: all 0.3s ease;
+        z-index: 1000;
+      }
+
+      .scroll-top:hover {
+        background: var(--hover-color);
+        transform: translateY(-3px);
+      }
+
+      .scroll-top:focus-visible {
+        outline: 2px solid var(--primary-color);
+        outline-offset: 2px;
+      }
+
+      .scroll-top.visible {
+        display: flex;
+      }
+
+      .card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          45deg,
+          rgba(110, 72, 170, 0.15),
+          rgba(157, 80, 187, 0.15)
+        );
+        opacity: 0;
+        transition: opacity 0.4s ease;
+      }
+
+      .card:hover::before {
+        opacity: 1;
+      }
+
+      .card a {
+        text-decoration: none;
+        color: var(--text-color);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        transition: all 0.3s ease;
+      }
+
+      .card a:focus {
+        outline: 2px solid var(--primary-color);
+        outline-offset: 2px;
+        border-radius: 8px;
+      }
+
+      .icon {
+        font-size: 2rem;
+        color: var(--primary-color);
+        transition: transform 0.3s ease;
+      }
+
+      .icon-image {
+        width: 2rem;
+        height: 2rem;
+        transition: transform 0.3s ease;
+        object-fit: contain;
+        border-radius: 4px;
+        filter: brightness(1);
+      }
+
+      .title {
+        font-size: 1.2rem;
+        font-weight: 600;
+      }
+
+      /* Favorites Styles */
+      .favorites-section {
+        margin-bottom: 3rem;
+        animation: fadeUp 1s ease-out;
+      }
+
+      .favorites-title {
+        text-align: center;
+        color: var(--text-color);
+        font-size: 2rem;
+        margin-bottom: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+      }
+
+      .favorites-title i {
+        color: #ffd700;
+        font-size: 1.8rem;
+      }
+
+      .favorites-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        padding: 1rem;
+      }
+
+      .favorite-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: rgba(255, 255, 255, 0.9);
+        border: none;
+        border-radius: 50%;
+        width: 35px;
+        height: 35px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        z-index: 10;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .favorite-btn:hover {
+        background: rgba(255, 255, 255, 1);
+        transform: scale(1.1);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      }
+
+      .favorite-btn i {
+        font-size: 1.2rem;
+        transition: all 0.3s ease;
+      }
+
+      .favorite-btn.favorited i {
+        color: #ffd700;
+      }
+
+      .favorite-btn:not(.favorited) i {
+        color: #ccc;
+      }
+
+      .favorite-btn:not(.favorited):hover i {
+        color: #ffd700;
+      }
+
+      .empty-favorites {
+        text-align: center;
+        color: #666;
+        font-style: italic;
+        padding: 2rem;
+        background: rgba(255, 255, 255, 0.5);
+        border-radius: 10px;
+        border: 2px dashed #ddd;
+      }
+
+      .empty-favorites i {
+        font-size: 3rem;
+        color: #ddd;
+        margin-bottom: 1rem;
+        display: block;
+      }
+
+      /* Theme Toggle Styles */
+      .theme-toggle {
+        position: relative;
+        flex-shrink: 0;
+      }
+
+      .theme-btn {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        border: 2px solid var(--border-color);
+        background: var(--card-background);
+        color: var(--text-color);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px var(--shadow-color);
+      }
+
+      .theme-btn:hover {
+        transform: scale(1.1);
+        box-shadow: 0 4px 12px var(--shadow-hover);
+        border-color: var(--primary-color);
+      }
+
+      .theme-btn:focus-visible {
+        outline: 2px solid var(--primary-color);
+        outline-offset: 2px;
+      }
+
+      /* Dark mode specific adjustments */
+      [data-theme="dark"] .card {
+        background: var(--card-background);
+        border: 1px solid var(--border-color);
+        box-shadow: 0 4px 6px var(--shadow-color);
+      }
+
+      [data-theme="dark"] .card:hover {
+        box-shadow: 0 15px 30px var(--shadow-hover);
+      }
+
+      [data-theme="dark"] .search-input {
+        background: var(--search-bg);
+        border-color: var(--border-color);
+        color: var(--text-color);
+      }
+
+      [data-theme="dark"] .search-input::placeholder {
+        color: var(--secondary-text);
+      }
+
+      [data-theme="dark"] .search-icon,
+      [data-theme="dark"] .clear-btn {
+        color: var(--secondary-text);
+      }
+
+      [data-theme="dark"] .clear-btn:hover {
+        color: var(--text-color);
+      }
+
+      [data-theme="dark"] .description {
+        color: var(--secondary-text);
+      }
+
+      [data-theme="dark"] .loading {
+        background: linear-gradient(
+          135deg,
+          var(--loading-bg) 0%,
+          var(--background-gradient) 100%
+        );
+      }
+
+      [data-theme="dark"] .spinner {
+        border-color: var(--border-color);
+        border-top-color: var(--primary-color);
+      }
+
+      [data-theme="dark"] .empty-favorites {
+        background: rgba(45, 55, 72, 0.5);
+        border-color: var(--border-color);
+        color: var(--secondary-text);
+      }
+
+      [data-theme="dark"] .empty-favorites i {
+        color: var(--border-color);
+      }
+
+      [data-theme="dark"] .favorite-btn {
+        background: rgba(30, 35, 40, 0.9);
+        box-shadow: 0 2px 8px var(--shadow-color);
+      }
+
+      [data-theme="dark"] .favorite-btn:hover {
+        background: rgba(30, 35, 40, 1);
+        box-shadow: 0 4px 12px var(--shadow-hover);
+      }
+
+      /* Dark mode icon adjustments */
+      [data-theme="dark"] .icon-image {
+        filter: brightness(1.1) contrast(1.1);
+      }
+
+      /* Smooth theme transition */
+      * {
+        transition: background-color 0.3s ease, border-color 0.3s ease,
+          color 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      /* Additional dark mode improvements */
+      [data-theme="dark"] .card {
+        background: var(--card-background);
+        box-shadow: 0 4px 6px var(--shadow-color);
+      }
+
+      [data-theme="dark"] .card:hover {
+        box-shadow: 0 15px 30px var(--shadow-hover);
+      }
+
+      [data-theme="dark"] .filter-btn {
+        border-color: var(--primary-color);
+        color: var(--primary-color);
+        background: transparent;
+      }
+
+      [data-theme="dark"] .filter-btn:hover,
+      [data-theme="dark"] .filter-btn.active {
+        background: var(--primary-color);
+        color: var(--card-background);
+      }
+
+      /* Theme toggle animation */
+      .theme-btn i {
+        transition: transform 0.3s ease;
+      }
+
+      .theme-btn:hover i {
+        transform: rotate(15deg);
+      }
+
+      /* Drag and Drop Styles */
+      .favorites-grid .card {
+        cursor: grab;
+        user-select: none;
+        touch-action: none;
+      }
+
+      .favorites-grid .card:active {
+        cursor: grabbing;
+      }
+
+      .favorites-grid .card.dragging {
+        opacity: 0.5;
+        transform: rotate(5deg) scale(1.05);
+        z-index: 1000;
+        box-shadow: 0 10px 30px var(--shadow-hover);
+      }
+
+      .favorites-grid .card.drag-over {
+        transform: translateX(10px);
+        border: 2px dashed var(--primary-color);
+      }
+
+      .drag-placeholder {
+        background: var(--border-color);
+        border: 2px dashed var(--primary-color);
+        border-radius: 12px;
+        opacity: 0.5;
+        min-height: 120px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--secondary-text);
+        font-style: italic;
+      }
+
+      .drag-placeholder::before {
+        content: "اسحب هنا";
+        font-size: 0.9rem;
+      }
+
+      /* Touch feedback */
+      .favorites-grid .card:hover {
+        cursor: grab;
+      }
+
+      .favorites-grid .card:active {
+        cursor: grabbing;
+      }
+
+      /* Smooth transitions for reordering */
+      .favorites-grid .card:not(.dragging) {
+        transition: transform 0.3s ease, opacity 0.3s ease;
+      }
+
+      @media (max-width: 768px) {
+        header {
+          flex-direction: column;
+          text-align: center;
+          gap: 1.5rem;
+        }
+
+        .header-title {
+          order: 1;
+        }
+
+        .header-search {
+          order: 2;
+          max-width: 250px;
+          width: 100%;
+        }
+
+        .grid {
+          grid-template-columns: 1fr;
+          padding: 0.5rem;
+        }
+
+        h1 {
+          font-size: 2rem;
+        }
+
+        .category-filter {
+          gap: 0.5rem;
+          margin-bottom: 1.5rem;
+        }
+
+        .filter-btn {
+          padding: 0.4rem 1rem;
+          font-size: 0.9rem;
+        }
+
+        .card {
+          padding: 1rem;
+        }
+
+        .title {
+          font-size: 1.1rem;
+        }
+
+        .description {
+          font-size: 0.8rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        body {
+          padding: 1rem;
+        }
+
+        h1 {
+          font-size: 1.8rem;
+        }
+
+        .category-filter {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .filter-btn {
+          width: 100%;
+          max-width: 200px;
+        }
+
+        .scroll-top {
+          bottom: 1rem;
+          right: 1rem;
+          width: 45px;
+          height: 45px;
+          font-size: 1rem;
+        }
+
+        .loading {
+          padding: 1rem;
+        }
+
+        .spinner {
+          width: 40px;
+          height: 40px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Loading Screen -->
+    <div class="loading" id="loading">
+      <div class="spinner"></div>
+    </div>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-top" id="scrollTop" title="العودة للأعلى">
+      <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <div class="container">
+      <header>
+        <!-- Theme Toggle Button -->
+        <div class="theme-toggle">
+          <button id="themeToggle" class="theme-btn" title="تبديل الوضع المظلم">
+            <i class="fas fa-moon"></i>
+          </button>
+        </div>
+
+        <div class="header-title">
+          <h1>Islam Glab | Personal Link Hub</h1>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="header-search">
+          <div class="search-box">
+            <i class="fas fa-search search-icon" aria-hidden="true"></i>
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="ابحث في الروابط..."
+              class="search-input"
+              aria-label="البحث في الروابط"
+            />
+            <button
+              id="clearSearch"
+              class="clear-btn"
+              style="display: none"
+              aria-label="مسح البحث"
+            >
+              <i class="fas fa-times" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Favorites Section -->
+      <div
+        class="favorites-section"
+        id="favoritesSection"
+        style="display: none"
+      >
+        <h2 class="favorites-title">
+          <i class="fas fa-star"></i>
+          المفضلة
+        </h2>
+        <div class="favorites-grid" id="favoritesGrid">
+          <!-- Favorite cards will be dynamically added here -->
+        </div>
+      </div>
+
+      <!-- Category Filter -->
+      <div
+        class="category-filter"
+        role="tablist"
+        aria-label="تصفية الروابط حسب الفئة"
+      >
+        <button
+          class="filter-btn active"
+          data-category="all"
+          role="tab"
+          aria-selected="true"
+          aria-label="عرض جميع الروابط"
+        >
+          الكل
+        </button>
+        <button
+          class="filter-btn"
+          data-category="favorites"
+          role="tab"
+          aria-selected="false"
+          aria-label="عرض المفضلة فقط"
+        >
+          المفضلة
+        </button>
+        <button
+          class="filter-btn"
+          data-category="star-factory"
+          role="tab"
+          aria-selected="false"
+          aria-label="عرض روابط مصنع النجمة"
+        >
+          مصنع النجمة
+        </button>
+        <button
+          class="filter-btn"
+          data-category="ai"
+          role="tab"
+          aria-selected="false"
+          aria-label="عرض روابط الذكاء الاصطناعي"
+        >
+          الذكاء الاصطناعي
+        </button>
+        <button
+          class="filter-btn"
+          data-category="social"
+          role="tab"
+          aria-selected="false"
+          aria-label="عرض روابط التواصل الاجتماعي"
+        >
+          التواصل الاجتماعي
+        </button>
+        <button
+          class="filter-btn"
+          data-category="development"
+          role="tab"
+          aria-selected="false"
+          aria-label="عرض روابط التطوير"
+        >
+          التطوير
+        </button>
+        <button
+          class="filter-btn"
+          data-category="tools"
+          role="tab"
+          aria-selected="false"
+          aria-label="عرض روابط الأدوات"
+        >
+          الأدوات
+        </button>
+      </div>
+
+      <div class="grid" id="linksGrid">
+        <!-- Star Factory Tools -->
+        <div
+          class="card google-translate"
+          data-category="star-factory"
+          data-url="https://translate.google.com"
+          data-title="Google Translate"
+          data-description="ترجمة النصوص"
+          data-icon="icons/google-translate.svg"
+        >
+          <button class="favorite-btn" title="إضافة للمفضلة">
+            <i class="fas fa-star"></i>
+          </button>
+          <a href="https://translate.google.com" target="_blank">
+            <img
+              src="icons/google-translate.svg"
+              alt="Google Translate"
+              class="icon-image"
+            />
+            <span class="title">Google Translate</span>
+            <span class="description">ترجمة النصوص</span>
+          </a>
+        </div>
+        <div
+          class="card whatsapp"
+          data-category="star-factory"
+          data-url="https://web.whatsapp.com/"
+          data-title="WhatsApp"
+          data-description="واتساب ويب"
+          data-icon="icons/whatsapp.svg"
+        >
+          <button class="favorite-btn" title="إضافة للمفضلة">
+            <i class="fas fa-star"></i>
+          </button>
+          <a href="https://web.whatsapp.com/" target="_blank">
+            <img src="icons/whatsapp.svg" alt="WhatsApp" class="icon-image" />
+            <span class="title">WhatsApp</span>
+            <span class="description">واتساب ويب</span>
+          </a>
+        </div>
+
+        <div class="card google-docs-search" data-category="star-factory">
+          <a
+            href="https://script.google.com/macros/s/AKfycbz-D9BWlWTrikhuP5DYCGE58mN6Y4IhjtnL7mAuNKrgtiiZ7WMpldra-kJj_cxUmCuveg/exec"
+            target="_blank"
+          >
+            <img
+              src="icons/google-docs-search.svg"
+              alt="بحث جوجل دوكس"
+              class="icon-image"
+            />
+            <span class="title">بحث جوجل دوكس</span>
+            <span class="description">أداة البحث في مستندات جوجل</span>
+          </a>
+        </div>
+
+        <div class="card number-stamp" data-category="star-factory">
+          <a
+            href="https://aistudio.google.com/app/prompts/1ARgu1nfC2NRFK9VbUS0Z9EEShf4A7VL5"
+            target="_blank"
+          >
+            <img
+              src="icons/number-stamp.svg"
+              alt="تنسيق الأرقام"
+              class="icon-image"
+            />
+            <span class="title">تنسيق الأرقام</span>
+            <span class="description">أداة تنسيق وترتيب الأرقام</span>
+          </a>
+        </div>
+
+        <div class="card star-factory-main" data-category="star-factory">
+          <a
+            href="https://docs.google.com/spreadsheets/d/1tlA0Me26hMsQdpxs655Ok9Ty5bmNnw0ynbLvXgI38rI/edit?gid=0#gid=0"
+            target="_blank"
+          >
+            <img
+              src="icons/star-factory-main.svg"
+              alt="مصنع النجمة الرئيسي"
+              class="icon-image"
+            />
+            <span class="title">مصنع النجمة الرئيسي</span>
+            <span class="description">الصفحة الرئيسية لمصنع النجمة</span>
+          </a>
+        </div>
+
+        <div class="card star-factory-page1" data-category="star-factory">
+          <a
+            href="https://docs.google.com/spreadsheets/d/15VK6xv-Jby4pkqgEF-M6uGY8JTLjqIZFIIdPuT95-Ks/edit?gid=1244262008#gid=1244262008"
+            target="_blank"
+          >
+            <img
+              src="icons/star-factory-main.svg"
+              alt="مصنع النجمة - الصفحة الثانية"
+              class="icon-image"
+            />
+            <span class="title">مصنع النجمة - صفحة 2</span>
+            <span class="description">الصفحة الثانية لمصنع النجمة</span>
+          </a>
+        </div>
+
+        <div class="card price-end" data-category="star-factory">
+          <a
+            href="https://docs.google.com/spreadsheets/d/1KtTX389yARBMT5i0-WGS_oQZ4MB0_DJH9JxfeEf7_-M/edit?gid=322141468#gid=322141468"
+            target="_blank"
+          >
+            <img
+              src="icons/star-factory-main.svg"
+              alt="مصنع النجمة - صفحة 3"
+              class="icon-image"
+            />
+            <span class="title">مصنع النجمة - صفحة 3</span>
+            <span class="description">الصفحة الثالثة لمصنع النجمة</span>
+          </a>
+        </div>
+
+        <div class="card archive" data-category="star-factory">
+          <a
+            href="https://docs.google.com/spreadsheets/d/11WVWoKD8XDG5otROOS6_t0EmN6nbLjSaPMTPhxKg2CA/edit?gid=259419918#gid=259419918"
+            target="_blank"
+          >
+            <img
+              src="icons/star-factory-main.svg"
+              alt="الأرشيف"
+              class="icon-image"
+            />
+            <span class="title">الأرشيف</span>
+            <span class="description">أرشيف مصنع النجمة</span>
+          </a>
+        </div>
+
+        <div class="card google-drive" data-category="star-factory">
+          <a
+            href="https://drive.google.com/drive/folders/1deBm2YZu6NAfmCYO4roI4wyRKFZL7OAO"
+            target="_blank"
+          >
+            <img
+              src="icons/google-drive.svg"
+              alt="جوجل درايف"
+              class="icon-image"
+            />
+            <span class="title">جوجل درايف</span>
+            <span class="description">تخزين ملفات مصنع النجمة</span>
+          </a>
+        </div>
+
+        <!-- AI Tools -->
+        <div class="card claude-ai" data-category="ai">
+          <a href="https://claude.ai/new" target="_blank">
+            <img src="icons/claude.svg" alt="Claude" class="icon-image" />
+            <span class="title">Claude</span>
+            <span class="description">مساعد ذكي متقدم</span>
+          </a>
+        </div>
+
+        <div class="card chatgpt" data-category="ai">
+          <a href="https://chatgpt.com/" target="_blank">
+            <img src="icons/chatgpt.svg" alt="ChatGPT" class="icon-image" />
+            <span class="title">ChatGPT</span>
+            <span class="description">مساعد ذكي من OpenAI</span>
+          </a>
+        </div>
+
+        <div class="card z-ai" data-category="ai">
+          <a href="https://chat.z.ai/" target="_blank">
+            <img src="icons/z-ai.svg" alt="Z.ai" class="icon-image" />
+            <span class="title">Z.ai</span>
+            <span class="description">مساعد ذكي سريع</span>
+          </a>
+        </div>
+
+        <div class="card perplexity-ai" data-category="ai">
+          <a href="https://www.perplexity.ai/" target="_blank">
+            <img
+              src="icons/perplexity.svg"
+              alt="Perplexity"
+              class="icon-image"
+            />
+            <span class="title">Perplexity</span>
+            <span class="description">بحث ذكي متقدم</span>
+          </a>
+        </div>
+
+        <div class="card deepseek" data-category="ai">
+          <a href="https://chat.deepseek.com/" target="_blank">
+            <img src="icons/deepseek.svg" alt="DeepSeek" class="icon-image" />
+            <span class="title">DeepSeek</span>
+            <span class="description">مساعد ذكي متخصص</span>
+          </a>
+        </div>
+
+        <div class="card kimi" data-category="ai">
+          <a href="https://www.kimi.com/" target="_blank">
+            <img src="icons/kimi.svg" alt="Kimi" class="icon-image" />
+            <span class="title">Kimi</span>
+            <span class="description">مساعد ذكي سريع</span>
+          </a>
+        </div>
+
+        <div class="card google-ai-studio" data-category="ai">
+          <a
+            href="https://aistudio.google.com/app/prompts/new_chat"
+            target="_blank"
+          >
+            <img
+              src="icons/google-ai-studio.svg"
+              alt="Google AI Studio"
+              class="icon-image"
+            />
+            <span class="title">Google AI Studio</span>
+            <span class="description">أدوات الذكاء الاصطناعي من Google</span>
+          </a>
+        </div>
+
+        <div class="card gemini" data-category="ai">
+          <a href="https://gemini.google.com/" target="_blank">
+            <img src="icons/gemini.svg" alt="Gemini" class="icon-image" />
+            <span class="title">Gemini</span>
+            <span class="description">مساعد Google الذكي</span>
+          </a>
+        </div>
+
+        <div class="card copilot" data-category="ai">
+          <a href="https://copilot.microsoft.com/" target="_blank">
+            <img
+              src="icons/copilot.svg"
+              alt="Microsoft Copilot"
+              class="icon-image"
+            />
+            <span class="title">Microsoft Copilot</span>
+            <span class="description">مساعد Microsoft الذكي</span>
+          </a>
+        </div>
+
+        <!-- Social Media -->
+        <div class="card youtube" data-category="social">
+          <a href="https://www.youtube.com" target="_blank">
+            <img src="icons/youtube.svg" alt="YouTube" class="icon-image" />
+            <span class="title">YouTube</span>
+            <span class="description">مقاطع الفيديو والتعليم</span>
+          </a>
+        </div>
+
+        <div class="card facebook" data-category="social">
+          <a href="https://www.facebook.com" target="_blank">
+            <img src="icons/facebook.svg" alt="Facebook" class="icon-image" />
+            <span class="title">Facebook</span>
+            <span class="description">التواصل الاجتماعي</span>
+          </a>
+        </div>
+
+        <div class="card linkedin" data-category="social">
+          <a href="https://www.linkedin.com/" target="_blank">
+            <img src="icons/linkedin.svg" alt="LinkedIn" class="icon-image" />
+            <span class="title">LinkedIn</span>
+            <span class="description">الشبكة المهنية</span>
+          </a>
+        </div>
+
+        <!-- Development Tools -->
+
+        <div class="card github" data-category="development">
+          <a href="https://github.com/" target="_blank">
+            <img src="icons/github.svg" alt="GitHub" class="icon-image" />
+            <span class="title">GitHub</span>
+            <span class="description">استضافة الكود والتعاون</span>
+          </a>
+        </div>
+
+        <!-- Tools -->
+
+        <div class="card google" data-category="tools">
+          <a href="https://www.google.com" target="_blank">
+            <img
+              src="icons/google-search.svg"
+              alt="Google"
+              class="icon-image"
+            />
+            <span class="title">Google</span>
+            <span class="description">محرك البحث</span>
+          </a>
+        </div>
+
+        <div class="card notion" data-category="tools">
+          <a href="https://www.notion.so/" target="_blank">
+            <img src="icons/notion.svg" alt="Notion" class="icon-image" />
+            <span class="title">Notion</span>
+            <span class="description">أداة الإنتاجية</span>
+          </a>
+        </div>
+
+        <div class="card router" data-category="tools">
+          <a href="https://192.168.1.1/" target="_blank">
+            <img src="icons/router.svg" alt="الراوتر" class="icon-image" />
+            <span class="title">الراوتر</span>
+            <span class="description">إعدادات الراوتر والشبكة</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <script src="favorites-script.js"></script>
+  </body>
+</html>
