@@ -2,8 +2,10 @@
   "name": "islam-glab-link-hub",
   "version": "1.0.0",
   "description": "Islam Glab's personal gateway to essential websites and digital tools",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js",
+    "dev": "node server.js",
     "build": "echo 'No build step required'",
     "deploy": "netlify deploy",
     "preview": "netlify deploy --build --draft"
@@ -13,5 +15,7 @@
   "license": "MIT",
   "engines": {
     "node": "22.x"
-  }
+  },
+  "dependencies": {},
+  "devDependencies": {}
 }
