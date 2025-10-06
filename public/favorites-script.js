@@ -31,7 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Theme toggle functionality
     themeToggle.addEventListener('click', toggleTheme);
 
-    // Initialize favorites system
     initializeFavorites();
 
     // Add favorite buttons to all cards
@@ -39,6 +38,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Load and display favorites
     loadFavorites();
+
+    // Update card counters
+    updateCardCounters();
+
+    // Initialize lazy loading for images  
+    initLazyLoading();
 
     // Card click functionality (prevent click when clicking favorite button)
     cards.forEach(card => {
@@ -496,21 +501,6 @@ document.addEventListener('DOMContentLoaded', () => {
         cards.forEach(card => {
             card.classList.remove('dragging', 'drag-over');
         });
-        
-        draggedElement = null;
-        draggedIndex = null;
-    }
-
-    // Touch events for mobile drag and drop
-    let touchStartPos = null;
-    let touchCurrentPos = null;
-    let touchDraggedElement = null;
-
-    function handleTouchStart(e) {
-        const touch = e.touches[0];
-        touchStartPos = { x: touch.clientX, y: touch.clientY };
-        touchDraggedElement = this;
-        
         // Add visual feedback after a delay
         setTimeout(() => {
             if (touchDraggedElement) {
@@ -584,9 +574,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const cards = favoritesGrid.querySelectorAll('.card');
         cards.forEach(card => card.classList.remove('drag-over'));
         
-        touchDraggedElement = null;
-        touchStartPos = null;
-        touchCurrentPos = null;
     }
 
     // Register Service Worker

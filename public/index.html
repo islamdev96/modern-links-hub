@@ -773,6 +773,179 @@
           color 0.3s ease, box-shadow 0.3s ease;
       }
 
+      /* Toast Notifications */
+      .toast-container {
+        position: fixed;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: center;
+        pointer-events: none;
+      }
+
+      .toast {
+        background: var(--card-background);
+        color: var(--text-color);
+        padding: 1rem 1.5rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        min-width: 250px;
+        max-width: 400px;
+        pointer-events: auto;
+        animation: slideUp 0.3s ease;
+        border-left: 4px solid var(--primary-color);
+      }
+
+      .toast.success {
+        border-left-color: #4caf50;
+      }
+
+      .toast.error {
+        border-left-color: #f44336;
+      }
+
+      .toast.info {
+        border-left-color: #2196f3;
+      }
+
+      .toast i {
+        font-size: 1.2rem;
+      }
+
+      .toast.success i {
+        color: #4caf50;
+      }
+
+      .toast.error i {
+        color: #f44336;
+      }
+
+      .toast.info i {
+        color: #2196f3;
+      }
+
+      @keyframes slideUp {
+        from {
+          transform: translateY(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      /* Card Counter Badge */
+      .filter-btn {
+        position: relative;
+      }
+
+      .filter-btn .badge {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background: var(--primary-color);
+        color: white;
+        border-radius: 10px;
+        padding: 2px 6px;
+        font-size: 0.75rem;
+        font-weight: bold;
+        min-width: 20px;
+        text-align: center;
+      }
+
+      .filter-btn.active .badge {
+        background: white;
+        color: var(--primary-color);
+      }
+
+      /* Search Highlight */
+      .highlight {
+        background: linear-gradient(120deg, #ffd700 0%, #ffeb3b 100%);
+        padding: 2px 4px;
+        border-radius: 3px;
+        color: #333;
+        font-weight: 600;
+      }
+
+      [data-theme="dark"] .highlight {
+        background: linear-gradient(120deg, #ffb300 0%, #ff9800 100%);
+        color: #fff;
+      }
+
+      /* Loading skeleton for images */
+      .icon-image {
+        position: relative;
+        background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+        background-size: 200% 100%;
+        animation: loading 1.5s infinite;
+      }
+
+      .icon-image.loaded {
+        background: none;
+        animation: none;
+      }
+
+      @keyframes loading {
+        0% {
+          background-position: 200% 0;
+        }
+        100% {
+          background-position: -200% 0;
+        }
+      }
+
+      /* Quick Actions Bar */
+      .quick-actions {
+        position: fixed;
+        top: 50%;
+        right: 1rem;
+        transform: translateY(-50%);
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        z-index: 100;
+      }
+
+      .quick-action-btn {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        background: var(--card-background);
+        border: 2px solid var(--border-color);
+        color: var(--text-color);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px var(--shadow-color);
+      }
+
+      .quick-action-btn:hover {
+        transform: scale(1.1);
+        box-shadow: 0 4px 12px var(--shadow-hover);
+        border-color: var(--primary-color);
+      }
+
+      .quick-action-btn.active {
+        background: var(--primary-color);
+        color: white;
+      }
+
+      @media (max-width: 768px) {
+        .quick-actions {
+          display: none;
+        }
+      }
+
       /* Additional dark mode improvements */
       [data-theme="dark"] .card {
         background: var(--card-background);
@@ -1072,6 +1245,9 @@
       <div class="spinner"></div>
     </div>
 
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
     <!-- Scroll to Top Button -->
     <button class="scroll-top" id="scrollTop" title="العودة للأعلى">
       <i class="fas fa-arrow-up"></i>
@@ -1142,6 +1318,7 @@
           aria-label="عرض جميع الروابط"
         >
           الكل
+          <span class="badge" id="count-all">0</span>
         </button>
         <button
           class="filter-btn"
@@ -1151,6 +1328,7 @@
           aria-label="عرض المفضلة فقط"
         >
           المفضلة
+          <span class="badge" id="count-favorites">0</span>
         </button>
         <button
           class="filter-btn"
@@ -1160,6 +1338,7 @@
           aria-label="عرض روابط مصنع النجمة"
         >
           مصنع النجمة
+          <span class="badge" id="count-star-factory">0</span>
         </button>
         <button
           class="filter-btn"
@@ -1169,6 +1348,7 @@
           aria-label="عرض روابط الذكاء الاصطناعي"
         >
           الذكاء الاصطناعي
+          <span class="badge" id="count-ai">0</span>
         </button>
         <button
           class="filter-btn"
@@ -1178,6 +1358,7 @@
           aria-label="عرض روابط التواصل الاجتماعي"
         >
           التواصل الاجتماعي
+          <span class="badge" id="count-social">0</span>
         </button>
         <button
           class="filter-btn"
@@ -1187,6 +1368,7 @@
           aria-label="عرض روابط التطوير"
         >
           التطوير
+          <span class="badge" id="count-development">0</span>
         </button>
         <button
           class="filter-btn"
@@ -1196,6 +1378,7 @@
           aria-label="عرض روابط الأدوات"
         >
           الأدوات
+          <span class="badge" id="count-tools">0</span>
         </button>
       </div>
 
