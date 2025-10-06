@@ -101,13 +101,15 @@
       }
 
       .container {
-        max-width: 1200px;
+        max-width: 1400px;
         width: 100%;
         margin: 0 auto;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        padding: 0 1rem;
+        box-sizing: border-box;
       }
 
       header {
@@ -181,13 +183,14 @@
 
       .grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
         gap: 1.5rem;
         padding: 1rem;
         animation: fadeUp 1s ease-out;
         justify-content: center;
-        max-width: 1200px;
+        max-width: 1400px;
         margin: 0 auto;
+        width: 100%;
       }
 
       .card {
@@ -593,9 +596,12 @@
 
       .favorites-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
         gap: 1.5rem;
         padding: 1rem;
+        max-width: 1400px;
+        margin: 0 auto;
+        width: 100%;
       }
 
       .favorite-btn {
@@ -853,89 +859,208 @@
         transition: transform 0.3s ease, opacity 0.3s ease;
       }
 
-      @media (max-width: 768px) {
+      /* Extra Large Screens - Desktop (1920px and above) */
+      @media (min-width: 1920px) {
+        .container {
+          max-width: 1800px;
+        }
+        .grid {
+          grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+          max-width: 1800px;
+        }
+        .favorites-grid {
+          grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+          max-width: 1800px;
+        }
+      }
+
+      /* Large Screens - Laptop (1200px - 1919px) */
+      @media (min-width: 1200px) and (max-width: 1919px) {
+        .grid {
+          grid-template-columns: repeat(4, 1fr);
+        }
+        .favorites-grid {
+          grid-template-columns: repeat(4, 1fr);
+        }
+      }
+
+      /* Medium Screens - Small Laptop/Tablet Landscape (992px - 1199px) */
+      @media (min-width: 992px) and (max-width: 1199px) {
+        .grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+        .favorites-grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+
+      /* Tablet Portrait (768px - 991px) */
+      @media (min-width: 768px) and (max-width: 991px) {
+        .grid {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 1.2rem;
+        }
+        .favorites-grid {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 1.2rem;
+        }
+        h1 {
+          font-size: 2.2rem;
+        }
+        .card {
+          padding: 1.2rem;
+        }
+      }
+
+      /* Mobile Landscape / Small Tablet (576px - 767px) */
+      @media (min-width: 576px) and (max-width: 767px) {
         header {
           flex-direction: column;
           text-align: center;
           gap: 1.5rem;
         }
-
         .header-title {
           order: 1;
         }
-
         .header-search {
           order: 2;
-          max-width: 250px;
+          max-width: 100%;
           width: 100%;
         }
-
         .grid {
-          grid-template-columns: 1fr;
-          padding: 0.5rem;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 1rem;
+          padding: 0.75rem;
         }
-
+        .favorites-grid {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 1rem;
+        }
         h1 {
           font-size: 2rem;
         }
-
         .category-filter {
           gap: 0.5rem;
           margin-bottom: 1.5rem;
+          flex-wrap: wrap;
         }
-
         .filter-btn {
-          padding: 0.4rem 1rem;
+          padding: 0.5rem 1.2rem;
           font-size: 0.9rem;
-        }
-
-        .card {
-          padding: 1rem;
-        }
-
-        .title {
-          font-size: 1.1rem;
-        }
-
-        .description {
-          font-size: 0.8rem;
         }
       }
 
-      @media (max-width: 480px) {
-        body {
-          padding: 1rem;
+      /* Mobile Portrait - Large (480px - 575px) */
+      @media (min-width: 480px) and (max-width: 575px) {
+        header {
+          flex-direction: column;
+          text-align: center;
+          gap: 1rem;
         }
-
+        .header-search {
+          max-width: 100%;
+          width: 100%;
+        }
+        .grid {
+          grid-template-columns: 1fr;
+          gap: 1rem;
+          padding: 0.75rem;
+        }
+        .favorites-grid {
+          grid-template-columns: 1fr;
+          gap: 1rem;
+        }
         h1 {
-          font-size: 1.8rem;
+          font-size: 1.9rem;
         }
+        .category-filter {
+          flex-wrap: wrap;
+          gap: 0.5rem;
+        }
+        .filter-btn {
+          padding: 0.5rem 1rem;
+          font-size: 0.85rem;
+        }
+        .card {
+          padding: 1.2rem;
+        }
+      }
 
+      /* Mobile Portrait - Small (320px - 479px) */
+      @media (max-width: 479px) {
+        body {
+          padding: 0.75rem;
+        }
+        header {
+          flex-direction: column;
+          text-align: center;
+          gap: 0.75rem;
+        }
+        .header-search {
+          max-width: 100%;
+          width: 100%;
+        }
+        h1 {
+          font-size: 1.6rem;
+        }
+        .grid {
+          grid-template-columns: 1fr;
+          gap: 0.75rem;
+          padding: 0.5rem;
+        }
+        .favorites-grid {
+          grid-template-columns: 1fr;
+          gap: 0.75rem;
+        }
         .category-filter {
           flex-direction: column;
-          align-items: center;
+          align-items: stretch;
+          gap: 0.4rem;
         }
-
         .filter-btn {
           width: 100%;
-          max-width: 200px;
+          padding: 0.6rem;
+          font-size: 0.9rem;
         }
-
+        .card {
+          padding: 1rem;
+        }
+        .title {
+          font-size: 1.1rem;
+        }
+        .description {
+          font-size: 0.85rem;
+        }
         .scroll-top {
           bottom: 1rem;
           right: 1rem;
-          width: 45px;
-          height: 45px;
-          font-size: 1rem;
-        }
-
-        .loading {
-          padding: 1rem;
-        }
-
-        .spinner {
           width: 40px;
           height: 40px;
+          font-size: 0.9rem;
+        }
+        .theme-btn {
+          width: 40px;
+          height: 40px;
+          font-size: 1rem;
+        }
+      }
+
+      /* Horizontal Orientation for Mobile */
+      @media (orientation: landscape) and (max-height: 500px) {
+        header {
+          margin-bottom: 1.5rem;
+        }
+        h1 {
+          font-size: 1.8rem;
+        }
+        .grid {
+          grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        }
+        .favorites-grid {
+          grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        }
+        .category-filter {
+          margin-bottom: 1rem;
         }
       }
     </style>
