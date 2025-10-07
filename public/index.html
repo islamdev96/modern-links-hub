@@ -25,6 +25,9 @@
     <meta name="twitter:description" content="بوابة شخصية من إسلام جلاب للوصول السريع إلى أهم المواقع والأدوات الرقمية." />
     <meta name="twitter:image" content="/profile.jpg" />
     <title>Islam Glab | Personal Link Hub</title>
+    <!-- Preconnect to external resources -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
@@ -203,6 +206,7 @@
         cursor: pointer;
         position: relative;
         overflow: hidden;
+        contain: layout style paint;
       }
 
       .card:hover {
@@ -292,7 +296,9 @@
       .z-ai,
       .perplexity-ai,
       .deepseek,
-      .kimi {
+      .kimi,
+      .genie-spark,
+      .monos {
         background-color: white;
         border: 1px solid #e0e0e0;
       }
@@ -300,7 +306,9 @@
       .z-ai:hover,
       .perplexity-ai:hover,
       .deepseek:hover,
-      .kimi:hover {
+      .kimi:hover,
+      .genie-spark:hover,
+      .monos:hover {
         transform: translateY(-5px);
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
       }
@@ -310,6 +318,8 @@
       .perplexity-ai .icon-image,
       .deepseek .icon-image,
       .kimi .icon-image,
+      .genie-spark .icon-image,
+      .monos .icon-image,
       .google-ai-studio .icon-image,
       .gemini .icon-image,
       .copilot .icon-image,
@@ -1399,7 +1409,7 @@
             <img
               src="icons/google-translate.svg"
               alt="Google Translate"
-              class="icon-image"
+              class="icon-image" loading="lazy"
             />
             <span class="title">Google Translate</span>
             <span class="description">ترجمة النصوص</span>
@@ -1417,7 +1427,7 @@
             <i class="fas fa-star"></i>
           </button>
           <a href="https://web.whatsapp.com/" target="_blank">
-            <img src="icons/whatsapp.svg" alt="WhatsApp" class="icon-image" />
+            <img src="icons/whatsapp.svg" alt="WhatsApp" class="icon-image" loading="lazy" />
             <span class="title">WhatsApp</span>
             <span class="description">واتساب ويب</span>
           </a>
@@ -1441,7 +1451,7 @@
             <img
               src="icons/google-docs-search.svg"
               alt="بحث جوجل دوكس"
-              class="icon-image"
+              class="icon-image" loading="lazy"
             />
             <span class="title">بحث جوجل دوكس</span>
             <span class="description">أداة البحث في مستندات جوجل</span>
@@ -1466,7 +1476,7 @@
             <img
               src="icons/number-stamp.svg"
               alt="تنسيق الأرقام"
-              class="icon-image"
+              class="icon-image" loading="lazy"
             />
             <span class="title">تنسيق الأرقام</span>
             <span class="description">أداة تنسيق وترتيب الأرقام</span>
@@ -1491,7 +1501,7 @@
             <img
               src="icons/star-factory-main.svg"
               alt="مصنع النجمة الرئيسي"
-              class="icon-image"
+              class="icon-image" loading="lazy"
             />
             <span class="title">مصنع النجمة الرئيسي</span>
             <span class="description">الصفحة الرئيسية لمصنع النجمة</span>
@@ -1516,7 +1526,7 @@
             <img
               src="icons/star-factory-main.svg"
               alt="مصنع النجمة - الصفحة الثانية"
-              class="icon-image"
+              class="icon-image" loading="lazy"
             />
             <span class="title">مصنع النجمة - صفحة 2</span>
             <span class="description">الصفحة الثانية لمصنع النجمة</span>
@@ -1541,7 +1551,7 @@
             <img
               src="icons/star-factory-main.svg"
               alt="مصنع النجمة - صفحة 3"
-              class="icon-image"
+              class="icon-image" loading="lazy"
             />
             <span class="title">مصنع النجمة - صفحة 3</span>
             <span class="description">الصفحة الثالثة لمصنع النجمة</span>
@@ -1566,7 +1576,7 @@
             <img
               src="icons/star-factory-main.svg"
               alt="مصنع النجمة - الصفحة الرابعة"
-              class="icon-image"
+              class="icon-image" loading="lazy"
             />
             <span class="title">مصنع النجمة - صفحة 4</span>
             <span class="description">الصفحة الرابعة لمصنع النجمة</span>
@@ -1591,7 +1601,7 @@
             <img
               src="icons/star-factory-main.svg"
               alt="الأرشيف"
-              class="icon-image"
+              class="icon-image" loading="lazy"
             />
             <span class="title">الأرشيف</span>
             <span class="description">أرشيف مصنع النجمة</span>
@@ -1616,7 +1626,7 @@
             <img
               src="icons/google-drive.svg"
               alt="جوجل درايف"
-              class="icon-image"
+              class="icon-image" loading="lazy"
             />
             <span class="title">جوجل درايف</span>
             <span class="description">تخزين ملفات مصنع النجمة</span>
@@ -1636,7 +1646,7 @@
             <i class="fas fa-star"></i>
           </button>
           <a href="https://claude.ai/new" target="_blank">
-            <img src="icons/claude.svg" alt="Claude" class="icon-image" />
+            <img src="icons/claude.svg" alt="Claude" class="icon-image" loading="lazy" />
             <span class="title">Claude</span>
             <span class="description">مساعد ذكي متقدم</span>
           </a>
@@ -1654,7 +1664,7 @@
             <i class="fas fa-star"></i>
           </button>
           <a href="https://chatgpt.com/" target="_blank">
-            <img src="icons/chatgpt.svg" alt="ChatGPT" class="icon-image" />
+            <img src="icons/chatgpt.svg" alt="ChatGPT" class="icon-image" loading="lazy" />
             <span class="title">ChatGPT</span>
             <span class="description">مساعد ذكي من OpenAI</span>
           </a>
@@ -1672,7 +1682,7 @@
             <i class="fas fa-star"></i>
           </button>
           <a href="https://chat.z.ai/" target="_blank">
-            <img src="icons/z-ai.svg" alt="Z.ai" class="icon-image" />
+            <img src="icons/z-ai.svg" alt="Z.ai" class="icon-image" loading="lazy" />
             <span class="title">Z.ai</span>
             <span class="description">مساعد ذكي سريع</span>
           </a>
@@ -1693,7 +1703,7 @@
             <img
               src="icons/perplexity.svg"
               alt="Perplexity"
-              class="icon-image"
+              class="icon-image" loading="lazy"
             />
             <span class="title">Perplexity</span>
             <span class="description">بحث ذكي متقدم</span>
@@ -1712,7 +1722,7 @@
             <i class="fas fa-star"></i>
           </button>
           <a href="https://chat.deepseek.com/" target="_blank">
-            <img src="icons/deepseek.svg" alt="DeepSeek" class="icon-image" />
+            <img src="icons/deepseek.svg" alt="DeepSeek" class="icon-image" loading="lazy" />
             <span class="title">DeepSeek</span>
             <span class="description">مساعد ذكي متخصص</span>
           </a>
@@ -1730,7 +1740,7 @@
             <i class="fas fa-star"></i>
           </button>
           <a href="https://www.kimi.com/" target="_blank">
-            <img src="icons/kimi.svg" alt="Kimi" class="icon-image" />
+            <img src="icons/kimi.svg" alt="Kimi" class="icon-image" loading="lazy" />
             <span class="title">Kimi</span>
             <span class="description">مساعد ذكي سريع</span>
           </a>
@@ -1754,7 +1764,7 @@
             <img
               src="icons/google-ai-studio.svg"
               alt="Google AI Studio"
-              class="icon-image"
+              class="icon-image" loading="lazy"
             />
             <span class="title">Google AI Studio</span>
             <span class="description">أدوات الذكاء الاصطناعي من Google</span>
@@ -1773,7 +1783,7 @@
             <i class="fas fa-star"></i>
           </button>
           <a href="https://gemini.google.com/" target="_blank">
-            <img src="icons/gemini.svg" alt="Gemini" class="icon-image" />
+            <img src="icons/gemini.svg" alt="Gemini" class="icon-image" loading="lazy" />
             <span class="title">Gemini</span>
             <span class="description">مساعد Google الذكي</span>
           </a>
@@ -1794,10 +1804,54 @@
             <img
               src="icons/copilot.svg"
               alt="Microsoft Copilot"
-              class="icon-image"
+              class="icon-image" loading="lazy"
             />
             <span class="title">Microsoft Copilot</span>
             <span class="description">مساعد Microsoft الذكي</span>
+          </a>
+        </div>
+
+        <div
+          class="card genie-spark"
+          data-category="ai"
+          data-url="https://www.genie.ai/"
+          data-title="Genie Spark"
+          data-description="مساعد ذكي متطور"
+          data-icon="icons/genie-spark.svg"
+        >
+          <button class="favorite-btn" title="إضافة للمفضلة">
+            <i class="fas fa-star"></i>
+          </button>
+          <a href="https://www.genie.ai/" target="_blank">
+            <img
+              src="icons/genie-spark.svg"
+              alt="Genie Spark"
+              class="icon-image" loading="lazy"
+            />
+            <span class="title">Genie Spark</span>
+            <span class="description">مساعد ذكي متطور</span>
+          </a>
+        </div>
+
+        <div
+          class="card monos"
+          data-category="ai"
+          data-url="https://monos.ai/"
+          data-title="Monos"
+          data-description="أداة ذكاء اصطناعي مبتكرة"
+          data-icon="icons/monos.svg"
+        >
+          <button class="favorite-btn" title="إضافة للمفضلة">
+            <i class="fas fa-star"></i>
+          </button>
+          <a href="https://monos.ai/" target="_blank">
+            <img
+              src="icons/monos.svg"
+              alt="Monos"
+              class="icon-image" loading="lazy"
+            />
+            <span class="title">Monos</span>
+            <span class="description">أداة ذكاء اصطناعي مبتكرة</span>
           </a>
         </div>
 
@@ -1814,7 +1868,7 @@
             <i class="fas fa-star"></i>
           </button>
           <a href="https://www.youtube.com" target="_blank">
-            <img src="icons/youtube.svg" alt="YouTube" class="icon-image" />
+            <img src="icons/youtube.svg" alt="YouTube" class="icon-image" loading="lazy" />
             <span class="title">YouTube</span>
             <span class="description">مقاطع الفيديو والتعليم</span>
           </a>
@@ -1832,7 +1886,7 @@
             <i class="fas fa-star"></i>
           </button>
           <a href="https://www.facebook.com" target="_blank">
-            <img src="icons/facebook.svg" alt="Facebook" class="icon-image" />
+            <img src="icons/facebook.svg" alt="Facebook" class="icon-image" loading="lazy" />
             <span class="title">Facebook</span>
             <span class="description">التواصل الاجتماعي</span>
           </a>
@@ -1850,7 +1904,7 @@
             <i class="fas fa-star"></i>
           </button>
           <a href="https://www.linkedin.com/" target="_blank">
-            <img src="icons/linkedin.svg" alt="LinkedIn" class="icon-image" />
+            <img src="icons/linkedin.svg" alt="LinkedIn" class="icon-image" loading="lazy" />
             <span class="title">LinkedIn</span>
             <span class="description">الشبكة المهنية</span>
           </a>
@@ -1869,7 +1923,7 @@
             <i class="fas fa-star"></i>
           </button>
           <a href="https://github.com/" target="_blank">
-            <img src="icons/github.svg" alt="GitHub" class="icon-image" />
+            <img src="icons/github.svg" alt="GitHub" class="icon-image" loading="lazy" />
             <span class="title">GitHub</span>
             <span class="description">استضافة الكود والتعاون</span>
           </a>
@@ -1891,7 +1945,7 @@
             <img
               src="icons/google-search.svg"
               alt="Google"
-              class="icon-image"
+              class="icon-image" loading="lazy"
             />
             <span class="title">Google</span>
             <span class="description">محرك البحث</span>
@@ -1910,7 +1964,7 @@
             <i class="fas fa-star"></i>
           </button>
           <a href="https://www.notion.so/" target="_blank">
-            <img src="icons/notion.svg" alt="Notion" class="icon-image" />
+            <img src="icons/notion.svg" alt="Notion" class="icon-image" loading="lazy" />
             <span class="title">Notion</span>
             <span class="description">أداة الإنتاجية</span>
           </a>
@@ -1928,7 +1982,7 @@
             <i class="fas fa-star"></i>
           </button>
           <a href="https://192.168.1.1/" target="_blank">
-            <img src="icons/router.svg" alt="الراوتر" class="icon-image" />
+            <img src="icons/router.svg" alt="الراوتر" class="icon-image" loading="lazy" />
             <span class="title">الراوتر</span>
             <span class="description">إعدادات الراوتر والشبكة</span>
           </a>

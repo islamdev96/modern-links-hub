@@ -41,6 +41,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Update card counters
     updateCardCounters();
+    
+    // Re-update counters when favorites change
+    const originalToggleFavorite = toggleFavorite;
+    window.addEventListener('storage', (e) => {
+        if (e.key === 'linkHubFavorites') {
+            favorites = JSON.parse(e.newValue || '[]');
+            loadFavorites();
+            updateCardCounters();
+        }
+    });
 
     // Initialize lazy loading for images  
     initLazyLoading();
@@ -209,6 +219,9 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Update favorites display
         loadFavorites();
+        
+        // Update card counters
+        updateCardCounters();
         
         // If currently showing favorites filter, update the view
         if (currentFilter === 'favorites') {
@@ -425,6 +438,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Drag and Drop functionality
     let draggedElement = null;
     let draggedIndex = null;
+    
+    // Touch drag variables
+    let touchDraggedElement = null;
+    let touchStartPos = { x: 0, y: 0 };
+    let touchCurrentPos = { x: 0, y: 0 };
 
     function addDragAndDropListeners(card) {
         // Mouse drag events
@@ -501,6 +519,17 @@ document.addEventListener('DOMContentLoaded', () => {
         cards.forEach(card => {
             card.classList.remove('dragging', 'drag-over');
         });
+    }
+    
+    function handleTouchStart(e) {
+        // Don't interfere with scrolling if not dragging
+        const target = e.target.closest('.card');
+        if (!target) return;
+        
+        touchDraggedElement = target;
+        const touch = e.touches[0];
+        touchStartPos = { x: touch.clientX, y: touch.clientY };
+        
         // Add visual feedback after a delay
         setTimeout(() => {
             if (touchDraggedElement) {
@@ -574,6 +603,71 @@ document.addEventListener('DOMContentLoaded', () => {
         const cards = favoritesGrid.querySelectorAll('.card');
         cards.forEach(card => card.classList.remove('drag-over'));
         
+        touchDraggedElement = null;
+        touchStartPos = { x: 0, y: 0 };
+        touchCurrentPos = { x: 0, y: 0 };
+    }
+    
+    // Update card counters for filter buttons
+    function updateCardCounters() {
+        filterBtns.forEach(btn => {
+            const category = btn.getAttribute('data-category');
+            let count = 0;
+            
+            if (category === 'all') {
+                count = cards.length;
+            } else if (category === 'favorites') {
+                count = favorites.length;
+            } else {
+                count = Array.from(cards).filter(card => 
+                    card.getAttribute('data-category') === category
+                ).length;
+            }
+            
+            // Update or create badge
+            let badge = btn.querySelector('.badge');
+            if (!badge) {
+                badge = document.createElement('span');
+                badge.className = 'badge';
+                btn.appendChild(badge);
+            }
+            badge.textContent = count;
+        });
+    }
+    
+    // Initialize lazy loading for images
+    function initLazyLoading() {
+        const images = document.querySelectorAll('.icon-image');
+        
+        if ('IntersectionObserver' in window) {
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.addEventListener('load', () => {
+                            img.classList.add('loaded');
+                        });
+                        // If already loaded
+                        if (img.complete) {
+                            img.classList.add('loaded');
+                        }
+                        observer.unobserve(img);
+                    }
+                });
+            });
+            
+            images.forEach(img => imageObserver.observe(img));
+        } else {
+            // Fallback for browsers without IntersectionObserver
+            images.forEach(img => {
+                img.addEventListener('load', () => {
+                    img.classList.add('loaded');
+                });
+                if (img.complete) {
+                    img.classList.add('loaded');
+                }
+            });
+        }
     }
 
     // Register Service Worker
