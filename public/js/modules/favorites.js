@@ -3,10 +3,11 @@
  * نظام المفضلة المحسّن
  */
 
-import { safeLocalStorageGet, safeLocalStorageSet, showToast, openLink, getCardIcon } from './utils.js';
+import { safeLocalStorageGet, safeLocalStorageSet, showToast, openLink } from './utils.js';
 import { getCardData, getAllCards } from './cards.js';
+import { SELECTORS, ANIMATIONS } from '../constants.js';
+import { APP_CONFIG } from '../config.js';
 
-const FAVORITES_KEY = 'linkHubFavorites';
 let favorites = [];
 let favoritesSection = null;
 let favoritesGrid = null;
@@ -16,46 +17,34 @@ let favoritesGrid = null;
  * تهيئة نظام المفضلة
  */
 export function initializeFavorites() {
-    favoritesSection = document.getElementById('favoritesSection');
-    favoritesGrid = document.getElementById('favoritesGrid');
+    favoritesSection = document.querySelector(SELECTORS.FAVORITES_SECTION);
+    favoritesGrid = document.querySelector(SELECTORS.FAVORITES_GRID);
     
     if (!favoritesSection || !favoritesGrid) return;
 
-    // Load favorites from localStorage
     loadFavoritesFromStorage();
-
-    // Add favorite buttons to all cards
     addFavoriteButtonsToCards();
-
-    // Display favorites
     displayFavorites();
 
-    // Listen to storage changes (for multi-tab sync)
-    window.addEventListener('storage', handleStorageChange);
-}
-
-/**
- * Load favorites from localStorage
- * تحميل المفضلة من localStorage
- */
-function loadFavoritesFromStorage() {
-    const stored = safeLocalStorageGet(FAVORITES_KEY, []);
-    
-    // Validate it's an array
-    if (Array.isArray(stored)) {
-        favorites = stored;
-    } else {
-        favorites = [];
-        saveFavoritesToStorage();
+    if (APP_CONFIG.features.multiTabSync) {
+        window.addEventListener('storage', handleStorageChange);
     }
 }
 
 /**
+ * Load favorites from localStorage
+ */
+function loadFavoritesFromStorage() {
+    const stored = safeLocalStorageGet(APP_CONFIG.storage.favorites, []);
+    favorites = Array.isArray(stored) ? stored : [];
+    if (!Array.isArray(stored)) saveFavoritesToStorage();
+}
+
+/**
  * Save favorites to localStorage
- * حفظ المفضلة في localStorage
  */
 function saveFavoritesToStorage() {
-    safeLocalStorageSet(FAVORITES_KEY, favorites);
+    safeLocalStorageSet(APP_CONFIG.storage.favorites, favorites);
 }
 
 /**
@@ -72,12 +61,10 @@ function addFavoriteButtonsToCards() {
 
 /**
  * Add favorite button to a card
- * إضافة زر المفضلة لبطاقة
  * @param {HTMLElement} card - Card element
  */
 function addFavoriteButton(card) {
-    // Check if button already exists
-    let favoriteBtn = card.querySelector('.favorite-btn');
+    let favoriteBtn = card.querySelector(SELECTORS.FAVORITE_BTN);
     
     if (!favoriteBtn) {
         favoriteBtn = document.createElement('button');
@@ -88,12 +75,9 @@ function addFavoriteButton(card) {
         card.insertBefore(favoriteBtn, card.firstChild);
     }
 
-    // Update button state
     const url = card.getAttribute('data-url');
-    const isFavorited = isFavorite(url);
-    updateFavoriteButton(favoriteBtn, isFavorited);
+    updateFavoriteButton(favoriteBtn, isFavorite(url));
 
-    // Add event listener
     favoriteBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         toggleFavorite(card);
@@ -116,45 +100,35 @@ export function toggleFavorite(card) {
         removeFavorite(url);
         showToast('info', 'تم إزالة من المفضلة');
     } else {
-        // ✅ FIX: Get icon from actual image, not data-icon
-        const iconElement = card.querySelector('.icon-image');
-        if (iconElement && iconElement.src) {
-            cardData.icon = iconElement.src;
-        }
+        const iconElement = card.querySelector(SELECTORS.ICON_IMAGE);
+        if (iconElement?.src) cardData.icon = iconElement.src;
         
         addFavorite(cardData);
         showToast('success', 'تم الإضافة للمفضلة');
     }
 
-    // Update UI
-    const favoriteBtn = card.querySelector('.favorite-btn');
+    const favoriteBtn = card.querySelector(SELECTORS.FAVORITE_BTN);
     updateFavoriteButton(favoriteBtn, !isFavorited);
     displayFavorites();
 }
 
 /**
  * Add to favorites
- * إضافة للمفضلة
  * @param {Object} cardData - Card data object
  */
 function addFavorite(cardData) {
-    // Check if already exists
-    if (isFavorite(cardData.url)) {
-        return;
-    }
+    if (isFavorite(cardData.url)) return;
 
     favorites.push({
         ...cardData,
         id: Date.now(),
         addedAt: new Date().toISOString()
     });
-
     saveFavoritesToStorage();
 }
 
 /**
  * Remove from favorites
- * إزالة من المفضلة
  * @param {string} url - Card URL
  */
 function removeFavorite(url) {
@@ -282,11 +256,10 @@ function updateAllFavoriteButtons() {
 
 /**
  * Handle storage changes (multi-tab sync)
- * معالجة تغييرات localStorage (مزامنة التبويبات)
  * @param {StorageEvent} event - Storage event
  */
 function handleStorageChange(event) {
-    if (event.key === FAVORITES_KEY) {
+    if (event.key === APP_CONFIG.storage.favorites) {
         loadFavoritesFromStorage();
         displayFavorites();
         updateAllFavoriteButtons();

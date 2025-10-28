@@ -3,30 +3,25 @@
  * دوال مشتركة لتقليل التكرار في الكود
  */
 
+import { TOAST_ICONS, SELECTORS } from '../constants.js';
+import { APP_CONFIG } from '../config.js';
+
 /**
  * Open a link safely in a new tab
- * دالة موحدة لفتح الروابط بشكل آمن
- * 
  * @param {string} url - The URL to open
  * @returns {boolean} - Success status
  */
 export function openLink(url) {
-    if (!url) {
-        console.error('No URL provided');
-        return false;
-    }
+    if (!url) return false;
 
     try {
         const win = window.open(url, '_blank', 'noopener,noreferrer');
         if (win) {
             win.opener = null;
             return true;
-        } else {
-            console.warn('Popup blocked or window not opened');
-            return false;
         }
+        return false;
     } catch (error) {
-        console.error('Error opening link:', error);
         showToast('error', 'غير قادر على فتح الرابط');
         return false;
     }
@@ -34,28 +29,23 @@ export function openLink(url) {
 
 /**
  * Show a toast notification
- * عرض إشعار مؤقت
- * 
  * @param {string} type - Type of toast: 'success', 'error', 'info'
  * @param {string} message - Message to display
- * @param {number} duration - Duration in milliseconds (default: 3000)
+ * @param {number} duration - Duration in milliseconds
  */
-export function showToast(type = 'info', message = '', duration = 3000) {
-    const container = document.getElementById('toastContainer');
+export function showToast(type = 'info', message = '', duration = APP_CONFIG.defaults.toastDuration) {
+    const container = document.querySelector(SELECTORS.TOAST_CONTAINER);
     if (!container) return;
 
     const toast = document.createElement('div');
     toast.className = `toast ${type}`;
-    
-    const icon = getToastIcon(type);
     toast.innerHTML = `
-        <i class="${icon}"></i>
+        <i class="${TOAST_ICONS[type] || TOAST_ICONS.info}"></i>
         <span>${message}</span>
     `;
 
     container.appendChild(toast);
 
-    // Auto remove after duration
     setTimeout(() => {
         toast.style.opacity = '0';
         setTimeout(() => toast.remove(), 300);
@@ -63,22 +53,7 @@ export function showToast(type = 'info', message = '', duration = 3000) {
 }
 
 /**
- * Get icon class for toast type
- * @private
- */
-function getToastIcon(type) {
-    const icons = {
-        success: 'fas fa-check-circle',
-        error: 'fas fa-exclamation-circle',
-        info: 'fas fa-info-circle'
-    };
-    return icons[type] || icons.info;
-}
-
-/**
  * Safely parse JSON from localStorage
- * قراءة آمنة من localStorage مع معالجة الأخطاء
- * 
  * @param {string} key - localStorage key
  * @param {*} defaultValue - Default value if parsing fails
  * @returns {*} - Parsed value or default
@@ -86,38 +61,26 @@ function getToastIcon(type) {
 export function safeLocalStorageGet(key, defaultValue = null) {
     try {
         const stored = localStorage.getItem(key);
-        if (stored) {
-            const parsed = JSON.parse(stored);
-            return parsed;
-        }
-        return defaultValue;
+        return stored ? JSON.parse(stored) : defaultValue;
     } catch (error) {
-        console.error(`Error reading from localStorage (${key}):`, error);
-        // Clean up corrupted data
         try {
             localStorage.removeItem(key);
-        } catch (e) {
-            console.error('Cannot remove corrupted localStorage item:', e);
-        }
+        } catch (e) {}
         return defaultValue;
     }
 }
 
 /**
  * Safely save JSON to localStorage
- * حفظ آمن في localStorage
- * 
  * @param {string} key - localStorage key
  * @param {*} value - Value to save
  * @returns {boolean} - Success status
  */
 export function safeLocalStorageSet(key, value) {
     try {
-        const json = JSON.stringify(value);
-        localStorage.setItem(key, json);
+        localStorage.setItem(key, JSON.stringify(value));
         return true;
     } catch (error) {
-        console.error(`Error writing to localStorage (${key}):`, error);
         if (error.name === 'QuotaExceededError') {
             showToast('error', 'مساحة التخزين ممتلئة');
         }
@@ -127,49 +90,34 @@ export function safeLocalStorageSet(key, value) {
 
 /**
  * Debounce function to limit execution rate
- * تأخير تنفيذ الدالة لتقليل الأداء الزائد
- * 
  * @param {Function} func - Function to debounce
  * @param {number} wait - Wait time in milliseconds
  * @returns {Function} - Debounced function
  */
-export function debounce(func, wait = 300) {
+export function debounce(func, wait = APP_CONFIG.defaults.searchDebounce) {
     let timeout;
     return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
         clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
+        timeout = setTimeout(() => func(...args), wait);
     };
 }
 
 /**
  * Get icon URL from card
- * الحصول على رابط الأيقونة من البطاقة
- * 
  * @param {HTMLElement} card - Card element
  * @returns {string} - Icon URL
  */
 export function getCardIcon(card) {
-    // Try to get from img src first (most reliable)
-    const imgElement = card.querySelector('.icon-image');
-    if (imgElement && imgElement.src) {
-        return imgElement.src;
-    }
+    const imgElement = card.querySelector(SELECTORS.ICON_IMAGE);
+    if (imgElement?.src) return imgElement.src;
     
-    // Fallback to data-icon attribute
     const dataIcon = card.getAttribute('data-icon');
     if (dataIcon) {
-        // If it's a relative path, convert to absolute
-        if (!dataIcon.startsWith('http')) {
-            return new URL(dataIcon, window.location.origin).href;
-        }
-        return dataIcon;
+        return dataIcon.startsWith('http') 
+            ? dataIcon 
+            : new URL(dataIcon, window.location.origin).href;
     }
     
-    // Fallback to default icon
     return '/icons/default.svg';
 }
 

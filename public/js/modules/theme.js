@@ -4,9 +4,10 @@
  */
 
 import { safeLocalStorageGet, safeLocalStorageSet } from './utils.js';
+import { THEMES, SELECTORS } from '../constants.js';
+import { APP_CONFIG } from '../config.js';
 
-const THEME_KEY = 'theme';
-let currentTheme = 'light';
+let currentTheme = THEMES.LIGHT;
 let themeToggleBtn = null;
 
 /**
@@ -14,40 +15,31 @@ let themeToggleBtn = null;
  * تهيئة نظام الثيم
  */
 export function initializeTheme() {
-    themeToggleBtn = document.getElementById('themeToggle');
+    themeToggleBtn = document.querySelector(SELECTORS.THEME_TOGGLE);
     if (!themeToggleBtn) return;
 
-    // Load saved theme
-    currentTheme = safeLocalStorageGet(THEME_KEY, 'light');
+    currentTheme = safeLocalStorageGet(APP_CONFIG.storage.theme, THEMES.LIGHT);
     applyTheme(currentTheme);
-
-    // Setup event listener
     themeToggleBtn.addEventListener('click', toggleTheme);
 }
 
 /**
  * Toggle between light and dark theme
- * التبديل بين الوضع المضيء والداكن
  */
 export function toggleTheme() {
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    setTheme(newTheme);
+    setTheme(currentTheme === THEMES.DARK ? THEMES.LIGHT : THEMES.DARK);
 }
 
 /**
  * Set theme
- * تعيين الثيم
  * @param {string} theme - 'light' or 'dark'
  */
 export function setTheme(theme) {
-    if (theme !== 'light' && theme !== 'dark') {
-        console.error('Invalid theme:', theme);
-        return;
-    }
+    if (theme !== THEMES.LIGHT && theme !== THEMES.DARK) return;
 
     currentTheme = theme;
     applyTheme(theme);
-    safeLocalStorageSet(THEME_KEY, theme);
+    safeLocalStorageSet(APP_CONFIG.storage.theme, theme);
 }
 
 /**
@@ -62,7 +54,6 @@ function applyTheme(theme) {
 
 /**
  * Update theme toggle icon
- * تحديث أيقونة زر الثيم
  * @param {string} theme - Current theme
  */
 function updateThemeIcon(theme) {
@@ -71,15 +62,11 @@ function updateThemeIcon(theme) {
     const icon = themeToggleBtn.querySelector('i');
     if (!icon) return;
 
-    if (theme === 'dark') {
-        icon.className = 'fas fa-sun';
-        themeToggleBtn.title = 'تبديل للوضع المضيء';
-        themeToggleBtn.setAttribute('aria-label', 'تبديل للوضع المضيء');
-    } else {
-        icon.className = 'fas fa-moon';
-        themeToggleBtn.title = 'تبديل للوضع المظلم';
-        themeToggleBtn.setAttribute('aria-label', 'تبديل للوضع المظلم');
-    }
+    const isDark = theme === THEMES.DARK;
+    icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+    const label = isDark ? 'تبديل للوضع المضيء' : 'تبديل للوضع المظلم';
+    themeToggleBtn.title = label;
+    themeToggleBtn.setAttribute('aria-label', label);
 }
 
 /**
@@ -93,23 +80,20 @@ export function getCurrentTheme() {
 
 /**
  * Check if dark mode is active
- * التحقق من تفعيل الوضع الداكن
  * @returns {boolean} - Is dark mode active
  */
 export function isDarkMode() {
-    return currentTheme === 'dark';
+    return currentTheme === THEMES.DARK;
 }
 
 /**
  * Auto-detect system theme preference
- * اكتشاف تفضيل النظام تلقائياً
  * @returns {string} - 'light' or 'dark'
  */
 export function getSystemTheme() {
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        return 'dark';
-    }
-    return 'light';
+    return window.matchMedia?.('(prefers-color-scheme: dark)').matches 
+        ? THEMES.DARK 
+        : THEMES.LIGHT;
 }
 
 /**

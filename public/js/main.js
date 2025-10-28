@@ -110,13 +110,7 @@ function initializeLazyLoading() {
 function registerServiceWorker() {
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/sw.js')
-                .then(registration => {
-                    console.log('✅ SW registered:', registration.scope);
-                })
-                .catch(error => {
-                    console.warn('❌ SW registration failed:', error);
-                });
+            navigator.serviceWorker.register('/sw.js').catch(() => {});
         });
     }
 }
@@ -138,13 +132,8 @@ function setupScrollToTop() {
     });
 
     scrollBtn.addEventListener('click', () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     });
-
-    console.log('✅ Scroll to top initialized');
 }
 
 /**
