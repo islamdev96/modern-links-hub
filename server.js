@@ -38,9 +38,35 @@ function sendFile(res, filePath, statusCode = 200) {
 }
 
 const server = http.createServer((req, res) => {
+  // Add security headers
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'DENY');
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+
   // Normalize URL and prevent directory traversal
-  const safePath = path.normalize(decodeURI(req.url.split('?')[0])).replace(/^\/+/, '/');
+  let safePath;
+  try {
+    safePath = decodeURIComponent(req.url.split('?')[0]);
+  } catch (e) {
+    res.writeHead(400, { 'Content-Type': 'text/plain; charset=UTF-8' });
+    res.end('Bad Request');
+    return;
+  }
+
+  // Remove multiple slashes and normalize
+  safePath = path.normalize(safePath).replace(/^(\.\.\/)+/, '/');
+  
+  // Ensure the path doesn't escape publicDir
   let filePath = path.join(publicDir, safePath);
+  const resolvedPath = path.resolve(filePath);
+  const resolvedPublicDir = path.resolve(publicDir);
+  
+  if (!resolvedPath.startsWith(resolvedPublicDir)) {
+    res.writeHead(403, { 'Content-Type': 'text/plain; charset=UTF-8' });
+    res.end('Forbidden');
+    return;
+  }
 
   // If directory, serve index.html
   if (safePath === '/' || safePath.endsWith('/')) {

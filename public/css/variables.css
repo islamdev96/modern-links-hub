@@ -1,0 +1,44 @@
+/**
+ * CSS Variables and Themes
+ * المتغيرات والثيمات
+ */
+
+:root {
+  --primary-color: #4a90e2;
+  --hover-color: #357abd;
+  --background-color: #f0f2f5;
+  --background-gradient: #ffffff;
+  --card-background: #ffffff;
+  --text-color: #333333;
+  --secondary-text: #666666;
+  --border-color: #e0e0e0;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --shadow-hover: rgba(0, 0, 0, 0.2);
+  --gradient-start: #6e48aa;
+  --gradient-end: #9d50bb;
+  --search-bg: #ffffff;
+  --loading-bg: #f0f2f5;
+}
+
+[data-theme="dark"] {
+  --primary-color: #5ba3f5;
+  --hover-color: #4a90e2;
+  --background-color: #0f1419;
+  --background-gradient: #1a1f2e;
+  --card-background: #1e2328;
+  --text-color: #e6e6e6;
+  --secondary-text: #a0a0a0;
+  --border-color: #2d3748;
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  --shadow-hover: rgba(0, 0, 0, 0.5);
+  --gradient-start: #667eea;
+  --gradient-end: #764ba2;
+  --search-bg: #2d3748;
+  --loading-bg: #0f1419;
+}
+
+/* Smooth theme transition */
+* {
+  transition: background-color 0.3s ease, border-color 0.3s ease,
+    color 0.3s ease, box-shadow 0.3s ease;
+}
