@@ -39,8 +39,9 @@ function ensureCardData(card) {
     const description = card.querySelector('.description')?.textContent || '';
     const url = link.getAttribute('href') || '';
     
-    // ✅ FIX: Get icon from actual img src, not data-icon
-    const icon = getCardIcon(card);
+    // ✅ FIX: ALWAYS get icon from img.src (the actual loaded image)
+    const imgElement = card.querySelector('.icon-image');
+    const icon = imgElement?.src || '';
     
     // Set attributes only if missing
     if (!card.getAttribute('data-url')) {
@@ -52,7 +53,7 @@ function ensureCardData(card) {
     if (!card.getAttribute('data-description')) {
         card.setAttribute('data-description', description);
     }
-    // ✅ FIX: Update data-icon to match actual icon
+    // ✅ FIX: ALWAYS update data-icon to match the actual img.src
     if (icon) {
         card.setAttribute('data-icon', icon);
     }
@@ -286,11 +287,15 @@ export function sortCards(criteria = 'name', ascending = true) {
  * @returns {Object} - Card data
  */
 export function getCardData(card) {
+    // ✅ FIX: Always get fresh icon from img element
+    const iconElement = card.querySelector('.icon-image');
+    const icon = iconElement?.src || card.getAttribute('data-icon') || '';
+    
     return {
         url: card.getAttribute('data-url') || '',
         title: card.getAttribute('data-title') || '',
         description: card.getAttribute('data-description') || '',
-        icon: card.getAttribute('data-icon') || '',
+        icon: icon,
         category: card.getAttribute('data-category') || ''
     };
 }

@@ -1,11 +1,8 @@
-// Simple static file server for the Link Hub (no external deps)
-// Serves files from the /public directory and supports SPA fallback
-
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 const publicDir = path.join(__dirname, 'public');
 
 const mimeTypes = {
@@ -38,13 +35,20 @@ function sendFile(res, filePath, statusCode = 200) {
 }
 
 const server = http.createServer((req, res) => {
-  // Add security headers
   res.setHeader('X-Content-Type-Options', 'nosniff');
   res.setHeader('X-Frame-Options', 'DENY');
   res.setHeader('X-XSS-Protection', '1; mode=block');
   res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
-
-  // Normalize URL and prevent directory traversal
+  res.setHeader('Permissions-Policy', 'geolocation=(), microphone=(), camera=()');
+  res.setHeader('Content-Security-Policy', 
+    "default-src 'self'; " +
+    "script-src 'self' 'unsafe-inline'; " +
+    "style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; " +
+    "img-src 'self' data:; " +
+    "font-src 'self' https://cdnjs.cloudflare.com; " +
+    "connect-src 'self' https://cdnjs.cloudflare.com; " +
+    "frame-ancestors 'none';"
+  );
   let safePath;
   try {
     safePath = decodeURIComponent(req.url.split('?')[0]);
@@ -53,22 +57,15 @@ const server = http.createServer((req, res) => {
     res.end('Bad Request');
     return;
   }
-
-  // Remove multiple slashes and normalize
   safePath = path.normalize(safePath).replace(/^(\.\.\/)+/, '/');
-  
-  // Ensure the path doesn't escape publicDir
   let filePath = path.join(publicDir, safePath);
   const resolvedPath = path.resolve(filePath);
   const resolvedPublicDir = path.resolve(publicDir);
-  
   if (!resolvedPath.startsWith(resolvedPublicDir)) {
     res.writeHead(403, { 'Content-Type': 'text/plain; charset=UTF-8' });
     res.end('Forbidden');
     return;
   }
-
-  // If directory, serve index.html
   if (safePath === '/' || safePath.endsWith('/')) {
     filePath = path.join(publicDir, 'index.html');
   }
@@ -77,8 +74,6 @@ const server = http.createServer((req, res) => {
     if (!err && stats.isFile()) {
       return sendFile(res, filePath);
     }
-
-    // Try SPA fallback to index.html for unknown routes
     const indexPath = path.join(publicDir, 'index.html');
     fs.stat(indexPath, (indexErr, indexStats) => {
       if (!indexErr && indexStats.isFile()) {

@@ -1,58 +1,42 @@
-/**
- * Main Entry Point
- * نقطة الدخول الرئيسية للتطبيق
- */
-
 import { initializeTheme } from './modules/theme.js';
 import { initializeCards } from './modules/cards.js';
 import { initializeFavorites, getFavorites } from './modules/favorites.js';
 import { initializeSearch, updateFavoritesCounter } from './modules/search.js';
+import { initializeKeyboardShortcuts } from './modules/keyboard.js';
+import { initializeRecent } from './modules/recent.js';
 
-/**
- * Initialize application
- * تهيئة التطبيق
- */
 async function initializeApp() {
     try {
-        // Initialize theme first (fastest)
         initializeTheme();
-
-        // Initialize cards
         initializeCards();
 
-        // Initialize search and filters
+        await new Promise(resolve => setTimeout(resolve, 50));
         initializeSearch();
 
-        // Initialize favorites (depends on cards)
-        initializeFavorites();
+        try {
+            setTimeout(() => {
+                try {
+                    initializeFavorites();
 
-        // Update favorites counter
-        const favorites = getFavorites();
-        updateFavoritesCounter(favorites.length);
+                    const favorites = getFavorites();
+                    if (favorites && Array.isArray(favorites)) {
+                        updateFavoritesCounter(favorites.length);
+                    }
+                } catch (favoritesError) {}
+            }, 100);
+        } catch (favoritesError) {}
 
-        // Initialize lazy loading for images
+        initializeKeyboardShortcuts();
+        initializeRecent();
         initializeLazyLoading();
-
-        // Setup service worker
         registerServiceWorker();
-
-        // Setup scroll to top button
         setupScrollToTop();
-
-        // Mark body as loaded
         document.body.classList.add('loaded');
-
-        // Hide loading screen
         hideLoadingScreen();
-    } catch (error) {
-        console.error('Failed to initialize app:', error);
+    } catch (error) {hideLoadingScreen();
     }
 }
 
-/**
- * Initialize lazy loading for images
- * تهيئة التحميل الكسول للصور
- */
 function initializeLazyLoading() {
     const images = document.querySelectorAll('.icon-image');
 
@@ -61,19 +45,13 @@ function initializeLazyLoading() {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     const img = entry.target;
-
-                    // Handle successful load
                     img.addEventListener('load', () => {
                         img.classList.add('loaded');
                     });
-
-                    // Handle load errors
                     img.addEventListener('error', () => {
                         img.classList.add('loaded');
                         img.style.opacity = '0.5';
                     });
-
-                    // If already loaded
                     if (img.complete) {
                         img.classList.add('loaded');
                     }
@@ -85,7 +63,6 @@ function initializeLazyLoading() {
 
         images.forEach(img => imageObserver.observe(img));
     } else {
-        // Fallback for browsers without IntersectionObserver
         images.forEach(img => {
             img.addEventListener('load', () => {
                 img.classList.add('loaded');
@@ -103,10 +80,6 @@ function initializeLazyLoading() {
 
 }
 
-/**
- * Register service worker
- * تسجيل service worker
- */
 function registerServiceWorker() {
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
@@ -115,10 +88,6 @@ function registerServiceWorker() {
     }
 }
 
-/**
- * Setup scroll to top button
- * إعداد زر العودة للأعلى
- */
 function setupScrollToTop() {
     const scrollBtn = document.querySelector('.scroll-top');
     if (!scrollBtn) return;
@@ -136,10 +105,6 @@ function setupScrollToTop() {
     });
 }
 
-/**
- * Hide loading screen
- * إخفاء شاشة التحميل
- */
 function hideLoadingScreen() {
     const loading = document.querySelector('.loading');
     if (!loading) return;
@@ -152,26 +117,16 @@ function hideLoadingScreen() {
     }, 1000);
 }
 
-/**
- * Handle errors globally
- * معالجة الأخطاء عامة
- */
-window.addEventListener('error', (event) => {
-    console.error('Global error:', event.error);
-});
+window.addEventListener('error', (event) => {});
 
-window.addEventListener('unhandledrejection', (event) => {
-    console.error('Unhandled promise rejection:', event.reason);
-});
+window.addEventListener('unhandledrejection', (event) => {});
 
-// Start the app when DOM is ready
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initializeApp);
 } else {
     initializeApp();
 }
 
-// Export for debugging
 window.ModernLinksHub = {
     version: '2.0.0',
     initializeApp

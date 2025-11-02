@@ -1,72 +1,122 @@
-const CACHE_NAME = 'islam-glab-link-hub-v2';
-const PRECACHE_URLS = [
+const CACHE_NAME = 'modern-links-hub-v1.0.0';
+const RUNTIME_CACHE = 'runtime-cache-v1';
+
+// Assets to cache on install
+const STATIC_ASSETS = [
   '/',
   '/index.html',
+  '/css/variables.css',
+  '/css/base.css',
+  '/css/layout.css',
+  '/css/components.css',
+  '/css/responsive.css',
+  '/js/main.js',
+  '/js/config.js',
+  '/js/constants.js',
+  '/js/modules/cards.js',
+  '/js/modules/favorites.js',
+  '/js/modules/search.js',
+  '/js/modules/theme.js',
+  '/js/modules/utils.js',
   '/manifest.json',
-  '/favorites-script.js'
+  'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css'
 ];
 
-// Install event - pre-cache core assets and activate immediately
-self.addEventListener('install', event => {
+self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(PRECACHE_URLS))
-  );
-  self.skipWaiting();
-});
-
-// Activate event - clean old caches and take control
-self.addEventListener('activate', event => {
-  event.waitUntil(
-    caches.keys().then(cacheNames => {
-      return Promise.all(
-        cacheNames.map(cacheName => {
-          if (cacheName !== CACHE_NAME) {
-            return caches.delete(cacheName);
-          }
-        })
-      );
-    }).then(() => self.clients.claim())
+    caches.open(CACHE_NAME)
+      .then((cache) => cache.addAll(STATIC_ASSETS))
+      .then(() => self.skipWaiting())
   );
 });
 
-// Fetch strategy
-self.addEventListener('fetch', event => {
-  const req = event.request;
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys()
+      .then((cacheNames) => {
+        return Promise.all(
+          cacheNames
+            .filter((name) => name !== CACHE_NAME && name !== RUNTIME_CACHE)
+            .map((name) => caches.delete(name))
+        );
+      })
+      .then(() => self.clients.claim())
+  );
+});
 
-  // For navigation requests (HTML): network-first with cache fallback
-  if (req.mode === 'navigate' || (req.method === 'GET' && req.headers.get('accept')?.includes('text/html'))) {
-    event.respondWith(
-      fetch(req).then(res => {
-        const copy = res.clone();
-        caches.open(CACHE_NAME).then(cache => cache.put('/', copy));
-        return res;
-      }).catch(() => caches.match(req).then(r => r || caches.match('/index.html')))
-    );
-    return;
+self.addEventListener('fetch', (event) => {
+  const { request } = event;
+  const url = new URL(request.url);
+
+  if (request.method !== 'GET') return;
+  if (url.protocol === 'chrome-extension:') return;
+  if (STATIC_ASSETS.includes(url.pathname) || url.pathname.endsWith('.css') || url.pathname.endsWith('.js')) {
+    event.respondWith(cacheFirst(request));
+  } else if (url.pathname.endsWith('.png') || url.pathname.endsWith('.jpg') || url.pathname.endsWith('.svg') || url.pathname.endsWith('.ico')) {
+    event.respondWith(cacheFirst(request));
+  } else {
+    event.respondWith(networkFirst(request));
   }
+});
 
-  const url = new URL(req.url);
-  const isSameOrigin = url.origin === self.location.origin;
-  const ext = url.pathname.split('.').pop();
-  const isStatic = ['css', 'js', 'svg', 'png', 'jpg', 'jpeg', 'ico', 'webp'].includes((ext || '').toLowerCase());
+async function cacheFirst(request) {
+  try {
+    const cache = await caches.open(CACHE_NAME);
+    const cached = await cache.match(request);
+    
+    if (cached) {
+      return cached;
+    }
+    
+    const response = await fetch(request);
+    
+    if (response.ok) {
+      cache.put(request, response.clone());
+    }
+    
+    return response;
+  } catch (error) {
+    return new Response('Offline', { status: 503 });
+  }
+}
 
-  // For same-origin static assets: cache-first
-  if (isSameOrigin && isStatic) {
-    event.respondWith(
-      caches.match(req).then(cached => {
-        if (cached) return cached;
-        return fetch(req).then(res => {
-          const copy = res.clone();
-          caches.open(CACHE_NAME).then(cache => cache.put(req, copy));
-          return res;
-        });
+async function networkFirst(request) {
+  try {
+    const response = await fetch(request);
+    
+    if (response.ok) {
+      const cache = await caches.open(RUNTIME_CACHE);
+      cache.put(request, response.clone());
+    }
+    
+    return response;
+  } catch (error) {
+    const cache = await caches.open(RUNTIME_CACHE);
+    const cached = await cache.match(request);
+    
+    if (cached) {
+      return cached;
+    }
+    
+    return new Response('Offline - No cached version available', { 
+      status: 503,
+      statusText: 'Service Unavailable'
+    });
+  }
+}
+
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
+  
+  if (event.data && event.data.type === 'CLEAR_CACHE') {
+    event.waitUntil(
+      caches.keys().then((cacheNames) => {
+        return Promise.all(
+          cacheNames.map((name) => caches.delete(name))
+        );
       })
     );
-    return;
   }
-
-  // Default: try cache, then network
-  event.respondWith(
-    caches.match(req).then(cached => cached || fetch(req))
-  );
 });

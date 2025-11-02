@@ -1,40 +1,27 @@
-/**
- * Application Constants
- * ثوابت التطبيق
- */
-
-// Toast types
 export const TOAST_TYPES = {
     SUCCESS: 'success',
     ERROR: 'error',
     INFO: 'info'
 };
 
-// Toast icons
 export const TOAST_ICONS = {
     success: 'fas fa-check-circle',
     error: 'fas fa-exclamation-circle',
     info: 'fas fa-info-circle'
 };
 
-// Theme values
 export const THEMES = {
     LIGHT: 'light',
     DARK: 'dark'
 };
 
-// Category filters
 export const CATEGORIES = {
     ALL: 'all',
-    FAVORITES: 'favorites',
     STAR_FACTORY: 'star-factory',
     AI: 'ai',
-    SOCIAL: 'social',
-    DEVELOPMENT: 'development',
-    TOOLS: 'tools'
+    SOCIAL: 'social'
 };
 
-// Animation classes
 export const ANIMATIONS = {
     FADE_IN: 'fade-in',
     FADE_OUT: 'fade-out',
@@ -46,7 +33,6 @@ export const ANIMATIONS = {
     LOADED: 'loaded'
 };
 
-// Element selectors
 export const SELECTORS = {
     LOADING: '.loading',
     SCROLL_TOP: '.scroll-top',

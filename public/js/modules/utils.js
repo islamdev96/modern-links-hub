@@ -108,17 +108,14 @@ export function debounce(func, wait = APP_CONFIG.defaults.searchDebounce) {
  * @returns {string} - Icon URL
  */
 export function getCardIcon(card) {
+    // ✅ FIX: ONLY use img.src - ignore data-icon completely
     const imgElement = card.querySelector(SELECTORS.ICON_IMAGE);
-    if (imgElement?.src) return imgElement.src;
-    
-    const dataIcon = card.getAttribute('data-icon');
-    if (dataIcon) {
-        return dataIcon.startsWith('http') 
-            ? dataIcon 
-            : new URL(dataIcon, window.location.origin).href;
+    if (imgElement?.src) {
+        return imgElement.src;
     }
     
-    return '/icons/default.svg';
+    // Fallback only if no img element found
+    return 'https://via.placeholder.com/32x32?text=?';
 }
 
 /**
@@ -186,9 +183,7 @@ export async function copyToClipboard(text) {
         await navigator.clipboard.writeText(text);
         showToast('success', 'تم النسخ بنجاح');
         return true;
-    } catch (error) {
-        console.error('Failed to copy:', error);
-        showToast('error', 'فشل النسخ');
+    } catch (error) {showToast('error', 'فشل النسخ');
         return false;
     }
 }

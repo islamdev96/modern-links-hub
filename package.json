@@ -1,7 +1,7 @@
 {
   "name": "islam-glab-link-hub",
-  "version": "1.0.0",
-  "description": "Islam Glab's personal gateway to essential websites and digital tools",
+  "version": "2.0.0",
+  "description": "Islam Glab's personal gateway to essential websites and digital tools with advanced features",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -10,7 +10,17 @@
     "deploy": "netlify deploy",
     "preview": "netlify deploy --build --draft"
   },
-  "keywords": ["islam glab", "personal links", "digital tools"],
+  "keywords": [
+    "islam glab",
+    "personal links",
+    "digital tools",
+    "link hub",
+    "bookmarks",
+    "pwa",
+    "favorites",
+    "keyboard shortcuts",
+    "dark mode"
+  ],
   "author": "Islam Glab",
   "license": "MIT",
   "engines": {

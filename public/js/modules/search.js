@@ -5,6 +5,7 @@
 
 import { debounce } from './utils.js';
 import { getAllCards, setCardVisibility, filterCardsBySearch, getCardsByCategory } from './cards.js';
+import { getFavorites, displayFavorites } from './favorites.js';
 
 let searchInput = null;
 let clearSearchBtn = null;
@@ -103,14 +104,34 @@ function handleFilterClick(button) {
  */
 function applyFilters() {
     const allCards = getAllCards();
+    const linksGrid = document.getElementById('linksGrid');
+    const favoritesSection = document.getElementById('favoritesSection');
+
+    // ✅ FIX: Always hide the separate favorites section
+    if (favoritesSection) favoritesSection.style.display = 'none';
+    
+    // ✅ FIX: Always show main grid
+    if (linksGrid) linksGrid.style.display = 'grid';
 
     // Get cards matching search
     let matchingCards = currentSearch 
         ? filterCardsBySearch(currentSearch)
         : allCards;
 
-    // Get cards matching category
-    if (currentFilter !== 'all' && currentFilter !== 'favorites') {
+    // ✅ FIX: Special handling for favorites filter
+    if (currentFilter === 'favorites') {
+        // Show only favorited cards
+        try {
+            const favorites = getFavorites();
+            const favoriteUrls = favorites.map(fav => fav.url);
+            
+            matchingCards = matchingCards.filter(card => 
+                favoriteUrls.includes(card.getAttribute('data-url'))
+            );
+        } catch (e) {matchingCards = [];
+        }
+    } else if (currentFilter !== 'all') {
+        // Get cards matching category
         matchingCards = matchingCards.filter(card => 
             card.getAttribute('data-category') === currentFilter
         );
@@ -122,8 +143,43 @@ function applyFilters() {
         setCardVisibility(card, isVisible);
     });
 
+    // Show/hide empty state
+    showEmptyState(matchingCards.length === 0);
+
     // Animate results
     animateResults(matchingCards);
+}
+
+/**
+ * Show or hide empty state message
+ * عرض أو إخفاء رسالة عدم وجود نتائج
+ * @param {boolean} show - Should show empty state
+ */
+function showEmptyState(show) {
+    const linksGrid = document.getElementById('linksGrid');
+    if (!linksGrid) return;
+    
+    let emptyState = linksGrid.querySelector('.empty-state');
+    
+    if (show) {
+        if (!emptyState) {
+            emptyState = document.createElement('div');
+            emptyState.className = 'empty-state';
+            emptyState.innerHTML = `
+                <div class="empty-state-content">
+                    <i class="fas fa-search empty-state-icon"></i>
+                    <h3>لا توجد نتائج</h3>
+                    <p>جرب البحث بكلمات مختلفة أو غيّر الفئة</p>
+                </div>
+            `;
+            linksGrid.appendChild(emptyState);
+        }
+        emptyState.style.display = 'flex';
+    } else {
+        if (emptyState) {
+            emptyState.style.display = 'none';
+        }
+    }
 }
 
 /**
@@ -151,8 +207,12 @@ function updateCardCounters() {
         if (category === 'all') {
             count = getAllCards().length;
         } else if (category === 'favorites') {
-            // Will be updated by favorites module
-            count = 0;
+            // Get favorites count
+            try {
+                count = getFavorites().length;
+            } catch (e) {
+                count = 0;
+            }
         } else {
             count = getCardsByCategory(category).length;
         }

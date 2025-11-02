@@ -13,7 +13,6 @@
     <meta name="apple-mobile-web-app-title" content="Link Hub" />
     <link rel="canonical" href="https://your-domain.netlify.app/" />
     <link rel="apple-touch-icon" href="/profile.jpg" />
-    <!-- Open Graph -->
     <meta property="og:title" content="Islam Glab | Personal Link Hub" />
     <meta
       property="og:description"
@@ -22,7 +21,6 @@
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://your-domain.netlify.app/" />
     <meta property="og:image" content="/profile.jpg" />
-    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Islam Glab | Personal Link Hub" />
     <meta
@@ -30,17 +28,36 @@
       content="بوابة شخصية من إسلام جلاب للوصول السريع إلى أهم المواقع والأدوات الرقمية."
     />
     <meta name="twitter:image" content="/profile.jpg" />
+    
+    <meta name="author" content="Islam Glab" />
+    <meta name="robots" content="index, follow" />
+    <meta name="googlebot" content="index, follow" />
+    <meta name="language" content="Arabic" />
+    <meta name="revisit-after" content="7 days" />
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Islam Glab Personal Link Hub",
+      "description": "بوابة شخصية للوصول السريع إلى أهم المواقع والأدوات الرقمية",
+      "url": "https://your-domain.netlify.app/",
+      "author": {
+        "@type": "Person",
+        "name": "Islam Glab"
+      },
+      "inLanguage": "ar",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://your-domain.netlify.app/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+    
     <title>Islam Glab | Personal Link Hub</title>
-    <!-- Preconnect to external resources -->
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
     <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
-    <link rel="preconnect" href="https://cdn.simpleicons.org" />
-    <link rel="preconnect" href="https://www.gstatic.com" />
-    <link rel="preconnect" href="https://ssl.gstatic.com" />
-    <link rel="preconnect" href="https://upload.wikimedia.org" />
-    <link rel="preconnect" href="https://cdn-icons-png.flaticon.com" />
-    <link rel="preconnect" href="https://github.githubassets.com" />
-    <link rel="preconnect" href="https://statics.moonshot.cn" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
@@ -52,8 +69,6 @@
       title="Sitemap"
       href="/sitemap.xml"
     />
-
-    <!-- CSS Modules -->
     <link rel="stylesheet" href="css/variables.css" />
     <link rel="stylesheet" href="css/base.css" />
     <link rel="stylesheet" href="css/layout.css" />
@@ -62,22 +77,19 @@
   </head>
 
   <body>
-    <!-- Loading Screen -->
     <div class="loading" id="loading">
       <div class="spinner"></div>
     </div>
-
-    <!-- Toast Container -->
     <div class="toast-container" id="toastContainer"></div>
-
-    <!-- Scroll to Top Button -->
     <button class="scroll-top" id="scrollTop" title="العودة للأعلى">
       <i class="fas fa-arrow-up"></i>
     </button>
+    <div class="keyboard-hint" id="keyboardHint">
+      اضغط <kbd>Ctrl</kbd> + <kbd>K</kbd> للبحث السريع
+    </div>
 
     <div class="container">
       <header>
-        <!-- Theme Toggle Button -->
         <div class="theme-toggle">
           <button id="themeToggle" class="theme-btn" title="تبديل الوضع المظلم">
             <i class="fas fa-moon"></i>
@@ -87,8 +99,6 @@
         <div class="header-title">
           <h1>Islam Glab | Personal Link Hub</h1>
         </div>
-
-        <!-- Search Bar -->
         <div class="header-search">
           <div class="search-box">
             <i class="fas fa-search search-icon" aria-hidden="true"></i>
@@ -110,23 +120,6 @@
           </div>
         </div>
       </header>
-
-      <!-- Favorites Section -->
-      <div
-        class="favorites-section"
-        id="favoritesSection"
-        style="display: none"
-      >
-        <h2 class="favorites-title">
-          <i class="fas fa-star"></i>
-          المفضلة
-        </h2>
-        <div class="favorites-grid" id="favoritesGrid">
-          <!-- Favorite cards will be dynamically added here -->
-        </div>
-      </div>
-
-      <!-- Category Filter -->
       <div
         class="category-filter"
         role="tablist"
@@ -147,9 +140,9 @@
           data-category="favorites"
           role="tab"
           aria-selected="false"
-          aria-label="عرض المفضلة فقط"
+          aria-label="عرض المفضلة"
         >
-          المفضلة
+          <i class="fas fa-star"></i> المفضلة
           <span class="badge" id="count-favorites">0</span>
         </button>
         <button
@@ -182,30 +175,16 @@
           التواصل الاجتماعي
           <span class="badge" id="count-social">0</span>
         </button>
-        <button
-          class="filter-btn"
-          data-category="development"
-          role="tab"
-          aria-selected="false"
-          aria-label="عرض روابط التطوير"
-        >
-          التطوير
-          <span class="badge" id="count-development">0</span>
-        </button>
-        <button
-          class="filter-btn"
-          data-category="tools"
-          role="tab"
-          aria-selected="false"
-          aria-label="عرض روابط الأدوات"
-        >
-          الأدوات
-          <span class="badge" id="count-tools">0</span>
-        </button>
+      </div>
+      <div
+        class="favorites-section"
+        id="favoritesSection"
+        style="display: none"
+      >
+        <div class="favorites-grid" id="favoritesGrid"></div>
       </div>
 
       <div class="grid" id="linksGrid">
-        <!-- Star Factory Tools -->
         <div
           class="card google-translate"
           data-category="star-factory"
@@ -219,7 +198,7 @@
           </button>
           <a href="https://translate.google.com" target="_blank">
             <img
-              src="https://upload.wikimedia.org/wikipedia/commons/d/db/Google_Translate_Icon.png"
+              src="icons/google-translate.svg"
               alt="Google Translate"
               class="icon-image"
               loading="lazy"
@@ -241,7 +220,7 @@
           </button>
           <a href="https://web.whatsapp.com/" target="_blank">
             <img
-              src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
+              src="icons/whatsapp.svg"
               alt="WhatsApp"
               class="icon-image"
               loading="lazy"
@@ -267,7 +246,7 @@
             target="_blank"
           >
             <img
-              src="https://www.gstatic.com/images/branding/product/1x/docs_2020q4_48dp.png"
+              src="icons/google-docs-search.svg"
               alt="بحث جوجل دوكس"
               class="icon-image"
               loading="lazy"
@@ -293,7 +272,7 @@
             target="_blank"
           >
             <img
-              src="https://www.gstatic.com/images/branding/product/1x/sheets_2020q4_48dp.png"
+              src="icons/number-stamp.svg"
               alt="تنسيق الأرقام"
               class="icon-image"
               loading="lazy"
@@ -319,7 +298,7 @@
             target="_blank"
           >
             <img
-              src="https://www.gstatic.com/images/branding/product/1x/sheets_2020q4_48dp.png"
+              src="icons/star-factory-main.svg"
               alt="مصنع النجمة الرئيسي"
               class="icon-image"
               loading="lazy"
@@ -345,7 +324,7 @@
             target="_blank"
           >
             <img
-              src="https://www.gstatic.com/images/branding/product/1x/sheets_2020q4_48dp.png"
+              src="icons/star-factory-main.svg"
               alt="مصنع النجمة - الصفحة الثانية"
               class="icon-image"
               loading="lazy"
@@ -371,7 +350,7 @@
             target="_blank"
           >
             <img
-              src="https://www.gstatic.com/images/branding/product/1x/sheets_2020q4_48dp.png"
+              src="icons/star-factory-main.svg"
               alt="مصنع النجمة - صفحة 3"
               class="icon-image"
               loading="lazy"
@@ -397,7 +376,7 @@
             target="_blank"
           >
             <img
-              src="https://www.gstatic.com/images/branding/product/1x/sheets_2020q4_48dp.png"
+              src="icons/star-factory-main.svg"
               alt="مصنع النجمة - الصفحة الرابعة"
               class="icon-image"
               loading="lazy"
@@ -423,7 +402,7 @@
             target="_blank"
           >
             <img
-              src="https://www.gstatic.com/images/branding/product/1x/sheets_2020q4_48dp.png"
+              src="icons/archive.svg"
               alt="الأرشيف"
               class="icon-image"
               loading="lazy"
@@ -449,7 +428,7 @@
             target="_blank"
           >
             <img
-              src="https://www.gstatic.com/images/branding/product/1x/drive_2020q4_48dp.png"
+              src="icons/google-drive.svg"
               alt="جوجل درايف"
               class="icon-image"
               loading="lazy"
@@ -458,8 +437,6 @@
             <span class="description">تخزين ملفات مصنع النجمة</span>
           </a>
         </div>
-
-        <!-- AI Tools -->
         <div
           class="card claude-ai"
           data-category="ai"
@@ -473,7 +450,7 @@
           </button>
           <a href="https://claude.ai/new" target="_blank">
             <img
-              src="https://claude.ai/images/claude_app_icon.png"
+              src="icons/claude.svg"
               alt="Claude"
               class="icon-image"
               loading="lazy"
@@ -496,7 +473,7 @@
           </button>
           <a href="https://chatgpt.com/" target="_blank">
             <img
-              src="https://upload.wikimedia.org/wikipedia/commons/0/04/ChatGPT_logo.svg"
+              src="icons/chatgpt.svg"
               alt="ChatGPT"
               class="icon-image"
               loading="lazy"
@@ -519,7 +496,7 @@
           </button>
           <a href="https://chat.z.ai/" target="_blank">
             <img
-              src="https://avatars.githubusercontent.com/u/158137808"
+              src="icons/z-ai.svg"
               alt="Z.ai"
               class="icon-image"
               loading="lazy"
@@ -546,7 +523,6 @@
               alt="Perplexity"
               class="icon-image"
               loading="lazy"
-              onerror="this.src='https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/perplexity-ai-icon.png'"
             />
             <span class="title">Perplexity</span>
             <span class="description">بحث ذكي متقدم</span>
@@ -566,7 +542,7 @@
           </button>
           <a href="https://chat.deepseek.com/" target="_blank">
             <img
-              src="https://chat.deepseek.com/favicon.svg"
+              src="icons/deepseek.svg"
               alt="DeepSeek"
               class="icon-image"
               loading="lazy"
@@ -589,7 +565,7 @@
           </button>
           <a href="https://www.kimi.com/" target="_blank">
             <img
-              src="https://statics.moonshot.cn/kimi-chat/favicon.ico"
+              src="icons/kimi.svg"
               alt="Kimi"
               class="icon-image"
               loading="lazy"
@@ -615,7 +591,7 @@
             target="_blank"
           >
             <img
-              src="https://www.gstatic.com/lamda/images/gemini_favicon_f069958c85030456e93de685481c559f160ea06b.png"
+              src="icons/google-ai-studio.svg"
               alt="Google AI Studio"
               class="icon-image"
               loading="lazy"
@@ -638,7 +614,7 @@
           </button>
           <a href="https://gemini.google.com/" target="_blank">
             <img
-              src="https://www.gstatic.com/lamda/images/gemini_favicon_f069958c85030456e93de685481c559f160ea06b.png"
+              src="icons/gemini.svg"
               alt="Gemini"
               class="icon-image"
               loading="lazy"
@@ -661,7 +637,7 @@
           </button>
           <a href="https://copilot.microsoft.com/" target="_blank">
             <img
-              src="https://img.icons8.com/fluency/48/microsoft-copilot.png"
+              src="icons/copilot.svg"
               alt="Microsoft Copilot"
               class="icon-image"
               loading="lazy"
@@ -684,7 +660,7 @@
           </button>
           <a href="https://www.genspark.ai/" target="_blank">
             <img
-              src="https://www.genspark.ai/favicon.ico"
+              src="icons/genie-spark.svg"
               alt="Genie Spark"
               class="icon-image"
               loading="lazy"
@@ -707,7 +683,7 @@
           </button>
           <a href="https://manus.im/app" target="_blank">
             <img
-              src="https://manus.im/favicon.ico"
+              src="icons/monos.svg"
               alt="Manus"
               class="icon-image"
               loading="lazy"
@@ -716,8 +692,6 @@
             <span class="description">أداة ذكاء اصطناعي مبتكرة</span>
           </a>
         </div>
-
-        <!-- Social Media -->
         <div
           class="card youtube"
           data-category="social"
@@ -731,7 +705,7 @@
           </button>
           <a href="https://www.youtube.com" target="_blank">
             <img
-              src="https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg"
+              src="icons/youtube.svg"
               alt="YouTube"
               class="icon-image"
               loading="lazy"
@@ -754,7 +728,7 @@
           </button>
           <a href="https://www.facebook.com" target="_blank">
             <img
-              src="https://upload.wikimedia.org/wikipedia/commons/b/b9/2023_Facebook_icon.svg"
+              src="icons/facebook.svg"
               alt="Facebook"
               class="icon-image"
               loading="lazy"
@@ -777,7 +751,7 @@
           </button>
           <a href="https://www.linkedin.com/" target="_blank">
             <img
-              src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png"
+              src="icons/linkedin.svg"
               alt="LinkedIn"
               class="icon-image"
               loading="lazy"
@@ -786,11 +760,9 @@
             <span class="description">الشبكة المهنية</span>
           </a>
         </div>
-
-        <!-- Development Tools -->
         <div
           class="card github"
-          data-category="development"
+          data-category="social"
           data-url="https://github.com/"
           data-title="GitHub"
           data-description="استضافة الكود والتعاون"
@@ -801,7 +773,7 @@
           </button>
           <a href="https://github.com/" target="_blank">
             <img
-              src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+              src="icons/github.svg"
               alt="GitHub"
               class="icon-image"
               loading="lazy"
@@ -810,11 +782,9 @@
             <span class="description">استضافة الكود والتعاون</span>
           </a>
         </div>
-
-        <!-- Tools -->
         <div
           class="card google"
-          data-category="tools"
+          data-category="social"
           data-url="https://www.google.com"
           data-title="Google"
           data-description="محرك البحث"
@@ -825,7 +795,7 @@
           </button>
           <a href="https://www.google.com" target="_blank">
             <img
-              src="https://www.google.com/favicon.ico"
+              src="icons/google-search.svg"
               alt="Google"
               class="icon-image"
               loading="lazy"
@@ -837,7 +807,7 @@
 
         <div
           class="card notion"
-          data-category="tools"
+          data-category="social"
           data-url="https://www.notion.so/"
           data-title="Notion"
           data-description="أداة الإنتاجية"
@@ -848,7 +818,7 @@
           </button>
           <a href="https://www.notion.so/" target="_blank">
             <img
-              src="https://upload.wikimedia.org/wikipedia/commons/4/45/Notion_app_logo.png"
+              src="icons/notion.svg"
               alt="Notion"
               class="icon-image"
               loading="lazy"
@@ -860,7 +830,7 @@
 
         <div
           class="card router"
-          data-category="tools"
+          data-category="social"
           data-url="https://192.168.1.1/"
           data-title="الراوتر"
           data-description="إعدادات الراوتر والشبكة"
@@ -882,8 +852,6 @@
         </div>
       </div>
     </div>
-
-    <!-- Modern ES6 Modules -->
     <script type="module" src="js/main.js"></script>
   </body>
 </html>
