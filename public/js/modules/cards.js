@@ -3,7 +3,8 @@
  * إدارة البطاقات والتفاعل معها
  */
 
-import { openLink, getCardIcon, animate } from './utils.js';
+import { openLink, animate } from '../utils/ui.js';
+import { getCardIcon } from '../utils/dom.js';
 
 let cards = [];
 

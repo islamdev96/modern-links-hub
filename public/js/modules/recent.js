@@ -3,8 +3,9 @@
  * نظام تتبع آخر الروابط المفتوحة
  */
 
-import { safeLocalStorageGet, safeLocalStorageSet, openLink } from './utils.js';
-import { APP_CONFIG } from '../config.js';
+import { safeLocalStorageGet, safeLocalStorageSet } from '../utils/storage.js';
+import { openLink } from '../utils/ui.js';
+import { APP_CONFIG } from '../core/config.js';
 
 const STORAGE_KEY = 'linkHubRecent';
 const MAX_RECENT = 10;

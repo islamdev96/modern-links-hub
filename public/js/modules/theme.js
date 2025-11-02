@@ -3,9 +3,9 @@
  * إدارة الثيم (الوضع الداكن/المضيء)
  */
 
-import { safeLocalStorageGet, safeLocalStorageSet } from './utils.js';
-import { THEMES, SELECTORS } from '../constants.js';
-import { APP_CONFIG } from '../config.js';
+import { safeLocalStorageGet, safeLocalStorageSet } from '../utils/storage.js';
+import { THEMES, SELECTORS } from '../core/constants.js';
+import { APP_CONFIG } from '../core/config.js';
 
 let currentTheme = THEMES.LIGHT;
 let themeToggleBtn = null;

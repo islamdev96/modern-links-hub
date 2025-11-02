@@ -3,7 +3,7 @@
  * اختصارات لوحة المفاتيح
  */
 
-import { showToast } from './utils.js';
+import { showToast } from '../utils/ui.js';
 
 const shortcuts = new Map();
 let isEnabled = true;

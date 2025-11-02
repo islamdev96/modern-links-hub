@@ -3,9 +3,9 @@
  * نظام البحث والتصفية
  */
 
-import { debounce } from './utils.js';
+import { debounce } from '../utils/functions.js';
 import { getAllCards, setCardVisibility, filterCardsBySearch, getCardsByCategory } from './cards.js';
-import { getFavorites, displayFavorites } from './favorites.js';
+import { getFavorites, displayFavorites } from '../features/favorites/index.js';
 
 let searchInput = null;
 let clearSearchBtn = null;
