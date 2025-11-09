@@ -69,11 +69,8 @@
       title="Sitemap"
       href="/sitemap.xml"
     />
-    <link rel="stylesheet" href="css/variables.css" />
-    <link rel="stylesheet" href="css/base.css" />
-    <link rel="stylesheet" href="css/layout.css" />
-    <link rel="stylesheet" href="css/components.css" />
-    <link rel="stylesheet" href="css/responsive.css" />
+    <link rel="stylesheet" href="css/clean-design.css" />
+    <link rel="stylesheet" href="css/drag-drop.css" />
   </head>
 
   <body>
@@ -98,215 +95,172 @@
 
         <div class="header-title">
           <h1>Islam Glab | Personal Link Hub</h1>
+          <p class="subtitle">بوابة شخصية للوصول السريع إلى أهم المواقع والأدوات الرقمية</p>
         </div>
-        <div class="header-search">
+        <div class="search-container">
           <div class="search-box">
-            <i class="fas fa-search search-icon" aria-hidden="true"></i>
+            <i class="fas fa-search search-icon"></i>
             <input
-              type="text"
+              type="search"
               id="searchInput"
-              placeholder="ابحث في الروابط..."
-              class="search-input"
-              aria-label="البحث في الروابط"
+              placeholder="ابحث عن موقع أو أداة..."
+              autocomplete="off"
             />
-            <button
-              id="clearSearch"
-              class="clear-btn"
-              style="display: none"
-              aria-label="مسح البحث"
-            >
-              <i class="fas fa-times" aria-hidden="true"></i>
+            <button class="clear-search" id="clearSearch" title="مسح البحث">
+              <i class="fas fa-times"></i>
             </button>
           </div>
         </div>
       </header>
-      <div
-        class="category-filter"
-        role="tablist"
-        aria-label="تصفية الروابط حسب الفئة"
-      >
-        <button
-          class="filter-btn active"
-          data-category="all"
-          role="tab"
-          aria-selected="true"
-          aria-label="عرض جميع الروابط"
-        >
-          الكل
-          <span class="badge" id="count-all">0</span>
+
+      <!-- Quick Actions Bar -->
+      <div class="quick-actions-bar">
+        <button class="quick-action-btn" id="toggleFavoritesView">
+          <i class="fas fa-star"></i>
+          <span>عرض المفضلة</span>
         </button>
-        <button
-          class="filter-btn"
-          data-category="favorites"
-          role="tab"
-          aria-selected="false"
-          aria-label="عرض المفضلة"
-        >
-          <i class="fas fa-star"></i> المفضلة
-          <span class="badge" id="count-favorites">0</span>
-        </button>
-        <button
-          class="filter-btn"
-          data-category="star-factory"
-          role="tab"
-          aria-selected="false"
-          aria-label="عرض روابط مصنع النجمة"
-        >
-          مصنع النجمة
-          <span class="badge" id="count-star-factory">0</span>
-        </button>
-        <button
-          class="filter-btn"
-          data-category="ai"
-          role="tab"
-          aria-selected="false"
-          aria-label="عرض روابط الذكاء الاصطناعي"
-        >
-          الذكاء الاصطناعي
-          <span class="badge" id="count-ai">0</span>
-        </button>
-        <button
-          class="filter-btn"
-          data-category="social"
-          role="tab"
-          aria-selected="false"
-          aria-label="عرض روابط التواصل الاجتماعي"
-        >
-          التواصل الاجتماعي
-          <span class="badge" id="count-social">0</span>
+        <button class="quick-action-btn" id="clearAllFavorites">
+          <i class="fas fa-trash"></i>
+          <span>مسح المفضلة</span>
         </button>
       </div>
-      <div
-        class="favorites-section"
-        id="favoritesSection"
-        style="display: none"
-      >
-        <div class="favorites-grid" id="favoritesGrid"></div>
+
+      <!-- Favorites Bar -->
+      <div class="favorites-bar" id="favoritesBar">
+        <div class="favorites-bar-title">
+          <i class="fas fa-heart"></i>
+          المفضلة
+        </div>
+        <div class="favorites-bar-content" id="favoritesBarContent">
+          <!-- Favorites will be added here dynamically -->
+        </div>
       </div>
 
-      <div class="grid" id="linksGrid">
-        <div
-          class="card google-translate"
-          data-category="star-factory"
-          data-url="https://translate.google.com"
-          data-title="Google Translate"
-          data-description="ترجمة النصوص"
-          data-icon="icons/google-translate.svg"
-        >
-          <button class="favorite-btn" title="إضافة للمفضلة">
-            <i class="fas fa-star"></i>
-          </button>
-          <a href="https://translate.google.com" target="_blank">
-            <img
-              src="icons/google-translate.svg"
-              alt="Google Translate"
-              class="icon-image"
-              loading="lazy"
-            />
-            <span class="title">Google Translate</span>
-            <span class="description">ترجمة النصوص</span>
-          </a>
-        </div>
-        <div
-          class="card whatsapp"
-          data-category="star-factory"
-          data-url="https://web.whatsapp.com/"
-          data-title="WhatsApp"
-          data-description="واتساب ويب"
-          data-icon="icons/whatsapp.svg"
-        >
-          <button class="favorite-btn" title="إضافة للمفضلة">
-            <i class="fas fa-star"></i>
-          </button>
-          <a href="https://web.whatsapp.com/" target="_blank">
-            <img
-              src="icons/whatsapp.svg"
-              alt="WhatsApp"
-              class="icon-image"
-              loading="lazy"
-            />
-            <span class="title">WhatsApp</span>
-            <span class="description">واتساب ويب</span>
-          </a>
+      <main>
+        <div class="categories">
+          <button class="category-btn active" data-category="all">الكل</button>
+          <button class="category-btn" data-category="star-factory">مصنع النجمة</button>
+          <button class="category-btn" data-category="favorites">💛 المفضلة</button>
+          <button class="category-btn" data-category="social">التواصل الاجتماعي</button>
+          <button class="category-btn" data-category="ai">الذكاء الاصطناعي</button>
         </div>
 
-        <div
-          class="card google-docs-search"
-          data-category="star-factory"
-          data-url="https://script.google.com/macros/s/AKfycbz-D9BWlWTrikhuP5DYCGE58mN6Y4IhjtnL7mAuNKrgtiiZ7WMpldra-kJj_cxUmCuveg/exec"
-          data-title="بحث جوجل دوكس"
-          data-description="أداة البحث في مستندات جوجل"
-          data-icon="icons/google-docs-search.svg"
-        >
-          <button class="favorite-btn" title="إضافة للمفضلة">
-            <i class="fas fa-star"></i>
-          </button>
-          <a
-            href="https://script.google.com/macros/s/AKfycbz-D9BWlWTrikhuP5DYCGE58mN6Y4IhjtnL7mAuNKrgtiiZ7WMpldra-kJj_cxUmCuveg/exec"
-            target="_blank"
-          >
-            <img
-              src="icons/google-docs-search.svg"
-              alt="بحث جوجل دوكس"
-              class="icon-image"
-              loading="lazy"
-            />
-            <span class="title">بحث جوجل دوكس</span>
-            <span class="description">أداة البحث في مستندات جوجل</span>
-          </a>
-        </div>
 
-        <div
-          class="card number-stamp"
-          data-category="star-factory"
-          data-url="https://chat.deepseek.com/a/chat/s/b0cebe0b-3219-4fbf-8ea5-2af798fae781"
-          data-title="تنسيق الأرقام"
-          data-description="أداة تنسيق وترتيب الأرقام"
-          data-icon="icons/number-stamp.svg"
-        >
-          <button class="favorite-btn" title="إضافة للمفضلة">
-            <i class="fas fa-star"></i>
-          </button>
-          <a
-            href="https://chat.deepseek.com/a/chat/s/b0cebe0b-3219-4fbf-8ea5-2af798fae781"
-            target="_blank"
+        <div class="grid" id="linksGrid">
+          <!-- Google Translate -->
+          <div
+            class="card"
+            data-category="star-factory"
+            data-url="https://translate.google.com"
+            data-title="Google Translate"
+            data-description="ترجمة النصوص بلغات متعددة"
           >
-            <img
-              src="icons/number-stamp.svg"
-              alt="تنسيق الأرقام"
-              class="icon-image"
-              loading="lazy"
-            />
-            <span class="title">تنسيق الأرقام</span>
-            <span class="description">أداة تنسيق وترتيب الأرقام</span>
-          </a>
-        </div>
+            <button class="favorite-btn" title="إضافة للمفضلة">
+              <i class="far fa-heart"></i>
+            </button>
+            <a href="https://translate.google.com" target="_blank">
+              <img
+                src="https://www.google.com/s2/favicons?domain=translate.google.com&sz=64"
+                alt="Google Translate"
+                class="icon-image"
+                loading="lazy"
+              />
+              <span class="title">Google Translate</span>
+              <span class="description">ترجمة النصوص بلغات متعددة</span>
+            </a>
+          </div>
 
-        <div
-          class="card star-factory-main"
-          data-category="star-factory"
-          data-url="https://docs.google.com/spreadsheets/d/1tlA0Me26hMsQdpxs655Ok9Ty5bmNnw0ynbLvXgI38rI/edit?gid=0#gid=0"
-          data-title="مصنع النجمة الرئيسي"
-          data-description="الصفحة الرئيسية لمصنع النجمة"
-          data-icon="icons/star-factory-main.svg"
-        >
-          <button class="favorite-btn" title="إضافة للمفضلة">
-            <i class="fas fa-star"></i>
-          </button>
-          <a
-            href="https://docs.google.com/spreadsheets/d/1tlA0Me26hMsQdpxs655Ok9Ty5bmNnw0ynbLvXgI38rI/edit?gid=0#gid=0"
-            target="_blank"
+          <!-- WhatsApp Web -->
+          <div
+            class="card"
+            data-category="social"
+            data-url="https://web.whatsapp.com"
+            data-title="WhatsApp"
+            data-description="واتساب ويب"
           >
-            <img
-              src="icons/star-factory-main.svg"
-              alt="مصنع النجمة الرئيسي"
-              class="icon-image"
-              loading="lazy"
-            />
-            <span class="title">مصنع النجمة الرئيسي</span>
-            <span class="description">الصفحة الرئيسية لمصنع النجمة</span>
-          </a>
-        </div>
+            <button class="favorite-btn" title="إضافة للمفضلة">
+              <i class="far fa-heart"></i>
+            </button>
+            <a href="https://web.whatsapp.com" target="_blank">
+              <img
+                src="https://www.google.com/s2/favicons?domain=web.whatsapp.com&sz=64"
+                alt="WhatsApp"
+                class="icon-image"
+                loading="lazy"
+              />
+              <span class="title">WhatsApp</span>
+              <span class="description">واتساب ويب</span>
+            </a>
+          </div>
+
+          <!-- بحث جوجل دوكس -->
+          <div
+            class="card"
+            data-category="star-factory"
+            data-url="https://script.google.com/macros/s/AKfycbz-D9BWlWTrikhuP5DYCGE58mN6Y4IhjtnL7mAuNKrgtiiZ7WMpldra-kJj_cxUmCuveg/exec"
+            data-title="بحث جوجل دوكس"
+            data-description="أداة البحث في مستندات جوجل"
+          >
+            <button class="favorite-btn" title="إضافة للمفضلة">
+              <i class="far fa-heart"></i>
+            </button>
+            <a href="https://script.google.com/macros/s/AKfycbz-D9BWlWTrikhuP5DYCGE58mN6Y4IhjtnL7mAuNKrgtiiZ7WMpldra-kJj_cxUmCuveg/exec" target="_blank">
+              <img
+                src="https://www.google.com/s2/favicons?domain=docs.google.com&sz=64"
+                alt="بحث جوجل دوكس"
+                class="icon-image"
+                loading="lazy"
+              />
+              <span class="title">بحث جوجل دوكس</span>
+              <span class="description">أداة البحث في مستندات جوجل</span>
+            </a>
+          </div>
+
+          <!-- تنسيق الأرقام -->
+          <div
+            class="card"
+            data-category="star-factory"
+            data-url="https://chat.deepseek.com/a/chat/s/b0cebe0b-3219-4fbf-8ea5-2af798fae781"
+            data-title="تنسيق الأرقام"
+            data-description="أداة تنسيق وترتيب الأرقام"
+          >
+            <button class="favorite-btn" title="إضافة للمفضلة">
+              <i class="far fa-heart"></i>
+            </button>
+            <a href="https://chat.deepseek.com/a/chat/s/b0cebe0b-3219-4fbf-8ea5-2af798fae781" target="_blank">
+              <img
+                src="https://www.google.com/s2/favicons?domain=deepseek.com&sz=64"
+                alt="تنسيق الأرقام"
+                class="icon-image"
+                loading="lazy"
+              />
+              <span class="title">تنسيق الأرقام</span>
+              <span class="description">أداة تنسيق وترتيب الأرقام</span>
+            </a>
+          </div>
+
+          <!-- مصنع النجمة الرئيسي -->
+          <div
+            class="card"
+            data-category="star-factory"
+            data-url="https://docs.google.com/spreadsheets/d/1tlA0Me26hMsQdpxs655Ok9Ty5bmNnw0ynbLvXgI38rI/edit?gid=0#gid=0"
+            data-title="مصنع النجمة الرئيسي"
+            data-description="الصفحة الرئيسية لمصنع النجمة"
+          >
+            <button class="favorite-btn" title="إضافة للمفضلة">
+              <i class="far fa-heart"></i>
+            </button>
+            <a href="https://docs.google.com/spreadsheets/d/1tlA0Me26hMsQdpxs655Ok9Ty5bmNnw0ynbLvXgI38rI/edit?gid=0#gid=0" target="_blank">
+              <img
+                src="https://www.google.com/s2/favicons?domain=docs.google.com&sz=64"
+                alt="مصنع النجمة الرئيسي"
+                class="icon-image"
+                loading="lazy"
+              />
+              <span class="title">مصنع النجمة الرئيسي</span>
+              <span class="description">الصفحة الرئيسية لمصنع النجمة</span>
+            </a>
+          </div>
 
         <div
           class="card star-factory-page1"
@@ -317,14 +271,14 @@
           data-icon="icons/star-factory-main.svg"
         >
           <button class="favorite-btn" title="إضافة للمفضلة">
-            <i class="fas fa-star"></i>
+            <i class="far fa-heart"></i>
           </button>
           <a
             href="https://docs.google.com/spreadsheets/d/15VK6xv-Jby4pkqgEF-M6uGY8JTLjqIZFIIdPuT95-Ks/edit?gid=1244262008#gid=1244262008"
             target="_blank"
           >
             <img
-              src="icons/star-factory-main.svg"
+              src="https://www.google.com/s2/favicons?domain=docs.google.com&sz=64"
               alt="مصنع النجمة - الصفحة الثانية"
               class="icon-image"
               loading="lazy"
@@ -343,14 +297,14 @@
           data-icon="icons/star-factory-main.svg"
         >
           <button class="favorite-btn" title="إضافة للمفضلة">
-            <i class="fas fa-star"></i>
+            <i class="far fa-heart"></i>
           </button>
           <a
             href="https://docs.google.com/spreadsheets/d/1KtTX389yARBMT5i0-WGS_oQZ4MB0_DJH9JxfeEf7_-M/edit?gid=322141468#gid=322141468"
             target="_blank"
           >
             <img
-              src="icons/star-factory-main.svg"
+              src="https://www.google.com/s2/favicons?domain=docs.google.com&sz=64"
               alt="مصنع النجمة - صفحة 3"
               class="icon-image"
               loading="lazy"
@@ -369,14 +323,14 @@
           data-icon="icons/star-factory-main.svg"
         >
           <button class="favorite-btn" title="إضافة للمفضلة">
-            <i class="fas fa-star"></i>
+            <i class="far fa-heart"></i>
           </button>
           <a
             href="https://docs.google.com/spreadsheets/d/1oylZtfKKJ3_YLavOe1WqfQBwxMLjGU1X0YclNiwFnVk/edit?gid=406717260#gid=406717260"
             target="_blank"
           >
             <img
-              src="icons/star-factory-main.svg"
+              src="https://www.google.com/s2/favicons?domain=docs.google.com&sz=64"
               alt="مصنع النجمة - الصفحة الرابعة"
               class="icon-image"
               loading="lazy"
@@ -395,14 +349,14 @@
           data-icon="icons/star-factory-main.svg"
         >
           <button class="favorite-btn" title="إضافة للمفضلة">
-            <i class="fas fa-star"></i>
+            <i class="far fa-heart"></i>
           </button>
           <a
             href="https://docs.google.com/spreadsheets/d/1qOGcGsCjLJwPeHgGCq2i5oNhf7rPH87emSUFNnJA2WI/edit?gid=550509495#gid=550509495"
             target="_blank"
           >
             <img
-              src="icons/archive.svg"
+              src="https://www.google.com/s2/favicons?domain=docs.google.com&sz=64"
               alt="الأرشيف"
               class="icon-image"
               loading="lazy"
@@ -421,14 +375,14 @@
           data-icon="icons/google-drive.svg"
         >
           <button class="favorite-btn" title="إضافة للمفضلة">
-            <i class="fas fa-star"></i>
+            <i class="far fa-heart"></i>
           </button>
           <a
             href="https://drive.google.com/drive/folders/1deBm2YZu6NAfmCYO4roI4wyRKFZL7OAO"
             target="_blank"
           >
             <img
-              src="icons/google-drive.svg"
+              src="https://www.google.com/s2/favicons?domain=drive.google.com&sz=64"
               alt="جوجل درايف"
               class="icon-image"
               loading="lazy"
@@ -446,11 +400,11 @@
           data-icon="icons/claude.svg"
         >
           <button class="favorite-btn" title="إضافة للمفضلة">
-            <i class="fas fa-star"></i>
+            <i class="far fa-heart"></i>
           </button>
           <a href="https://claude.ai/new" target="_blank">
             <img
-              src="icons/claude.svg"
+              src="https://www.google.com/s2/favicons?domain=claude.ai&sz=64"
               alt="Claude"
               class="icon-image"
               loading="lazy"
@@ -469,11 +423,11 @@
           data-icon="icons/chatgpt.svg"
         >
           <button class="favorite-btn" title="إضافة للمفضلة">
-            <i class="fas fa-star"></i>
+            <i class="far fa-heart"></i>
           </button>
           <a href="https://chatgpt.com/" target="_blank">
             <img
-              src="icons/chatgpt.svg"
+              src="https://www.google.com/s2/favicons?domain=chatgpt.com&sz=64"
               alt="ChatGPT"
               class="icon-image"
               loading="lazy"
@@ -492,11 +446,11 @@
           data-icon="icons/z-ai.svg"
         >
           <button class="favorite-btn" title="إضافة للمفضلة">
-            <i class="fas fa-star"></i>
+            <i class="far fa-heart"></i>
           </button>
           <a href="https://chat.z.ai/" target="_blank">
             <img
-              src="icons/z-ai.svg"
+              src="https://www.google.com/s2/favicons?domain=z.ai&sz=64"
               alt="Z.ai"
               class="icon-image"
               loading="lazy"
@@ -515,11 +469,11 @@
           data-icon="icons/perplexity.svg"
         >
           <button class="favorite-btn" title="إضافة للمفضلة">
-            <i class="fas fa-star"></i>
+            <i class="far fa-heart"></i>
           </button>
           <a href="https://www.perplexity.ai/" target="_blank">
             <img
-              src="icons/perplexity.svg"
+              src="https://www.google.com/s2/favicons?domain=perplexity.ai&sz=64"
               alt="Perplexity"
               class="icon-image"
               loading="lazy"
@@ -538,11 +492,11 @@
           data-icon="icons/deepseek.svg"
         >
           <button class="favorite-btn" title="إضافة للمفضلة">
-            <i class="fas fa-star"></i>
+            <i class="far fa-heart"></i>
           </button>
           <a href="https://chat.deepseek.com/" target="_blank">
             <img
-              src="icons/deepseek.svg"
+              src="https://www.google.com/s2/favicons?domain=deepseek.com&sz=64"
               alt="DeepSeek"
               class="icon-image"
               loading="lazy"
@@ -561,11 +515,11 @@
           data-icon="icons/kimi.svg"
         >
           <button class="favorite-btn" title="إضافة للمفضلة">
-            <i class="fas fa-star"></i>
+            <i class="far fa-heart"></i>
           </button>
           <a href="https://www.kimi.com/" target="_blank">
             <img
-              src="icons/kimi.svg"
+              src="https://www.google.com/s2/favicons?domain=kimi.ai&sz=64"
               alt="Kimi"
               class="icon-image"
               loading="lazy"
@@ -584,14 +538,14 @@
           data-icon="icons/google-ai-studio.svg"
         >
           <button class="favorite-btn" title="إضافة للمفضلة">
-            <i class="fas fa-star"></i>
+            <i class="far fa-heart"></i>
           </button>
           <a
             href="https://aistudio.google.com/app/prompts/new_chat"
             target="_blank"
           >
             <img
-              src="icons/google-ai-studio.svg"
+              src="https://www.google.com/s2/favicons?domain=aistudio.google.com&sz=64"
               alt="Google AI Studio"
               class="icon-image"
               loading="lazy"
@@ -610,11 +564,11 @@
           data-icon="icons/gemini.svg"
         >
           <button class="favorite-btn" title="إضافة للمفضلة">
-            <i class="fas fa-star"></i>
+            <i class="far fa-heart"></i>
           </button>
           <a href="https://gemini.google.com/" target="_blank">
             <img
-              src="icons/gemini.svg"
+              src="https://www.google.com/s2/favicons?domain=gemini.google.com&sz=64"
               alt="Gemini"
               class="icon-image"
               loading="lazy"
@@ -633,11 +587,11 @@
           data-icon="icons/copilot.svg"
         >
           <button class="favorite-btn" title="إضافة للمفضلة">
-            <i class="fas fa-star"></i>
+            <i class="far fa-heart"></i>
           </button>
           <a href="https://copilot.microsoft.com/" target="_blank">
             <img
-              src="icons/copilot.svg"
+              src="https://www.google.com/s2/favicons?domain=copilot.microsoft.com&sz=64"
               alt="Microsoft Copilot"
               class="icon-image"
               loading="lazy"
@@ -656,11 +610,11 @@
           data-icon="icons/genie-spark.svg"
         >
           <button class="favorite-btn" title="إضافة للمفضلة">
-            <i class="fas fa-star"></i>
+            <i class="far fa-heart"></i>
           </button>
           <a href="https://www.genspark.ai/" target="_blank">
             <img
-              src="icons/genie-spark.svg"
+              src="https://www.google.com/s2/favicons?domain=genspark.ai&sz=64"
               alt="Genie Spark"
               class="icon-image"
               loading="lazy"
@@ -679,11 +633,11 @@
           data-icon="icons/monos.svg"
         >
           <button class="favorite-btn" title="إضافة للمفضلة">
-            <i class="fas fa-star"></i>
+            <i class="far fa-heart"></i>
           </button>
           <a href="https://manus.im/app" target="_blank">
             <img
-              src="icons/monos.svg"
+              src="https://www.google.com/s2/favicons?domain=manus.im&sz=64"
               alt="Manus"
               class="icon-image"
               loading="lazy"
@@ -701,11 +655,11 @@
           data-icon="icons/youtube.svg"
         >
           <button class="favorite-btn" title="إضافة للمفضلة">
-            <i class="fas fa-star"></i>
+            <i class="far fa-heart"></i>
           </button>
           <a href="https://www.youtube.com" target="_blank">
             <img
-              src="icons/youtube.svg"
+              src="https://www.google.com/s2/favicons?domain=youtube.com&sz=64"
               alt="YouTube"
               class="icon-image"
               loading="lazy"
@@ -724,11 +678,11 @@
           data-icon="icons/facebook.svg"
         >
           <button class="favorite-btn" title="إضافة للمفضلة">
-            <i class="fas fa-star"></i>
+            <i class="far fa-heart"></i>
           </button>
           <a href="https://www.facebook.com" target="_blank">
             <img
-              src="icons/facebook.svg"
+              src="https://www.google.com/s2/favicons?domain=facebook.com&sz=64"
               alt="Facebook"
               class="icon-image"
               loading="lazy"
@@ -747,11 +701,11 @@
           data-icon="icons/linkedin.svg"
         >
           <button class="favorite-btn" title="إضافة للمفضلة">
-            <i class="fas fa-star"></i>
+            <i class="far fa-heart"></i>
           </button>
           <a href="https://www.linkedin.com/" target="_blank">
             <img
-              src="icons/linkedin.svg"
+              src="https://www.google.com/s2/favicons?domain=linkedin.com&sz=64"
               alt="LinkedIn"
               class="icon-image"
               loading="lazy"
@@ -769,11 +723,11 @@
           data-icon="icons/github.svg"
         >
           <button class="favorite-btn" title="إضافة للمفضلة">
-            <i class="fas fa-star"></i>
+            <i class="far fa-heart"></i>
           </button>
           <a href="https://github.com/" target="_blank">
             <img
-              src="icons/github.svg"
+              src="https://www.google.com/s2/favicons?domain=github.com&sz=64"
               alt="GitHub"
               class="icon-image"
               loading="lazy"
@@ -791,11 +745,11 @@
           data-icon="icons/google-search.svg"
         >
           <button class="favorite-btn" title="إضافة للمفضلة">
-            <i class="fas fa-star"></i>
+            <i class="far fa-heart"></i>
           </button>
           <a href="https://www.google.com" target="_blank">
             <img
-              src="icons/google-search.svg"
+              src="https://www.google.com/s2/favicons?domain=google.com&sz=64"
               alt="Google"
               class="icon-image"
               loading="lazy"
@@ -814,11 +768,11 @@
           data-icon="icons/notion.svg"
         >
           <button class="favorite-btn" title="إضافة للمفضلة">
-            <i class="fas fa-star"></i>
+            <i class="far fa-heart"></i>
           </button>
           <a href="https://www.notion.so/" target="_blank">
             <img
-              src="icons/notion.svg"
+              src="https://www.google.com/s2/favicons?domain=notion.so&sz=64"
               alt="Notion"
               class="icon-image"
               loading="lazy"
@@ -837,11 +791,11 @@
           data-icon="icons/router.svg"
         >
           <button class="favorite-btn" title="إضافة للمفضلة">
-            <i class="fas fa-star"></i>
+            <i class="far fa-heart"></i>
           </button>
           <a href="https://192.168.1.1/" target="_blank">
             <img
-              src="icons/router.svg"
+              src="https://cdn-icons-png.flaticon.com/64/900/900284.png"
               alt="الراوتر"
               class="icon-image"
               loading="lazy"
@@ -851,7 +805,19 @@
           </a>
         </div>
       </div>
-    </div>
-    <script type="module" src="js/main.js"></script>
+    </main>
+
+    <footer>
+      <p>
+        <i class="fas fa-code"></i> 
+        صُنع بـ ❤️ بواسطة 
+        <strong>Islam Glab</strong> | 
+        &copy; 2024 
+        <i class="fas fa-link"></i>
+      </p>
+    </footer>
+  </div>
+
+  <script src="js/simple-app.js"></script>
   </body>
 </html>

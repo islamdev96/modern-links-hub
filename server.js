@@ -44,7 +44,7 @@ const server = http.createServer((req, res) => {
     "default-src 'self'; " +
     "script-src 'self' 'unsafe-inline'; " +
     "style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; " +
-    "img-src 'self' data:; " +
+    "img-src 'self' data: https: blob:; " +
     "font-src 'self' https://cdnjs.cloudflare.com; " +
     "connect-src 'self' https://cdnjs.cloudflare.com; " +
     "frame-ancestors 'none';"

@@ -1,0 +1,22 @@
+/**
+ * Drag and Drop Functionality Styles Only
+ * أنماط وظيفة السحب والإفلات فقط
+ */
+
+/* Drag states */
+.card[draggable="true"] {
+  user-select: none;
+  cursor: move;
+}
+
+.card.dragging {
+  opacity: 0.5;
+  transform: scale(0.95);
+  cursor: grabbing;
+}
+
+.card.drag-over {
+  border: 2px dashed #5e72e4;
+  background: rgba(94, 114, 228, 0.1);
+  transform: scale(1.02);
+}
