@@ -345,11 +345,34 @@ header {
   align-items: center;
 }
 
+.favorite-item {
+  position: relative;
+  overflow: hidden;
+}
+
+.favorite-item::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #5e72e4 0%, #8b9aff 100%);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 3px rgba(94, 114, 228, 0.25);
+}
+
 .favorite-item:hover {
   background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
   border-color: #e8eaff;
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(94, 114, 228, 0.15);
+}
+
+.favorite-item:hover::before {
+  transform: scaleX(1);
 }
 
 
@@ -494,13 +517,15 @@ header {
 .card::before {
   content: '';
   position: absolute;
-  top: 0;
+  bottom: 0;
   left: 0;
   right: 0;
-  height: 2px;
+  height: 3px;
   background: linear-gradient(90deg, #5e72e4 0%, #8b9aff 100%);
   transform: scaleX(0);
-  transition: transform 0.3s ease;
+  transform-origin: center;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 4px rgba(94, 114, 228, 0.3);
 }
 
 .card:hover::before {
@@ -618,6 +643,12 @@ header {
   image-rendering: -webkit-optimize-contrast;
   image-rendering: crisp-edges;
   /* Clean icon without background */
+}
+
+/* Special handling for NotebookLM logo */
+.notebook-lm .icon-image[src*="notebooklm"] {
+  width: 48px;
+  height: 40px;
 }
 
 /* Icon wrapper for custom SVG icons */
@@ -832,6 +863,10 @@ footer p {
   color: #e4e6eb;
 }
 
+[data-theme="dark"] .card::before {
+  background: linear-gradient(90deg, #8b9aff 0%, #a8baff 100%);
+}
+
 [data-theme="dark"] .card:hover {
   background: linear-gradient(135deg, rgba(94, 114, 228, 0.1) 0%, rgba(94, 114, 228, 0.05) 100%);
   box-shadow: 0 8px 25px rgba(94, 114, 228, 0.2), inset 0 1px 0 rgba(255,255,255,0.1);
@@ -865,6 +900,10 @@ footer p {
 [data-theme="dark"] .favorite-item {
   background: #242526;
   border-color: #3a3b3c;
+}
+
+[data-theme="dark"] .favorite-item::before {
+  background: linear-gradient(90deg, #8b9aff 0%, #a8baff 100%);
 }
 
 [data-theme="dark"] .favorite-item:hover {
