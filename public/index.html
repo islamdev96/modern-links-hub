@@ -81,9 +81,6 @@
     <button class="scroll-top" id="scrollTop" title="العودة للأعلى">
       <i class="fas fa-arrow-up"></i>
     </button>
-    <div class="keyboard-hint" id="keyboardHint">
-      اضغط <kbd>Ctrl</kbd> + <kbd>K</kbd> للبحث السريع
-    </div>
 
     <div class="container">
       <header>
@@ -116,12 +113,12 @@
       <!-- Quick Actions Bar -->
       <div class="quick-actions-bar">
         <button class="quick-action-btn" id="toggleFavoritesView">
-          <i class="fas fa-star"></i>
+          <i class="fas fa-heart"></i>
           <span>عرض المفضلة</span>
         </button>
         <button class="quick-action-btn" id="clearAllFavorites">
-          <i class="fas fa-trash"></i>
-          <span>مسح المفضلة</span>
+          <i class="fas fa-redo"></i>
+          <span>إعادة تعيين المفضلة</span>
         </button>
       </div>
 
@@ -140,33 +137,33 @@
         <div class="categories">
           <button class="category-btn active" data-category="all">الكل</button>
           <button class="category-btn" data-category="star-factory">مصنع النجمة</button>
-          <button class="category-btn" data-category="favorites">💛 المفضلة</button>
-          <button class="category-btn" data-category="social">التواصل الاجتماعي</button>
+          <button class="category-btn" data-category="favorites">❤️ المفضلة</button>
           <button class="category-btn" data-category="ai">الذكاء الاصطناعي</button>
+          <button class="category-btn" data-category="social">التواصل الاجتماعي</button>
         </div>
 
 
         <div class="grid" id="linksGrid">
-          <!-- Google Translate -->
+          <!-- مصنع النجمة الرئيسي -->
           <div
             class="card"
             data-category="star-factory"
-            data-url="https://translate.google.com"
-            data-title="Google Translate"
-            data-description="ترجمة النصوص بلغات متعددة"
+            data-url="https://star-factory.net"
+            data-title="مصنع النجمة الرئيسي"
+            data-description="الصفحة الرئيسية لمصنع النجمة"
           >
-            <button class="favorite-btn" title="إضافة للمفضلة">
+            <button class="favorite-btn">
               <i class="far fa-heart"></i>
             </button>
-            <a href="https://translate.google.com" target="_blank">
+            <a href="https://star-factory.net" target="_blank" class="card-link">
               <img
-                src="https://www.google.com/s2/favicons?domain=translate.google.com&sz=64"
-                alt="Google Translate"
+                src="https://www.google.com/s2/favicons?domain=star-factory.net&sz=128"
+                alt="مصنع النجمة الرئيسي"
                 class="icon-image"
                 loading="lazy"
               />
-              <span class="title">Google Translate</span>
-              <span class="description">ترجمة النصوص بلغات متعددة</span>
+              <span class="title">مصنع النجمة الرئيسي</span>
+              <span class="description">الصفحة الرئيسية لمصنع النجمة</span>
             </a>
           </div>
 
@@ -183,7 +180,7 @@
             </button>
             <a href="https://web.whatsapp.com" target="_blank">
               <img
-                src="https://www.google.com/s2/favicons?domain=web.whatsapp.com&sz=64"
+                src="https://www.google.com/s2/favicons?domain=web.whatsapp.com&sz=128"
                 alt="WhatsApp"
                 class="icon-image"
                 loading="lazy"
@@ -206,7 +203,7 @@
             </button>
             <a href="https://script.google.com/macros/s/AKfycbz-D9BWlWTrikhuP5DYCGE58mN6Y4IhjtnL7mAuNKrgtiiZ7WMpldra-kJj_cxUmCuveg/exec" target="_blank">
               <img
-                src="https://www.google.com/s2/favicons?domain=docs.google.com&sz=64"
+                src="https://www.google.com/s2/favicons?domain=docs.google.com&sz=128"
                 alt="بحث جوجل دوكس"
                 class="icon-image"
                 loading="lazy"
@@ -229,7 +226,7 @@
             </button>
             <a href="https://chat.deepseek.com/a/chat/s/b0cebe0b-3219-4fbf-8ea5-2af798fae781" target="_blank">
               <img
-                src="https://www.google.com/s2/favicons?domain=deepseek.com&sz=64"
+                src="https://www.google.com/s2/favicons?domain=sheets.google.com&sz=128"
                 alt="تنسيق الأرقام"
                 class="icon-image"
                 loading="lazy"
@@ -278,8 +275,8 @@
             target="_blank"
           >
             <img
-              src="https://www.google.com/s2/favicons?domain=docs.google.com&sz=64"
-              alt="مصنع النجمة - الصفحة الثانية"
+              src="https://www.google.com/s2/favicons?domain=docs.google.com&sz=128"
+              alt="مصنع النجمة - صفحة 2"
               class="icon-image"
               loading="lazy"
             />
@@ -304,7 +301,7 @@
             target="_blank"
           >
             <img
-              src="https://www.google.com/s2/favicons?domain=docs.google.com&sz=64"
+              src="https://www.google.com/s2/favicons?domain=docs.google.com&sz=128"
               alt="مصنع النجمة - صفحة 3"
               class="icon-image"
               loading="lazy"
@@ -330,8 +327,8 @@
             target="_blank"
           >
             <img
-              src="https://www.google.com/s2/favicons?domain=docs.google.com&sz=64"
-              alt="مصنع النجمة - الصفحة الرابعة"
+              src="https://www.google.com/s2/favicons?domain=docs.google.com&sz=128"
+              alt="مصنع النجمة - صفحة 4"
               class="icon-image"
               loading="lazy"
             />
@@ -382,7 +379,7 @@
             target="_blank"
           >
             <img
-              src="https://www.google.com/s2/favicons?domain=drive.google.com&sz=64"
+              src="https://www.google.com/s2/favicons?domain=drive.google.com&sz=128"
               alt="جوجل درايف"
               class="icon-image"
               loading="lazy"
@@ -404,7 +401,7 @@
           </button>
           <a href="https://claude.ai/new" target="_blank">
             <img
-              src="https://www.google.com/s2/favicons?domain=claude.ai&sz=64"
+              src="https://www.google.com/s2/favicons?domain=claude.ai&sz=128"
               alt="Claude"
               class="icon-image"
               loading="lazy"
@@ -427,7 +424,7 @@
           </button>
           <a href="https://chatgpt.com/" target="_blank">
             <img
-              src="https://www.google.com/s2/favicons?domain=chatgpt.com&sz=64"
+              src="https://www.google.com/s2/favicons?domain=chatgpt.com&sz=128"
               alt="ChatGPT"
               class="icon-image"
               loading="lazy"
@@ -450,7 +447,7 @@
           </button>
           <a href="https://chat.z.ai/" target="_blank">
             <img
-              src="https://www.google.com/s2/favicons?domain=z.ai&sz=64"
+              src="https://www.google.com/s2/favicons?domain=z.ai&sz=128"
               alt="Z.ai"
               class="icon-image"
               loading="lazy"
@@ -473,7 +470,7 @@
           </button>
           <a href="https://www.perplexity.ai/" target="_blank">
             <img
-              src="https://www.google.com/s2/favicons?domain=perplexity.ai&sz=64"
+              src="https://www.google.com/s2/favicons?domain=perplexity.ai&sz=128"
               alt="Perplexity"
               class="icon-image"
               loading="lazy"
@@ -496,7 +493,7 @@
           </button>
           <a href="https://chat.deepseek.com/" target="_blank">
             <img
-              src="https://www.google.com/s2/favicons?domain=deepseek.com&sz=64"
+              src="https://www.google.com/s2/favicons?domain=deepseek.com&sz=128"
               alt="DeepSeek"
               class="icon-image"
               loading="lazy"
@@ -519,7 +516,7 @@
           </button>
           <a href="https://www.kimi.com/" target="_blank">
             <img
-              src="https://www.google.com/s2/favicons?domain=kimi.ai&sz=64"
+              src="https://www.google.com/s2/favicons?domain=kimi.ai&sz=128"
               alt="Kimi"
               class="icon-image"
               loading="lazy"
@@ -545,7 +542,7 @@
             target="_blank"
           >
             <img
-              src="https://www.google.com/s2/favicons?domain=aistudio.google.com&sz=64"
+              src="https://www.google.com/s2/favicons?domain=aistudio.google.com&sz=128"
               alt="Google AI Studio"
               class="icon-image"
               loading="lazy"
@@ -568,7 +565,7 @@
           </button>
           <a href="https://gemini.google.com/" target="_blank">
             <img
-              src="https://www.google.com/s2/favicons?domain=gemini.google.com&sz=64"
+              src="https://www.google.com/s2/favicons?domain=gemini.google.com&sz=128"
               alt="Gemini"
               class="icon-image"
               loading="lazy"
@@ -591,7 +588,7 @@
           </button>
           <a href="https://copilot.microsoft.com/" target="_blank">
             <img
-              src="https://www.google.com/s2/favicons?domain=copilot.microsoft.com&sz=64"
+              src="https://www.google.com/s2/favicons?domain=copilot.microsoft.com&sz=128"
               alt="Microsoft Copilot"
               class="icon-image"
               loading="lazy"
@@ -614,7 +611,7 @@
           </button>
           <a href="https://www.genspark.ai/" target="_blank">
             <img
-              src="https://www.google.com/s2/favicons?domain=genspark.ai&sz=64"
+              src="https://www.google.com/s2/favicons?domain=genspark.ai&sz=128"
               alt="Genie Spark"
               class="icon-image"
               loading="lazy"
@@ -637,7 +634,7 @@
           </button>
           <a href="https://manus.im/app" target="_blank">
             <img
-              src="https://www.google.com/s2/favicons?domain=manus.im&sz=64"
+              src="https://www.google.com/s2/favicons?domain=manus.im&sz=128"
               alt="Manus"
               class="icon-image"
               loading="lazy"
@@ -646,6 +643,29 @@
             <span class="description">أداة ذكاء اصطناعي مبتكرة</span>
           </a>
         </div>
+        
+        <div
+          class="card notebook-lm"
+          data-category="ai"
+          data-url="https://notebooklm.google.com"
+          data-title="NotebookLM"
+          data-description="مساعد AI من Google للملاحظات والبحث"
+        >
+          <button class="favorite-btn" title="إضافة للمفضلة">
+            <i class="far fa-heart"></i>
+          </button>
+          <a href="https://notebooklm.google.com" target="_blank">
+            <img
+              src="https://www.google.com/s2/favicons?domain=notebooklm.google.com&sz=128"
+              alt="NotebookLM"
+              class="icon-image"
+              loading="lazy"
+            />
+            <span class="title">NotebookLM</span>
+            <span class="description">مساعد AI من Google للملاحظات والبحث</span>
+          </a>
+        </div>
+        
         <div
           class="card youtube"
           data-category="social"
@@ -659,7 +679,7 @@
           </button>
           <a href="https://www.youtube.com" target="_blank">
             <img
-              src="https://www.google.com/s2/favicons?domain=youtube.com&sz=64"
+              src="https://www.google.com/s2/favicons?domain=youtube.com&sz=128"
               alt="YouTube"
               class="icon-image"
               loading="lazy"
@@ -682,7 +702,7 @@
           </button>
           <a href="https://www.facebook.com" target="_blank">
             <img
-              src="https://www.google.com/s2/favicons?domain=facebook.com&sz=64"
+              src="https://www.google.com/s2/favicons?domain=facebook.com&sz=128"
               alt="Facebook"
               class="icon-image"
               loading="lazy"
@@ -705,7 +725,7 @@
           </button>
           <a href="https://www.linkedin.com/" target="_blank">
             <img
-              src="https://www.google.com/s2/favicons?domain=linkedin.com&sz=64"
+              src="https://www.google.com/s2/favicons?domain=linkedin.com&sz=128"
               alt="LinkedIn"
               class="icon-image"
               loading="lazy"
@@ -727,7 +747,7 @@
           </button>
           <a href="https://github.com/" target="_blank">
             <img
-              src="https://www.google.com/s2/favicons?domain=github.com&sz=64"
+              src="https://www.google.com/s2/favicons?domain=github.com&sz=128"
               alt="GitHub"
               class="icon-image"
               loading="lazy"
@@ -742,20 +762,41 @@
           data-url="https://www.google.com"
           data-title="Google"
           data-description="محرك البحث"
-          data-icon="icons/google-search.svg"
         >
           <button class="favorite-btn" title="إضافة للمفضلة">
             <i class="far fa-heart"></i>
           </button>
           <a href="https://www.google.com" target="_blank">
             <img
-              src="https://www.google.com/s2/favicons?domain=google.com&sz=64"
+              src="https://www.google.com/s2/favicons?domain=google.com&sz=128"
               alt="Google"
               class="icon-image"
               loading="lazy"
             />
             <span class="title">Google</span>
             <span class="description">محرك البحث</span>
+          </a>
+        </div>
+        
+        <div
+          class="card google-translate"
+          data-category="star-factory"
+          data-url="https://translate.google.com"
+          data-title="Google Translate"
+          data-description="ترجمة النصوص"
+        >
+          <button class="favorite-btn" title="إضافة للمفضلة">
+            <i class="far fa-heart"></i>
+          </button>
+          <a href="https://translate.google.com" target="_blank">
+            <img
+              class="icon-image"
+              src="https://www.google.com/s2/favicons?domain=translate.google.com&sz=128"
+              alt="Google Translate"
+              loading="lazy"
+            />
+            <span class="title">Google Translate</span>
+            <span class="description">ترجمة النصوص</span>
           </a>
         </div>
 
@@ -772,7 +813,7 @@
           </button>
           <a href="https://www.notion.so/" target="_blank">
             <img
-              src="https://www.google.com/s2/favicons?domain=notion.so&sz=64"
+              src="https://www.google.com/s2/favicons?domain=notion.so&sz=128"
               alt="Notion"
               class="icon-image"
               loading="lazy"

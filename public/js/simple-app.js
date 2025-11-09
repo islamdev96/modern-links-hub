@@ -96,6 +96,67 @@ function initializeCardClicks() {
     });
 }
 
+// Initialize favorites bar drag and drop
+function initializeFavoritesBarDragDrop() {
+    const favoritesBarContent = document.getElementById('favoritesBarContent');
+    if (!favoritesBarContent) return;
+    
+    let draggedItem = null;
+    
+    favoritesBarContent.addEventListener('dragstart', (e) => {
+        if (e.target.classList.contains('favorite-item-wrapper')) {
+            draggedItem = e.target;
+            e.target.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+        }
+    });
+    
+    favoritesBarContent.addEventListener('dragend', (e) => {
+        if (e.target.classList.contains('favorite-item-wrapper')) {
+            e.target.classList.remove('dragging');
+        }
+    });
+    
+    favoritesBarContent.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        const afterElement = getDragAfterElement(favoritesBarContent, e.clientX);
+        if (afterElement == null) {
+            favoritesBarContent.appendChild(draggedItem);
+        } else {
+            favoritesBarContent.insertBefore(draggedItem, afterElement);
+        }
+    });
+    
+    favoritesBarContent.addEventListener('drop', (e) => {
+        e.preventDefault();
+        
+        // Update favorites order in localStorage
+        const newOrder = [];
+        favoritesBarContent.querySelectorAll('.favorite-item-wrapper').forEach(item => {
+            newOrder.push(item.dataset.url);
+        });
+        localStorage.setItem('app-favorites', JSON.stringify(newOrder));
+        
+        // Update card buttons to match new order
+        updateCardButtons();
+    });
+}
+
+function getDragAfterElement(container, x) {
+    const draggableElements = [...container.querySelectorAll('.favorite-item-wrapper:not(.dragging)')];
+    
+    return draggableElements.reduce((closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = x - box.left - box.width / 2;
+        
+        if (offset < 0 && offset > closest.offset) {
+            return { offset: offset, element: child };
+        } else {
+            return closest;
+        }
+    }, { offset: Number.NEGATIVE_INFINITY }).element;
+}
+
 // Update favorites bar
 function updateFavoritesBar() {
     const favorites = JSON.parse(localStorage.getItem('app-favorites') || '[]');
@@ -117,25 +178,41 @@ function updateFavoritesBar() {
                 const title = card.dataset.title || card.querySelector('.title')?.textContent || 'Link';
                 const iconSrc = card.querySelector('.icon-image')?.src || '';
                 
-                // Update icon to use Google Favicon API
-                let faviconUrl = iconSrc;
-                if (iconSrc && iconSrc.includes('icons/')) {
-                    // Extract domain from URL and use Google Favicon API
-                    try {
-                        const domain = new URL(url).hostname;
-                        faviconUrl = `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
-                    } catch (e) {
-                        faviconUrl = iconSrc;
+                // Check if card has custom SVG icon
+                const customIcon = card.querySelector('.custom-icon');
+                const description = card.dataset.description || card.querySelector('.description')?.textContent || '';
+                
+                const favoriteItem = document.createElement('div');
+                favoriteItem.className = 'favorite-item-wrapper';
+                favoriteItem.draggable = true;
+                favoriteItem.dataset.url = url;
+                
+                let iconHtml = '';
+                if (customIcon) {
+                    // Clone the custom SVG icon
+                    iconHtml = `<div class="icon-wrapper-small">${customIcon.outerHTML}</div>`;
+                } else {
+                    // Use regular image favicon
+                    let faviconUrl = iconSrc;
+                    if (iconSrc && iconSrc.includes('google.com/s2/favicons')) {
+                        try {
+                            const domain = new URL(url).hostname;
+                            faviconUrl = `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
+                        } catch (e) {
+                            faviconUrl = iconSrc;
+                        }
                     }
+                    iconHtml = `<img src="${faviconUrl}" alt="${title}" onerror="this.src='https://www.google.com/s2/favicons?domain=google.com&sz=128'">`;
                 }
                 
-                const favoriteItem = document.createElement('a');
-                favoriteItem.href = url;
-                favoriteItem.target = '_blank';
-                favoriteItem.className = 'favorite-item';
                 favoriteItem.innerHTML = `
-                    <img src="${faviconUrl}" alt="${title}" onerror="this.src='https://www.google.com/s2/favicons?domain=google.com&sz=64'">
-                    <div class="favorite-item-title">${title}</div>
+                    <button class="remove-favorite-btn" data-url="${url}" title="إزالة من المفضلة">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <a href="${url}" target="_blank" class="favorite-item" title="${description}">
+                        ${iconHtml}
+                        <div class="favorite-item-title">${title}</div>
+                    </a>
                 `;
                 
                 favoritesBarContent.appendChild(favoriteItem);
@@ -144,31 +221,101 @@ function updateFavoritesBar() {
     } else {
         favoritesBar.classList.remove('has-favorites');
     }
+    
+    // Add click listeners for remove buttons
+    favoritesBarContent.querySelectorAll('.remove-favorite-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const urlToRemove = btn.dataset.url;
+            let favorites = JSON.parse(localStorage.getItem('app-favorites') || '[]');
+            
+            // Remove from favorites
+            favorites = favorites.filter(url => url !== urlToRemove);
+            localStorage.setItem('app-favorites', JSON.stringify(favorites));
+            
+            // Update the card's favorite button
+            const card = document.querySelector(`.card[data-url="${urlToRemove}"]`);
+            if (card) {
+                const favBtn = card.querySelector('.favorite-btn');
+                if (favBtn) {
+                    favBtn.classList.remove('active');
+                    const icon = favBtn.querySelector('i');
+                    if (icon) icon.className = 'far fa-heart';
+                }
+            }
+            
+            // Update UI
+            updateFavoritesBar();
+            updateCategoryBadges();
+            showToast('تمت الإزالة من المفضلة', 'info');
+        });
+    });
+    
+    // Initialize drag and drop for favorites bar
+    initializeFavoritesBarDragDrop();
+}
+
+// Update card buttons to match current favorites
+function updateCardButtons() {
+    const favorites = JSON.parse(localStorage.getItem('app-favorites') || '[]');
+    
+    document.querySelectorAll('.card').forEach(card => {
+        const url = card.dataset.url;
+        const btn = card.querySelector('.favorite-btn');
+        if (btn) {
+            const icon = btn.querySelector('i');
+            if (favorites.includes(url)) {
+                btn.classList.add('active');
+                if (icon) icon.className = 'fas fa-heart';
+            } else {
+                btn.classList.remove('active');
+                if (icon) icon.className = 'far fa-heart';
+            }
+        }
+    });
 }
 
 // Initialize favorites
 function initializeFavorites() {
+    // Default favorites
+    const defaultFavorites = [
+        'https://translate.google.com',
+        'https://web.whatsapp.com',
+        'https://www.facebook.com',
+        'https://www.youtube.com',
+        'https://chatgpt.com/',
+        'https://claude.ai/new'
+    ];
+    
+    // Check if this is first visit
+    const isFirstVisit = !localStorage.getItem('app-visited');
+    
     // Get saved favorites from localStorage
     let favorites = JSON.parse(localStorage.getItem('app-favorites') || '[]');
     
-    // First, set all buttons to empty hearts
-    document.querySelectorAll('.favorite-btn').forEach(btn => {
-        const icon = btn.querySelector('i');
-        if (icon) {
-            icon.className = 'far fa-heart'; // Empty heart by default
-            btn.classList.remove('active');
-        }
-    });
+    // If first visit or no favorites saved, use defaults
+    if (isFirstVisit || favorites.length === 0) {
+        favorites = defaultFavorites;
+        localStorage.setItem('app-favorites', JSON.stringify(favorites));
+        localStorage.setItem('app-visited', 'true');
+    }
     
-    // Then update only the favorites to filled hearts
+    // Update all favorite buttons based on current favorites
     document.querySelectorAll('.card').forEach(card => {
         const url = card.dataset.url;
         const btn = card.querySelector('.favorite-btn');
-        if (btn && favorites.includes(url)) {
+        if (btn) {
             const icon = btn.querySelector('i');
-            if (icon) {
-                icon.className = 'fas fa-heart'; // Filled heart for favorites
+            if (favorites.includes(url)) {
+                // This is a favorite
+                if (icon) icon.className = 'fas fa-heart';
                 btn.classList.add('active');
+            } else {
+                // Not a favorite
+                if (icon) icon.className = 'far fa-heart';
+                btn.classList.remove('active');
             }
         }
     });
@@ -259,10 +406,17 @@ function initializeCategoryFilter() {
     updateCategoryBadges();
     
     buttons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            // Update active button
-            buttons.forEach(b => b.classList.remove('active'));
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Update active button simply
+            buttons.forEach(b => {
+                b.classList.remove('active');
+                b.style.transform = 'none';
+            });
             btn.classList.add('active');
+            btn.style.transform = 'none';
             
             // Filter cards
             const category = btn.dataset.category;
@@ -427,34 +581,14 @@ function loadCardOrder() {
     });
 }
 
-// Add entrance animations
+// Add entrance animations (simplified)
 function addEntranceAnimations() {
-    const cards = document.querySelectorAll('.card');
-    cards.forEach((card, index) => {
-        card.style.animationDelay = `${index * 0.05}s`;
-    });
+    // Simplified - no staggered animations for cleaner experience
 }
 
-// Add ripple effect to buttons
+// Add ripple effect to buttons (disabled for simplicity)
 function addRippleEffect() {
-    document.addEventListener('click', (e) => {
-        const btn = e.target.closest('button');
-        if (!btn) return;
-        
-        const ripple = document.createElement('span');
-        ripple.className = 'ripple';
-        const rect = btn.getBoundingClientRect();
-        const size = Math.max(rect.width, rect.height);
-        const x = e.clientX - rect.left - size / 2;
-        const y = e.clientY - rect.top - size / 2;
-        
-        ripple.style.width = ripple.style.height = size + 'px';
-        ripple.style.left = x + 'px';
-        ripple.style.top = y + 'px';
-        
-        btn.appendChild(ripple);
-        setTimeout(() => ripple.remove(), 600);
-    });
+    // Disabled - no ripple effect for cleaner interaction
 }
 
 // Initialize quick actions
@@ -474,17 +608,36 @@ function initializeQuickActions() {
     const clearBtn = document.getElementById('clearAllFavorites');
     if (clearBtn) {
         clearBtn.addEventListener('click', () => {
-            if (confirm('هل أنت متأكد من مسح جميع المفضلة؟')) {
-                localStorage.removeItem('app-favorites');
-                updateFavoritesBar();
+            if (confirm('هل تريد إعادة تعيين المفضلات إلى الافتراضية؟')) {
+                // Reset to default favorites
+                const defaultFavorites = [
+                    'https://translate.google.com',
+                    'https://web.whatsapp.com',
+                    'https://www.facebook.com',
+                    'https://www.youtube.com',
+                    'https://chatgpt.com/',
+                    'https://claude.ai/new'
+                ];
+                
+                localStorage.setItem('app-favorites', JSON.stringify(defaultFavorites));
                 
                 // Reset all favorite buttons
                 document.querySelectorAll('.favorite-btn').forEach(btn => {
-                    btn.classList.remove('active');
+                    const card = btn.closest('.card');
+                    if (card && defaultFavorites.includes(card.dataset.url)) {
+                        btn.classList.add('active');
+                        const icon = btn.querySelector('i');
+                        if (icon) icon.className = 'fas fa-heart';
+                    } else {
+                        btn.classList.remove('active');
+                        const icon = btn.querySelector('i');
+                        if (icon) icon.className = 'far fa-heart';
+                    }
                 });
                 
-                showToast('تم مسح جميع المفضلة', 'info');
+                updateFavoritesBar();
                 updateCategoryBadges();
+                showToast('تم إعادة تعيين المفضلات', 'success');
             }
         });
     }
@@ -502,9 +655,9 @@ function initialize() {
     initializeCategoryFilter();
     initializeKeyboardShortcuts();
     initializeScrollTop();
-    initializeQuickActions();
     loadCardOrder();
     initializeDragAndDrop();
+    initializeFavoritesBarDragDrop();
     addEntranceAnimations();
     addRippleEffect();
     

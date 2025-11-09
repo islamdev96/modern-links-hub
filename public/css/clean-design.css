@@ -4,7 +4,43 @@
  */
 
 /* Import Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* Allow animations for cards and spinner only */
+*:not(.card):not(.spinner):not(.icon-image):not(.title):not(.description):not(.card::before):not(.card::after) {
+  animation-duration: 0s !important;
+}
+
+/* Disable ALL transforms and scales on buttons - STRICT */
+button:not(.remove-favorite-btn),
+.category-btn,
+.quick-action-btn,
+.theme-btn,
+.scroll-top {
+  transform: none !important;
+  scale: 1 !important;
+  animation: none !important;
+  will-change: background-color, color !important;
+}
+
+button:active,
+button:focus,
+button:hover,
+.category-btn:active,
+.category-btn:focus,  
+.category-btn:hover,
+.category-btn.active,
+.quick-action-btn:active,
+.quick-action-btn:focus,
+.quick-action-btn:hover,
+.theme-btn:active,
+.theme-btn:focus,
+.theme-btn:hover {
+  transform: none !important;
+  scale: 1 !important;
+  animation: none !important;
+  box-shadow: none !important;
+}
 
 /* Root Variables */
 :root {
@@ -139,12 +175,16 @@ header {
   justify-content: center;
   font-size: 16px;
   color: var(--text-dark);
-  transition: all 0.3s ease;
+  transition: background-color 0.1s linear;
 }
 
 .theme-btn:hover {
-  box-shadow: var(--shadow-hover);
   background: var(--gray-light);
+}
+
+.theme-btn:active,
+.theme-btn:focus {
+  outline: none;
 }
 
 /* Quick Actions Bar */
@@ -166,7 +206,7 @@ header {
   gap: 8px;
   font-size: 14px;
   color: var(--text-dark);
-  transition: background 0.2s;
+  transition: background-color 0.1s linear;
   font-family: 'Tajawal', sans-serif;
 }
 
@@ -174,8 +214,13 @@ header {
   background: var(--gray-light);
 }
 
+.quick-action-btn:active,
+.quick-action-btn:focus {
+  outline: none;
+}
+
 .quick-action-btn i {
-  color: #ffc107;
+  color: #e74c3c;
   font-size: 14px;
 }
 
@@ -185,12 +230,19 @@ header {
   border-radius: 15px;
   padding: 15px;
   margin-bottom: 20px;
-  box-shadow: var(--shadow);
-  display: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  border: 1px solid #f0f0f0;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: all 0.3s ease;
 }
 
 .favorites-bar.has-favorites {
-  display: block;
+  max-height: 220px;
+  opacity: 1;
+  padding: 15px;
+  overflow: visible;
 }
 
 .favorites-bar-title {
@@ -204,52 +256,135 @@ header {
 }
 
 .favorites-bar-title i {
-  color: #ffc107;
+  color: #e74c3c;
 }
 
 .favorites-bar-content {
   display: flex;
-  gap: 10px;
+  gap: 15px;
   overflow-x: auto;
-  padding-bottom: 5px;
+  padding: 10px 5px;
+  align-items: center;
 }
 
 .favorites-bar-content::-webkit-scrollbar {
-  height: 5px;
+  height: 6px;
 }
 
 .favorites-bar-content::-webkit-scrollbar-thumb {
-  background: #e0e0e0;
+  background: #d0d0d0;
   border-radius: 10px;
 }
 
+.favorites-bar-content::-webkit-scrollbar-thumb:hover {
+  background: #b0b0b0;
+}
+
+/* Favorite item wrapper for drag and drop */
+.favorite-item-wrapper {
+  position: relative;
+  display: inline-block;
+  cursor: move;
+  user-select: none;
+  transition: opacity 0.2s ease;
+}
+
+.favorite-item-wrapper.dragging {
+  opacity: 0.5;
+}
+
+/* Remove favorite button */
+.remove-favorite-btn {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ff4444;
+  border: none;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  font-size: 10px;
+  transition: all 0.2s ease;
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+.favorite-item-wrapper:hover .remove-favorite-btn {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.remove-favorite-btn:hover {
+  background: #ff0000;
+  transform: scale(1.1);
+}
+
+/* Favorite item - mini card style */
 .favorite-item {
-  min-width: 80px;
-  padding: 10px;
-  background: var(--gray-light);
-  border-radius: 10px;
+  min-width: 140px;
+  max-width: 140px;
+  padding: 12px;
+  background: white;
+  border-radius: 12px;
   text-align: center;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   text-decoration: none;
   color: var(--text-dark);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  border: 1px solid #f5f5f5;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .favorite-item:hover {
-  background: var(--light-blue);
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+  border-color: #e8eaff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(94, 114, 228, 0.15);
 }
 
+
 .favorite-item img {
-  width: 30px;
-  height: 30px;
-  margin-bottom: 5px;
+  width: 32px;
+  height: 32px;
+  margin-bottom: 6px;
+  object-fit: contain;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  /* Clean icon without background */
+}
+
+/* Small icon wrapper for favorites bar */
+.icon-wrapper-small {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-wrapper-small .custom-icon {
+  width: 28px;
+  height: 28px;
 }
 
 .favorite-item-title {
-  font-size: 11px;
+  font-size: 12px;
+  font-weight: 500;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  width: 100%;
 }
 
 /* Category Pills */
@@ -270,12 +405,17 @@ header {
   border-radius: 20px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background-color 0.1s linear, color 0.1s linear;
   font-size: 14px;
   font-family: 'Tajawal', sans-serif;
   display: flex;
   align-items: center;
   gap: 5px;
+  will-change: background-color, color;
+}
+
+.category-btn * {
+  pointer-events: none;
 }
 
 .category-btn i {
@@ -284,6 +424,12 @@ header {
 
 .category-btn:hover {
   background: var(--gray-light);
+}
+
+.category-btn:active,
+.category-btn:focus {
+  outline: none;
+  box-shadow: none;
 }
 
 .category-btn.active {
@@ -304,11 +450,15 @@ header {
   font-weight: 600;
   min-width: 18px;
   text-align: center;
+  pointer-events: none;
+  transform: none !important;
+  transition: background-color 0.1s linear, color 0.1s linear;
 }
 
 .category-btn.active .badge {
   background: white;
   color: var(--primary-blue);
+  transform: none !important;
 }
 
 
@@ -320,6 +470,12 @@ header {
   margin-bottom: 30px;
 }
 
+/* Ensure consistent card appearance */
+.grid .card,
+.favorites-bar .favorite-item {
+  font-family: 'Tajawal', sans-serif;
+}
+
 /* Cards */
 .card {
   background: white;
@@ -327,46 +483,122 @@ header {
   padding: 20px;
   text-align: center;
   position: relative;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-  transition: box-shadow 0.2s ease, background 0.2s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
-  border: 1px solid #f5f5f5;
+  border: 1px solid #f0f0f0;
+  overflow: hidden;
+}
+
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #5e72e4 0%, #8b9aff 100%);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.card:hover::before {
+  transform: scaleX(1);
+}
+
+.card::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(94, 114, 228, 0.1) 0%, transparent 70%);
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.4s ease;
+  pointer-events: none;
+}
+
+.card:hover::after {
+  transform: translate(-50%, -50%) scale(2);
+}
+
+/* Unified beautiful hover effect for all cards */
+.card:hover {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+  border-color: #e8eaff;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(94, 114, 228, 0.18);
+}
+
+/* Subtle glow animation */
+@keyframes softGlow {
+  0% { 
+    box-shadow: 0 8px 25px rgba(94, 114, 228, 0.18);
+  }
+  50% { 
+    box-shadow: 0 10px 30px rgba(94, 114, 228, 0.25);
+  }
+  100% { 
+    box-shadow: 0 8px 25px rgba(94, 114, 228, 0.18);
+  }
 }
 
 .card:hover {
-  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-  background: #fbfbfb;
-  border-color: #e8e8e8;
+  animation: softGlow 2.5s ease-in-out infinite;
 }
 
-/* Favorite Star Button */
+/* Favorite Heart Button */
 .favorite-btn {
   position: absolute;
-  top: 8px;
-  right: 8px;
-  background: transparent;
+  top: 10px;
+  left: 10px;
+  background: rgba(255, 255, 255, 0.9);
   border: none;
   cursor: pointer;
-  padding: 0;
-  width: 24px;
-  height: 24px;
+  padding: 4px;
+  width: 28px;
+  height: 28px;
   z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .favorite-btn::after {
-  content: '⭐';
-  font-size: 20px;
+  content: '🤍';
+  font-size: 16px;
   display: block;
-  filter: grayscale(100%) brightness(0.8);
-  transition: filter 0.2s ease;
+  transition: all 0.2s ease;
+  line-height: 1;
 }
 
 .favorite-btn.active::after {
-  filter: grayscale(0%) brightness(1);
+  content: '❤️';
 }
 
-.favorite-btn:hover::after {
-  filter: grayscale(0%) brightness(1.1);
+/* Pulse animation for active favorite */
+@keyframes heartPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+.favorite-btn:hover {
+  background: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.12);
+}
+
+.favorite-btn.active {
+  animation: heartPulse 1.5s ease-in-out infinite;
+}
+
+.favorite-btn:active {
+  transform: none !important;
 }
 
 /* Hide the icon inside */
@@ -377,20 +609,40 @@ header {
 
 /* Icon */
 .icon-image {
-  width: 48px;
-  height: 48px;
-  margin: 0 auto 15px;
+  width: 40px;
+  height: 40px;
+  margin: 0 auto 10px;
   filter: none;
-  transition: filter 0.3s ease;
-  border-radius: 10px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   object-fit: contain;
-  background: white;
-  padding: 4px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  /* Clean icon without background */
 }
 
-.card:hover .icon-image {
-  filter: brightness(1.1);
+/* Icon wrapper for custom SVG icons */
+.icon-wrapper {
+  width: 40px;
+  height: 40px;
+  margin: 0 auto 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Custom SVG icon */
+.custom-icon {
+  width: 40px;
+  height: 40px;
+  filter: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  shape-rendering: geometricPrecision;
+}
+
+.card:hover .icon-image,
+.card:hover .custom-icon {
+  transform: scale(1.1) rotate(5deg);
+  filter: brightness(1.1) saturate(1.2);
 }
 
 /* Handle broken images */
@@ -408,19 +660,31 @@ header {
 }
 
 /* Title & Description */
-.card .title {
+/* Title */
+.title {
   font-size: 14px;
   font-weight: 600;
-  color: var(--text-dark);
   margin-bottom: 5px;
-  display: block;
+  color: var(--text-dark);
+  transition: color 0.3s ease;
 }
 
-.card .description {
+.card:hover .title {
+  color: #5e72e4;
+}
+
+/* Description */
+.description {
   font-size: 12px;
-  color: var(--text-light);
-  display: block;
+  color: var(--gray);
+  opacity: 0.8;
   line-height: 1.4;
+  transition: color 0.3s ease, opacity 0.3s ease;
+}
+
+.card:hover .description {
+  color: #6c7293;
+  opacity: 1;
 }
 
 /* Card Link */
@@ -468,7 +732,7 @@ footer p {
   border: 3px solid var(--light-blue);
   border-top-color: var(--primary-blue);
   border-radius: 50%;
-  animation: spin 1s linear infinite;
+  animation: spin 1s linear infinite !important;
 }
 
 @keyframes spin {
@@ -516,13 +780,13 @@ footer p {
   font-size: 16px;
 }
 
-/* Scroll Top */
+/* Scroll Top Button Enhancement */
 .scroll-top {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 40px;
-  height: 40px;
+  bottom: 30px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   background: var(--primary-blue);
   color: white;
@@ -533,11 +797,17 @@ footer p {
   align-items: center;
   justify-content: center;
   font-size: 16px;
-  transition: all 0.3s ease;
+  transition: background 0.2s ease;
+  transform: none !important;
 }
 
 .scroll-top:hover {
   background: #4c63d2;
+  transform: none !important;
+}
+
+.scroll-top:active {
+  transform: none !important;
 }
 
 /* Dark Mode Support */
@@ -563,16 +833,57 @@ footer p {
 }
 
 [data-theme="dark"] .card:hover {
-  background: rgba(255, 255, 255, 0.05);
+  background: linear-gradient(135deg, rgba(94, 114, 228, 0.1) 0%, rgba(94, 114, 228, 0.05) 100%);
+  box-shadow: 0 8px 25px rgba(94, 114, 228, 0.2), inset 0 1px 0 rgba(255,255,255,0.1);
+  border-color: rgba(94, 114, 228, 0.3);
+  animation: softGlow 2.5s ease-in-out infinite;
+}
+
+[data-theme="dark"] .card:hover .icon-image,
+[data-theme="dark"] .card:hover .custom-icon {
+  filter: brightness(1.3);
+}
+
+[data-theme="dark"] .card:hover .title {
+  color: #a8baff;
 }
 
 [data-theme="dark"] .icon-image {
-  background: rgba(255, 255, 255, 0.1);
-  box-shadow: none;
+  /* No background needed */
+  filter: brightness(0.9);
+}
+
+[data-theme="dark"] .favorite-btn {
+  background: rgba(0, 0, 0, 0.5);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+[data-theme="dark"] .favorite-btn:hover {
+  background: rgba(0, 0, 0, 0.7);
 }
 
 [data-theme="dark"] .favorite-item {
-  background: #3a3b3c;
+  background: #242526;
+  border-color: #3a3b3c;
+}
+
+[data-theme="dark"] .favorite-item:hover {
+  background: linear-gradient(135deg, rgba(94, 114, 228, 0.1) 0%, rgba(94, 114, 228, 0.05) 100%);
+  box-shadow: 0 6px 20px rgba(94, 114, 228, 0.15);
+  border-color: rgba(94, 114, 228, 0.3);
+}
+
+[data-theme="dark"] .remove-favorite-btn {
+  background: #cc3333;
+}
+
+[data-theme="dark"] .remove-favorite-btn:hover {
+  background: #ff4444;
+}
+
+[data-theme="dark"] .favorite-item img {
+  /* No background needed */
+  filter: brightness(0.9);
 }
 
 [data-theme="dark"] .category-btn.active {
@@ -596,8 +907,53 @@ footer p {
     height: 36px;
   }
   
+  .icon-wrapper {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .custom-icon {
+    width: 36px;
+    height: 36px;
+  }
+  
   .header-title h1 {
     font-size: 1.5rem;
+  }
+  
+  .favorite-item-wrapper,
+  .favorite-item {
+    min-width: 120px;
+    max-width: 120px;
+  }
+  
+  .favorite-item {
+    padding: 10px;
+  }
+  
+  .favorite-item img {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .icon-wrapper-small {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .icon-wrapper-small .custom-icon {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .remove-favorite-btn {
+    width: 18px;
+    height: 18px;
+    font-size: 9px;
+  }
+  
+  .favorites-bar.has-favorites {
+    max-height: 180px;
   }
 }
 
