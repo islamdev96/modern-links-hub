@@ -645,33 +645,8 @@ header {
   /* Clean icon without background */
 }
 
-/* Special handling for NotebookLM logo */
-.notebook-lm .icon-image[src*="notebooklm"] {
-  width: 48px;
-  height: 40px;
-}
 
-/* Icon wrapper for custom SVG icons */
-.icon-wrapper {
-  width: 40px;
-  height: 40px;
-  margin: 0 auto 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Custom SVG icon */
-.custom-icon {
-  width: 40px;
-  height: 40px;
-  filter: none;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  shape-rendering: geometricPrecision;
-}
-
-.card:hover .icon-image,
-.card:hover .custom-icon {
+.card:hover .icon-image {
   transform: scale(1.1) rotate(5deg);
   filter: brightness(1.1) saturate(1.2);
 }
