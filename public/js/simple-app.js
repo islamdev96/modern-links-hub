@@ -14,6 +14,68 @@ function hideLoading() {
     document.body.style.opacity = '1';
 }
 
+// Initialize icon fallback handling
+function initializeIconFallback() {
+    const defaultIcon = '/images/icons/default-icon.svg';
+    const images = document.querySelectorAll('.icon-image');
+    
+    images.forEach(img => {
+        // Set onerror directly on the element
+        if (!img.onerror) {
+            img.onerror = function() {
+                // Prevent infinite loop
+                if (this.src.indexOf(defaultIcon) === -1 && !this.dataset.fallbackAttempted) {
+                    this.dataset.fallbackAttempted = 'true';
+                    console.log(`Icon failed to load: ${this.src}, using fallback`);
+                    
+                    // Try different fallback sources
+                    const card = this.closest('.card');
+                    const domain = card?.dataset?.url;
+                    
+                    if (domain && !this.dataset.secondAttempt) {
+                        try {
+                            const url = new URL(domain);
+                            const hostname = url.hostname;
+                            
+                            // Try Google Favicon API with HTTPS
+                            this.dataset.secondAttempt = 'true';
+                            this.src = `https://www.google.com/s2/favicons?domain=${hostname}&sz=128`;
+                        } catch (e) {
+                            this.src = defaultIcon;
+                        }
+                    } else {
+                        // Use default icon as final fallback
+                        this.src = defaultIcon;
+                    }
+                }
+            };
+        }
+        
+        // Check if image is already broken
+        if (img.complete && img.naturalWidth === 0) {
+            // Trigger error handler
+            img.onerror();
+        }
+        
+        // Also check for mixed content issues
+        if (window.location.protocol === 'https:' && img.src.startsWith('http://')) {
+            console.warn(`Mixed content warning: ${img.src}`);
+            // Convert to HTTPS or use fallback
+            img.src = img.src.replace('http://', 'https://');
+        }
+    });
+    
+    // Add global error handler for dynamically added images
+    document.addEventListener('error', function(e) {
+        if (e.target.classList && e.target.classList.contains('icon-image')) {
+            const img = e.target;
+            if (img.src.indexOf(defaultIcon) === -1) {
+                img.src = defaultIcon;
+            }
+        }
+    }, true);
+}
+
 // Initialize theme toggle
 function initializeTheme() {
     const themeBtn = document.getElementById('themeToggle');
@@ -649,6 +711,7 @@ function initialize() {
     
     hideLoading();
     initializeTheme();
+    initializeIconFallback(); // Handle icon loading errors
     initializeSearch();
     initializeCardClicks();
     initializeFavorites();
